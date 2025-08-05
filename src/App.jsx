@@ -217,7 +217,7 @@ function App() {
               </svg>
               <div>
                 <h1 className="text-2xl font-display font-bold text-primary-700">Relai Station</h1>
-                <p className="text-sm text-neutral-500">Insights from project status updates</p>
+                <p className="text-sm text-neutral-500">Vision demo: Insights from COMPLETELY MADE UP Relais</p>
               </div>
             </div>
             <div className="text-sm text-neutral-500">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
@@ -228,14 +228,7 @@ function App() {
       {/* Main content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Summary section */}
-        <section className="mb-10">
-          <h2 className="text-xl font-display font-semibold mb-4 text-neutral-800 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-            </svg>
-            Portfolio Summary
-          </h2>
-          
+        <section className="mb-10">       
           <div className="bg-white rounded-xl shadow-card mb-6">
             {getSummary(updatesData)}
           </div>
