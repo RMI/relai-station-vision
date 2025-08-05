@@ -160,8 +160,137 @@ function getBusinessLeaderSummary(mostRecentUpdates, colorCounts, newlyGreen, ne
     year: 'numeric' 
   });
   
-  // Analyze update content to extract meaningful insights (what a chief of staff would do)
+  // Get all the analysis from the existing function
+  const {
+    metrics,
+    sectors,
+    topBlockers,
+    keyAchievements,
+    sectorProjects,
+    avgCompletionRate,
+    insights,
+    strategicRecommendation
+  } = analyzeUpdates(mostRecentUpdates);
   
+  return (
+    <div className="rounded-lg shadow-md overflow-hidden">
+      {/* Executive header with gradient - FIXED with proper colors and text */}
+      <div className="bg-gradient-to-r from-primary-600 to-secondary-500 p-4 flex justify-between items-center">
+        <h3 className="font-bold text-white text-xl">Relai Station Summary</h3>
+        <div className="text-white text-sm font-medium">
+          {currentDate}
+        </div>
+      </div>
+      
+      {/* Main summary content */}
+      <div className="p-5 bg-white">
+        {/* High-level strategic insights - FIXED heading */}
+        <div className="mb-5">
+          <h4 className="text-gray-700 font-semibold mb-3 text-sm uppercase tracking-wider">Relai Insights</h4>
+          
+          <div className="prose prose-sm max-w-none text-gray-700">
+            <p className="mb-2">
+              Analysis of {mostRecentUpdates.length} active projects across {Object.values(sectors).filter(arr => arr.length > 0).length} sectors reveals several key patterns:
+            </p>
+            <ul className="list-disc pl-5 space-y-1 mb-3">
+              {insights.map((insight, i) => (
+                <li key={i}>{insight}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        
+        {/* Two-column layout for achievements and blockers */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+          {/* Key achievements */}
+          <div>
+            <h4 className="text-gray-700 font-semibold mb-2 text-sm uppercase tracking-wider">Top Achievements</h4>
+            <div className="space-y-2">
+              {keyAchievements.length > 0 ? keyAchievements.map((item, i) => (
+                <div key={i} className="bg-green-50 p-3 rounded-md border border-green-100">
+                  <div className="font-medium text-green-800 text-sm">{item.project}</div>
+                  <div className="text-sm text-gray-700">{item.achievement}</div>
+                </div>
+              )) : (
+                <div className="bg-gray-50 p-3 rounded-md text-sm">
+                  No significant achievements to report this period.
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Critical blockers */}
+          <div>
+            <h4 className="text-gray-700 font-semibold mb-2 text-sm uppercase tracking-wider">Critical Blockers</h4>
+            <div className="space-y-2">
+              {topBlockers.length > 0 ? topBlockers.map((item, i) => (
+                <div key={i} className={`p-3 rounded-md border ${item.severity === 'red' ? 'bg-red-50 border-red-100' : 'bg-yellow-50 border-yellow-100'}`}>
+                  <div className={`font-medium text-sm ${item.severity === 'red' ? 'text-red-800' : 'text-yellow-800'}`}>{item.project}</div>
+                  <div className="text-sm text-gray-700">{item.blocker}</div>
+                </div>
+              )) : (
+                <div className="bg-gray-50 p-3 rounded-md text-sm">
+                  No significant blockers reported this period.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        {/* Portfolio health snapshot (simplified) */}
+        <div className="mb-5">
+          <h4 className="text-gray-700 font-semibold mb-2 text-sm uppercase tracking-wider">Sector Performance</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {sectorProjects.map((sector, i) => (
+              <div key={i} className="bg-gray-50 rounded-lg p-3">
+                <div className="font-medium capitalize">{sector.sector}</div>
+                <div className="flex items-center mt-1">
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-green-500 h-2 rounded-full" 
+                      style={{width: `${(sector.greenCount / sector.count) * 100}%`}}
+                    ></div>
+                  </div>
+                  <span className="text-xs ml-2">{sector.greenCount}/{sector.count}</span>
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {Math.round((sector.greenCount / sector.count) * 100)}% on track
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Strategic recommendation */}
+        <div className="mt-5 border-t pt-4">
+          <h4 className="text-gray-700 font-semibold mb-2 text-sm uppercase tracking-wider">Strategic Recommendation</h4>
+          <div className="flex items-start gap-2 bg-blue-50 p-3 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+            </svg>
+            <p className="text-sm text-blue-800">
+              <strong>Chief of Staff Recommendation:</strong> {strategicRecommendation}
+            </p>
+          </div>
+          
+          {newlyRed.length > 0 && (
+            <div className="mt-3 flex items-start gap-2 bg-red-50 p-3 rounded-md">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              <p className="text-sm text-red-800">
+                <strong>Urgent Action:</strong> Schedule intervention for {newlyRed.length} project{newlyRed.length > 1 ? 's' : ''} that recently moved to critical status: <span className="font-medium">{newlyRed.join(', ')}</span>
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Helper function to analyze the updates (extracted from the original getBusinessLeaderSummary)
+function analyzeUpdates(mostRecentUpdates) {
   // 1. Extract key metrics from updates
   const metrics = {
     emissions: { count: 0, total: 0, projects: [] },
@@ -360,11 +489,85 @@ function getBusinessLeaderSummary(mostRecentUpdates, colorCounts, newlyGreen, ne
     strategicRecommendation = 'Maintain balanced focus on execution excellence while addressing emerging risks.';
   }
   
+  return {
+    metrics,
+    sectors,
+    topBlockers,
+    keyAchievements,
+    sectorProjects,
+    avgCompletionRate,
+    insights,
+    strategicRecommendation
+  };
+}
+
+export function getSummary(updates) {
+  // Only consider the most recent update per project
+  const mostRecentByProject = {};
+  updates.forEach(u => {
+    if (!mostRecentByProject[u.project] || new Date(u.date) > new Date(mostRecentByProject[u.project].date)) {
+      mostRecentByProject[u.project] = u;
+    }
+  });
+  const mostRecentUpdates = Object.values(mostRecentByProject);
+
+  // Find previous update for each project to detect status changes
+  const previousByProject = {};
+  updates.forEach(u => {
+    if (mostRecentByProject[u.project] && u.date !== mostRecentByProject[u.project].date) {
+      if (!previousByProject[u.project] || new Date(u.date) > new Date(previousByProject[u.project].date)) {
+        previousByProject[u.project] = u;
+      }
+    }
+  });
+
+  // Count status colors
+  const colorCounts = { green: 0, yellow: 0, red: 0 };
+  mostRecentUpdates.forEach(u => {
+    colorCounts[u.status_color] = (colorCounts[u.status_color] || 0) + 1;
+  });
+
+  // Find newly green/red projects
+  const newlyGreen = [];
+  const newlyRed = [];
+  mostRecentUpdates.forEach(u => {
+    const prev = previousByProject[u.project];
+    if (prev && prev.status_color !== u.status_color) {
+      if (u.status_color === 'green') newlyGreen.push(u.project);
+      if (u.status_color === 'red') newlyRed.push(u.project);
+    }
+  });
+
+  // Return the business leader summary directly with fixed heading
+  return getBusinessLeaderSummaryWithFixedHeading(mostRecentUpdates, colorCounts, newlyGreen, newlyRed);
+}
+
+// New function with corrected header
+function getBusinessLeaderSummaryWithFixedHeading(mostRecentUpdates, colorCounts, newlyGreen, newlyRed) {
+  // Current date formatted elegantly
+  const currentDate = new Date().toLocaleDateString('en-US', { 
+    month: 'long', 
+    day: 'numeric', 
+    year: 'numeric' 
+  });
+  
+  // Get all the analysis from the existing function
+  const {
+    metrics,
+    sectors,
+    topBlockers,
+    keyAchievements,
+    sectorProjects,
+    avgCompletionRate,
+    insights,
+    strategicRecommendation
+  } = analyzeUpdates(mostRecentUpdates);
+  
   return (
-    <div className="mb-6 rounded-lg shadow-md overflow-hidden">
-      {/* Executive header with gradient */}
-      <div className="bg-gradient-to-r from-rmiBlue to-rmiGreen p-4 flex justify-between items-center">
-        <h3 className="font-bold text-white text-xl">Executive Portfolio Insights</h3>
+    <div className="rounded-lg shadow-md overflow-hidden">
+      {/* Executive header with gradient - FIXED with proper colors and text */}
+      <div className="bg-gradient-to-r from-primary-600 to-secondary-500 p-4 flex justify-between items-center">
+        <h3 className="font-bold text-white text-xl">Relai Station Summary</h3>
         <div className="text-white text-sm font-medium">
           {currentDate}
         </div>
@@ -372,9 +575,9 @@ function getBusinessLeaderSummary(mostRecentUpdates, colorCounts, newlyGreen, ne
       
       {/* Main summary content */}
       <div className="p-5 bg-white">
-        {/* High-level strategic insights */}
+        {/* High-level strategic insights - FIXED heading */}
         <div className="mb-5">
-          <h4 className="text-gray-700 font-semibold mb-3 text-sm uppercase tracking-wider">Portfolio Insights</h4>
+          <h4 className="text-gray-700 font-semibold mb-3 text-sm uppercase tracking-wider">Relai Insights</h4>
           
           <div className="prose prose-sm max-w-none text-gray-700">
             <p className="mb-2">
@@ -473,70 +676,6 @@ function getBusinessLeaderSummary(mostRecentUpdates, colorCounts, newlyGreen, ne
           )}
         </div>
       </div>
-    </div>
-  );
-}
-
-export function getSummary(updates) {
-  // Only consider the most recent update per project
-  const mostRecentByProject = {};
-  updates.forEach(u => {
-    if (!mostRecentByProject[u.project] || new Date(u.date) > new Date(mostRecentByProject[u.project].date)) {
-      mostRecentByProject[u.project] = u;
-    }
-  });
-  const mostRecentUpdates = Object.values(mostRecentByProject);
-
-  // Find previous update for each project to detect status changes
-  const previousByProject = {};
-  updates.forEach(u => {
-    if (mostRecentByProject[u.project] && u.date !== mostRecentByProject[u.project].date) {
-      if (!previousByProject[u.project] || new Date(u.date) > new Date(previousByProject[u.project].date)) {
-        previousByProject[u.project] = u;
-      }
-    }
-  });
-
-  // Count status colors
-  const colorCounts = { green: 0, yellow: 0, red: 0 };
-  mostRecentUpdates.forEach(u => {
-    colorCounts[u.status_color] = (colorCounts[u.status_color] || 0) + 1;
-  });
-
-  // Find newly green/red projects
-  const newlyGreen = [];
-  const newlyRed = [];
-  mostRecentUpdates.forEach(u => {
-    const prev = previousByProject[u.project];
-    if (prev && prev.status_color !== u.status_color) {
-      if (u.status_color === 'green') newlyGreen.push(u.project);
-      if (u.status_color === 'red') newlyRed.push(u.project);
-    }
-  });
-
-  return (
-    <div>
-      {getBusinessLeaderSummary(mostRecentUpdates, colorCounts, newlyGreen, newlyRed)}
-      
-      <div className="mb-2">
-        <span className="font-semibold">Projects (most recent status):</span> {mostRecentUpdates.length}
-      </div>
-      <div className="mb-2">
-        <span className="font-semibold">Current status breakdown:</span>
-        <span className="ml-2 text-green-700">Green: {colorCounts.green}</span>,
-        <span className="ml-2 text-yellow-700">Yellow: {colorCounts.yellow}</span>,
-        <span className="ml-2 text-red-700">Red: {colorCounts.red}</span>
-      </div>
-      {newlyGreen.length > 0 && (
-        <div className="mb-2 text-green-700">
-          <span className="font-semibold">Newly Green:</span> {newlyGreen.join(', ')}
-        </div>
-      )}
-      {newlyRed.length > 0 && (
-        <div className="mb-2 text-red-700">
-          <span className="font-semibold">Newly Red:</span> {newlyRed.join(', ')}
-        </div>
-      )}
     </div>
   );
 }
