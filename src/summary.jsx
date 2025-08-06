@@ -385,7 +385,50 @@ function analyzeUpdates(mostRecentUpdates) {
 
 export function getSummary(updates) {
   // Use hardcoded summary data instead of dynamically generating
-  return hardcodedInsights.projectSummary;
+  const summary = hardcodedInsights.projectSummary;
+  
+  return (
+    <div className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-primary-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <div className="text-3xl font-bold text-primary-700">{summary.projectsWithUpdates}</div>
+          <div className="text-sm text-neutral-600">Active Projects</div>
+        </div>
+        <div className="bg-primary-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <div className="text-3xl font-bold text-primary-700">{summary.totalUpdates}</div>
+          <div className="text-sm text-neutral-600">Total Updates</div>
+        </div>
+        <div className="bg-primary-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <div className="text-3xl font-bold text-primary-700">{summary.teamMembers}</div>
+          <div className="text-sm text-neutral-600">Team Members</div>
+        </div>
+        <div className="bg-primary-50 rounded-lg p-4">
+          <div className="flex justify-between mb-1">
+            <span className="text-xs font-semibold text-green-700">Green</span>
+            <span className="text-xs font-semibold text-green-700">{summary.statusCounts.green}</span>
+          </div>
+          <div className="w-full bg-neutral-200 rounded-full h-1.5 mb-2">
+            <div className="bg-green-500 h-1.5 rounded-full" style={{ width: `${(summary.statusCounts.green / (summary.statusCounts.green + summary.statusCounts.yellow + summary.statusCounts.red)) * 100}%` }}></div>
+          </div>
+          <div className="flex justify-between mb-1">
+            <span className="text-xs font-semibold text-amber-600">Yellow</span>
+            <span className="text-xs font-semibold text-amber-600">{summary.statusCounts.yellow}</span>
+          </div>
+          <div className="w-full bg-neutral-200 rounded-full h-1.5 mb-2">
+            <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: `${(summary.statusCounts.yellow / (summary.statusCounts.green + summary.statusCounts.yellow + summary.statusCounts.red)) * 100}%` }}></div>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-xs font-semibold text-rose-600">Red</span>
+            <span className="text-xs font-semibold text-rose-600">{summary.statusCounts.red}</span>
+          </div>
+          <div className="w-full bg-neutral-200 rounded-full h-1.5">
+            <div className="bg-rose-500 h-1.5 rounded-full" style={{ width: `${(summary.statusCounts.red / (summary.statusCounts.green + summary.statusCounts.yellow + summary.statusCounts.red)) * 100}%` }}></div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 text-sm text-neutral-700">{summary.statusSummary}</div>
+    </div>
+  );
 }
 
 // New function with corrected header
