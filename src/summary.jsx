@@ -1,92 +1,10 @@
 import React from 'react';
+import { hardcodedInsights } from './updatesData';
 
-// Simulate an LLM-powered summary for emerging themes and related work
+// Use hardcoded insights instead of generating on the fly
 export function getEmergingThemes(updates) {
-  // Get multiple recent updates per project (not just most recent)
-  const updatesByProject = {};
-  updates.forEach(u => {
-    if (!updatesByProject[u.project]) updatesByProject[u.project] = [];
-    updatesByProject[u.project].push(u);
-  });
-
-  // Get the 3 most recent updates for each project
-  let recentUpdates = [];
-  Object.values(updatesByProject).forEach(projectUpdates => {
-    const sorted = projectUpdates.sort((a, b) => new Date(b.date) - new Date(a.date));
-    recentUpdates = recentUpdates.concat(sorted.slice(0, 3));
-  });
-
-  // Generate more dynamic themes based on the recent updates data
-  const themes = [];
-  
-  // Count color transitions to identify trends
-  const transitions = {
-    'green-to-yellow': 0,
-    'green-to-red': 0,
-    'yellow-to-green': 0,
-    'yellow-to-red': 0,
-    'red-to-yellow': 0,
-    'red-to-green': 0
-  };
-  
-  Object.values(updatesByProject).forEach(projectUpdates => {
-    const sorted = projectUpdates.sort((a, b) => new Date(b.date) - new Date(a.date));
-    if (sorted.length >= 2) {
-      const latest = sorted[0];
-      const previous = sorted[1];
-      if (latest.status_color !== previous.status_color) {
-        const transition = `${previous.status_color}-to-${latest.status_color}`;
-        transitions[transition] = (transitions[transition] || 0) + 1;
-      }
-    }
-  });
-  
-  // Find the most common transitions
-  const sortedTransitions = Object.entries(transitions)
-    .sort((a, b) => b[1] - a[1])
-    .filter(([_, count]) => count > 0)
-    .slice(0, 2);
-  
-  if (sortedTransitions.length > 0) {
-    sortedTransitions.forEach(([transition, count]) => {
-      if (transition.includes('to-green')) {
-        themes.push(`${count} projects have shown improvement, moving to green status in recent updates.`);
-      } else if (transition.includes('to-red')) {
-        themes.push(`${count} projects have deteriorated to red status, indicating increased risk.`);
-      } else if (transition.includes('to-yellow')) {
-        if (transition.startsWith('red')) {
-          themes.push(`${count} projects are showing signs of recovery, moving from red to yellow status.`);
-        } else {
-          themes.push(`${count} projects are experiencing new challenges, moving from green to yellow status.`);
-        }
-      }
-    });
-  }
-
-  // Look at development text
-  const devTexts = recentUpdates.map(u => u.key_developments_and_decisions).join(' ');
-  const blockerTexts = recentUpdates.map(u => u.key_blockers_and_concerns).join(' ');
-  
-  // Standard themes based on text patterns
-  if (devTexts.includes('milestone') || devTexts.includes('achieved')) {
-    themes.push('Milestone achievements are a positive trend across multiple projects.');
-  }
-  
-  if (blockerTexts.includes('funding') || blockerTexts.includes('budget')) {
-    themes.push('Budget and funding constraints are increasingly reported as blockers.');
-  }
-  
-  if (devTexts.includes('technology') || devTexts.includes('platform')) {
-    themes.push('Technology integration and platform development are accelerating.');
-  }
-  
-  if (blockerTexts.includes('compliance') || blockerTexts.includes('regulatory')) {
-    themes.push('Regulatory compliance challenges are affecting project timelines.');
-  }
-  
-  if (devTexts.includes('partnership') || devTexts.includes('collaboration')) {
-    themes.push('Cross-sector partnerships are creating new opportunities for innovation.');
-  }
+  // Use hardcoded insights instead of dynamically generating them
+  const themes = hardcodedInsights.insights;
 
   return (
     <ul className="list-disc pl-5 text-gray-800 text-sm">
@@ -97,47 +15,11 @@ export function getEmergingThemes(updates) {
 }
 
 export function getRelatedWork(updates) {
-  // Get multiple recent updates per project (not just most recent)
-  const updatesByProject = {};
-  updates.forEach(u => {
-    if (!updatesByProject[u.project]) updatesByProject[u.project] = [];
-    updatesByProject[u.project].push(u);
-  });
-
-  // Get the 3 most recent updates for each project
-  let recentUpdates = [];
-  Object.values(updatesByProject).forEach(projectUpdates => {
-    const sorted = projectUpdates.sort((a, b) => new Date(b.date) - new Date(a.date));
-    recentUpdates = recentUpdates.concat(sorted.slice(0, 3));
-  });
-  
-  // Analyze all text to find related projects
-  const projectKeywords = {};
-  recentUpdates.forEach(update => {
-    const text = `${update.key_developments_and_decisions} ${update.key_blockers_and_concerns} ${update.overall_project_status}`;
-    const keywords = [];
-    
-    if (text.match(/data|compliance|privacy/i)) keywords.push('Data & Compliance');
-    if (text.match(/stakeholder|community|engagement/i)) keywords.push('Stakeholder Engagement');
-    if (text.match(/AI|digital|platform|technology/i)) keywords.push('AI & Digital Platforms');
-    if (text.match(/policy|regulation|advocacy/i)) keywords.push('Policy & Advocacy');
-    if (text.match(/funding|budget|finance/i)) keywords.push('Funding & Finance');
-    if (text.match(/partnership|collaboration/i)) keywords.push('Partnerships');
-    
-    keywords.forEach(keyword => {
-      if (!projectKeywords[keyword]) projectKeywords[keyword] = new Set();
-      projectKeywords[keyword].add(`${update.project} (${update.author})`);
-    });
-  });
-  
-  // Convert to array for rendering
-  const clusters = Object.entries(projectKeywords)
-    .map(([keyword, projects]) => ({
-      topic: keyword,
-      projects: Array.from(projects).slice(0, 3) // Limit to 3 projects per topic
-    }))
-    .filter(cluster => cluster.projects.length > 1) // Only show topics with multiple projects
-    .slice(0, 5); // Limit to 5 topics
+  // Use hardcoded sector information instead of dynamically generating
+  const clusters = hardcodedInsights.sectorProjects.map(sector => ({
+    topic: sector.sector,
+    projects: sector.projects.map(project => project) // List projects without author
+  }));
   
   return (
     <ul className="list-disc pl-5 text-gray-800 text-sm">
@@ -502,44 +384,8 @@ function analyzeUpdates(mostRecentUpdates) {
 }
 
 export function getSummary(updates) {
-  // Only consider the most recent update per project
-  const mostRecentByProject = {};
-  updates.forEach(u => {
-    if (!mostRecentByProject[u.project] || new Date(u.date) > new Date(mostRecentByProject[u.project].date)) {
-      mostRecentByProject[u.project] = u;
-    }
-  });
-  const mostRecentUpdates = Object.values(mostRecentByProject);
-
-  // Find previous update for each project to detect status changes
-  const previousByProject = {};
-  updates.forEach(u => {
-    if (mostRecentByProject[u.project] && u.date !== mostRecentByProject[u.project].date) {
-      if (!previousByProject[u.project] || new Date(u.date) > new Date(previousByProject[u.project].date)) {
-        previousByProject[u.project] = u;
-      }
-    }
-  });
-
-  // Count status colors
-  const colorCounts = { green: 0, yellow: 0, red: 0 };
-  mostRecentUpdates.forEach(u => {
-    colorCounts[u.status_color] = (colorCounts[u.status_color] || 0) + 1;
-  });
-
-  // Find newly green/red projects
-  const newlyGreen = [];
-  const newlyRed = [];
-  mostRecentUpdates.forEach(u => {
-    const prev = previousByProject[u.project];
-    if (prev && prev.status_color !== u.status_color) {
-      if (u.status_color === 'green') newlyGreen.push(u.project);
-      if (u.status_color === 'red') newlyRed.push(u.project);
-    }
-  });
-
-  // Return the business leader summary directly with fixed heading
-  return getBusinessLeaderSummaryWithFixedHeading(mostRecentUpdates, colorCounts, newlyGreen, newlyRed);
+  // Use hardcoded summary data instead of dynamically generating
+  return hardcodedInsights.projectSummary;
 }
 
 // New function with corrected header
