@@ -109,112 +109,20 @@ const summariesByProject = (() => {
 export const projectSummaries = summariesByProject;
 
 export const hardcodedInsights = {
-  // Top-level insights about the portfolio
   summary: {
-    // Based on the current cards (flattened latest data from the hierarchical JSON)
-    totalProjects: 22, // Unique projects across 10 programs
+    totalProjects: 24,
     sectors: [
-      'Climate-Aligned Industries (CAI)',
-      'Climate Intelligence (CI)',
-      'Carbon-Free Transportation (CFT)',
-      'Africa Energy Program (AEP)',
-      'China Program',
-      'Carbon-Free Buildings (CFB)',
-      'Carbon-Free Electricity (CFE)',
-      'Global South Program (C3)',
-      'US Program (USP)',
-      'Climate Finance (CF)'
+      'CI', 'CAI', 'C3', 'CFT', 'CFE', 'CFB', 'AEP', 'China'
     ],
-    statusBreakdown: {
-      // Approximate snapshot of latest status by project
-      green: 14,
-      yellow: 7,
-      red: 1
-    }
+    statusBreakdown: { green: 16, yellow: 6, red: 2 }
   },
-  
-  // Project summary data required by getSummary function
-  projectSummary: {
-    projectsWithUpdates: 22,
-    totalUpdates: 110, // rough total across 5 bi-weekly cycles
-    teamMembers: 10,
-    statusSummary: "Most projects are progressing, with concentrated risks around data access and approvals.",
-    statusCounts: {
-      red: 1,
-      yellow: 7,
-      green: 14
-    }
-  },
-  
-  // Top achievements extracted from the data
-  keyAchievements: [
-    {
-      project: "Green Steel Buyers Index (CAI)",
-      achievement: "Internal alpha tested; scope and initial KPI baselines established with incremental on-track progress."
-    },
-    {
-      project: "Chain-of-Custody Verifier (CI)",
-      achievement: "Design and validation approach matured; steady progress toward a practical verifier for product provenance."
-    },
-    {
-      project: "Zero-Emission Freight Score (CFT)",
-      achievement: "Baseline defined and scoring approach stabilized; stakeholder engagement advancing predictably."
-    }
-  ],
-  
-  // Critical blockers extracted from the data
-  topBlockers: [
-    {
-      project: "Cement Carbon Labeling Pilot (CAI)",
-      blocker: "Dependence on third-party data/API and rate limits; team capacity tight, slowing iteration.",
-      severity: "yellow"
-    },
-    {
-      project: "Green Ammonia Offtake Registry (CAI)",
-      blocker: "API/data access uncertainty and permissions constrain progress; mitigation plan active.",
-      severity: "yellow"
-    },
-    {
-      project: "Grid and interconnection approvals (multiple)",
-      blocker: "External approvals and coordination risks remain gating in several workstreams; escalate with partners.",
-      severity: "red"
-    }
-  ],
-  
-  // Sector performance metrics
-  sectorProjects: [
-    // Show top programs (treated as sectors for the tile UI)
-    {
-      sector: "Climate-Aligned Industries (CAI)",
-      count: 3,
-      greenCount: 1,
-      projects: ["Green Steel Buyers Index", "Cement Carbon Labeling Pilot", "Green Ammonia Offtake Registry"]
-    },
-    {
-      sector: "Climate Intelligence (CI)",
-      count: 3,
-      greenCount: 2,
-      projects: ["Open Product Emissions Schema (OPES)", "Chain-of-Custody Verifier", "Climate Data Cookbook v2"]
-    },
-    {
-      sector: "Carbon-Free Electricity (CFE)",
-      count: 3,
-      greenCount: 2,
-      projects: ["Clean Power Attribute Tariff Scorecard", "VPP Reliability Label", "Grid Carbon Intensity API"]
-    }
-  ],
-  
-  // Strategic insights based on the data
   insights: [
-    "Most programs report steady, incremental progress consistent with small teams; risks concentrate around third-party data/API access and external approvals.",
-    "CAI portfolio shows mixed health: one project is on track while two face data-access and capacity constraints that slow iteration.",
-    "Climate Intelligence (CI) projects are trending positively, with provenance and schema work maturing toward practical adoption.",
-    "Delivery risk patterns are similar across programs: approvals, data-sharing, and limited bandwidth recur in multiple workstreams.",
-    "Cross-cutting themes include EU/US product-carbon rule harmonization, offtake aggregation to de-risk first movers, and AI-driven MRV."
-  ],
-  
-  // Strategic recommendation based on analysis
-  strategicRecommendation: "Concentrate near-term support on removing data/API access constraints and external approval bottlenecks, while scaling promising CI and CFE efforts that are closest to adoption."
+    'AI-driven MRV & traceability references expanding across teams.',
+    'Push for harmonized product-carbon rules gathering multi-program momentum.',
+    'Convergence on procurement guardrails / near-zero material labeling.',
+    'Microgrid + grid carbon intensity data could unify location-based signals.',
+    'Emerging overlap on product provenance & battery passport data schemas.'
+  ]
 };
 
 export default updatesData;
