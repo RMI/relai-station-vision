@@ -1,42 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import updatesData from './updatesData';
+import React, { useState, useEffect, useMemo } from 'react';
+import updatesData, { projectSummaries } from './updatesData';
 import { getSummary, getEmergingThemes, getRelatedWork } from './summary.jsx';
 
 // RelaiCard component for displaying the most recent update per project
-const RelaiCard = ({ relai, onClick }) => {
+const RelaiCard = ({ relai, onClick, onFilter }) => {
+  const projSummary = projectSummaries[relai.project];
   return (
-    <div 
+    <div
       onClick={onClick}
-      className={`bg-white rounded-lg shadow-card p-4 border-l-4 hover:shadow-lg transition-all cursor-pointer 
+      className={`flex h-full flex-col bg-white rounded-xl shadow-card p-6 border-l-4 hover:shadow-lg transition-all cursor-pointer 
         ${relai.status_color === 'green' ? 'border-secondary-500' : 
           relai.status_color === 'yellow' ? 'border-amber-400' : 
           'border-rose-500'}`}
     >
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="font-display font-semibold text-lg text-primary-700">{relai.project}</h3>
-        <div className="flex items-center gap-2">
-          <span className={`px-2 py-1 rounded-full text-xs font-bold 
-            ${relai.status_color === 'green' ? 'bg-secondary-100 text-secondary-700' : 
-              relai.status_color === 'yellow' ? 'bg-amber-100 text-amber-700' : 
-              'bg-rose-100 text-rose-700'}`}>
-            {relai.status_color.charAt(0).toUpperCase() + relai.status_color.slice(1)}
-          </span>
-          <span className="px-2 py-1 rounded-full text-xs font-medium bg-neutral-100 text-neutral-600">{relai.date}</span>
+      <div className="mb-3">
+        <h3 className="font-display font-semibold text-xl leading-snug tracking-tight text-primary-800">{relai.project}</h3>
+        <div className="mt-1 flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
+            className="text-xs inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+            title="Filter by program"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 01.8 1.6l-4.2 5.6V16a1 1 0 01-1.447.894l-3-1.5A1 1 0 017 14.5V10.2L2.2 5.6A1 1 0 013 4z"/></svg>
+            {relai.program}
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
+            className="text-xs inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+            title="Filter by owner"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/></svg>
+            {relai.owner}
+          </button>
         </div>
       </div>
-      <div className="text-sm text-neutral-500 mb-2 flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-        </svg>
-        {relai.author}
+      <div className="space-y-2 text-[15px] leading-relaxed text-neutral-800">
+        <div>
+          <span className="font-semibold text-neutral-900">Health:</span>{' '}
+          <span>{projSummary?.headline || 'Summary not available.'}</span>
+        </div>
+        {projSummary?.recentFocus && (
+          <div>
+            <span className="font-semibold text-neutral-900">Recent focus:</span>{' '}
+            <span>{projSummary.recentFocus}</span>
+          </div>
+        )}
+        {projSummary?.keyRisks && (
+          <div>
+            <span className="font-semibold text-neutral-900">Key risks:</span>{' '}
+            <span>{projSummary.keyRisks}</span>
+          </div>
+        )}
+        {projSummary?.themes && projSummary.themes.length > 0 && (
+          <div>
+            <span className="font-semibold text-neutral-900">Themes:</span>{' '}
+            <span>{projSummary.themes.join('; ')}</span>
+          </div>
+        )}
       </div>
-      <div className="mb-3">
-        <p className="text-neutral-700 line-clamp-2 text-sm">{relai.key_developments_and_decisions}</p>
-      </div>
-      <div className="flex justify-end">
-        <button className="text-xs text-primary-600 hover:text-primary-800 font-medium flex items-center">
+      <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-end gap-3">
+        <span className="text-xs text-neutral-500">Last updated {relai.date}</span>
+        <button className="text-sm text-primary-700 hover:text-primary-800 font-medium flex items-center">
           View Details
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
           </svg>
         </button>
@@ -46,10 +74,11 @@ const RelaiCard = ({ relai, onClick }) => {
 };
 
 // Detail modal component for showing project history
-const RelaiDetailModal = ({ project, updates, onClose }) => {
+const RelaiDetailModal = ({ project, updates, onClose, onFilter }) => {
   // Sort updates by date (newest first)
   const sortedUpdates = [...updates].sort((a, b) => new Date(b.date) - new Date(a.date));
   const latestUpdate = sortedUpdates[0];
+  const objectives = latestUpdate?.objectives || [];
   
   return (
     <div className="fixed inset-0 bg-neutral-900/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
@@ -68,6 +97,13 @@ const RelaiDetailModal = ({ project, updates, onClose }) => {
                   'bg-rose-500'}`}></span>
               Current Status: {latestUpdate.status_color.charAt(0).toUpperCase() + latestUpdate.status_color.slice(1)}
             </p>
+            <p className="text-xs text-neutral-500">Program: <button onClick={() => onFilter && onFilter('program', latestUpdate.program)} className="font-medium text-neutral-700 underline decoration-dotted underline-offset-2 hover:text-neutral-800">{latestUpdate.program}</button></p>
+            <p className="text-xs text-neutral-500">Owner: <button onClick={() => onFilter && onFilter('owner', latestUpdate.owner)} className="font-medium text-neutral-700 underline decoration-dotted underline-offset-2 hover:text-neutral-800">{latestUpdate.owner}</button></p>
+            {objectives.length > 0 && (
+              <p className="text-xs text-neutral-500">OOMs: {objectives.map((o, i) => (
+                <button key={i} onClick={() => onFilter && onFilter('objective', o)} className="ml-1 font-medium text-neutral-700 underline decoration-dotted underline-offset-2 hover:text-neutral-800">{String(o)}</button>
+              ))}</p>
+            )}
           </div>
           <button 
             onClick={onClose} 
@@ -102,15 +138,33 @@ const RelaiDetailModal = ({ project, updates, onClose }) => {
                         {update.status_color.charAt(0).toUpperCase() + update.status_color.slice(1)}
                       </span>
                     </div>
-                    <p className="text-sm text-neutral-500 mb-3">By {update.author}</p>
+                    <p className="text-sm text-neutral-500 mb-3">By {update.owner} • {update.program}</p>
                     <div className="mb-3">
                       <h4 className="text-sm font-medium text-neutral-700 mb-1">Key Developments & Decisions</h4>
                       <p className="text-sm text-neutral-600">{update.key_developments_and_decisions}</p>
                     </div>
+                    {update.key_new_insights_and_decisions && (
+                      <div className="mb-3">
+                        <h4 className="text-sm font-medium text-neutral-700 mb-1">Key New Insights & Decisions</h4>
+                        <p className="text-sm text-neutral-600">{update.key_new_insights_and_decisions}</p>
+                      </div>
+                    )}
                     <div className="mb-3">
                       <h4 className="text-sm font-medium text-neutral-700 mb-1">Key Blockers & Concerns</h4>
                       <p className="text-sm text-neutral-600">{update.key_blockers_and_concerns}</p>
                     </div>
+                    {update.emerging_themes && (
+                      <div className="mb-3">
+                        <h4 className="text-sm font-medium text-neutral-700 mb-1">Emerging Themes</h4>
+                        <p className="text-sm text-neutral-600">{update.emerging_themes}</p>
+                      </div>
+                    )}
+                    {update.funding_conversation && (
+                      <div className="mb-3">
+                        <h4 className="text-sm font-medium text-neutral-700 mb-1">Funding Conversation</h4>
+                        <p className="text-sm text-neutral-600">{update.funding_conversation}</p>
+                      </div>
+                    )}
                     <div>
                       <h4 className="text-sm font-medium text-neutral-700 mb-1">Overall Project Status</h4>
                       <p className="text-sm text-neutral-600">{update.overall_project_status}</p>
@@ -144,10 +198,36 @@ function App() {
 
   const [search, setSearch] = useState('');
   const [project, setProject] = useState('');
-  const [author, setAuthor] = useState('');
+  const [owner, setOwner] = useState('');
   const [statusColor, setStatusColor] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
   const [mostRecentByProject, setMostRecentByProject] = useState({});
+  // Summary filters
+  const [summaryMode, setSummaryMode] = useState('overall'); // overall | program | objective
+  const [selectedProgram, setSelectedProgram] = useState('');
+  const [selectedObjective, setSelectedObjective] = useState('');
+  // Global clickable filter (program | owner | objective)
+  const [activeFilter, setActiveFilter] = useState(null); // { type: 'program'|'owner'|'objective', value: string }
+
+  const applyFilter = (type, value) => {
+    setActiveFilter({ type, value });
+    setSelectedProject(null);
+    // Keep summary controls in sync where applicable
+    if (type === 'program') {
+      setSummaryMode('program');
+      setSelectedProgram(value);
+    } else if (type === 'objective') {
+      setSummaryMode('objective');
+      setSelectedObjective(String(value));
+    }
+    // For owner we don't have a summary control; filtering will still apply to the dataset below
+  };
+
+  const clearActiveFilter = () => {
+    setActiveFilter(null);
+    setSelectedProgram('');
+    setSelectedObjective('');
+  };
   
   // Organize updates - get the most recent update for each project
   useEffect(() => {
@@ -171,25 +251,34 @@ function App() {
   }, []);
 
   const allProjects = Array.from(new Set(updatesData.map(u => u.project)));
-  const allAuthors = Array.from(new Set(updatesData.map(u => u.author)));
+  const allOwners = Array.from(new Set(updatesData.map(u => u.owner)));
   const allStatusColors = ['green', 'yellow', 'red'];
+  const allPrograms = Array.from(new Set(updatesData.map(u => u.program))).filter(Boolean);
+  const allObjectives = Array.from(
+    new Set(
+      updatesData.flatMap(u => Array.isArray(u.objectives) ? u.objectives : [])
+    )
+  );
   
   // For the project detail modal
   const selectedProjectUpdates = selectedProject ? 
     updatesData.filter(u => u.project === selectedProject) : [];
 
-  // Filter the most recent updates based on search criteria
+  // Filter the most recent updates based on search criteria and global clickable filter
   let filteredProjects = Object.values(mostRecentByProject).filter((u) => {
     return (
       (search === '' ||
-        u.author.toLowerCase().includes(search.toLowerCase()) ||
+        u.owner.toLowerCase().includes(search.toLowerCase()) ||
         u.project.toLowerCase().includes(search.toLowerCase()) ||
         u.key_developments_and_decisions.toLowerCase().includes(search.toLowerCase()) ||
         u.key_blockers_and_concerns.toLowerCase().includes(search.toLowerCase()) ||
         u.overall_project_status.toLowerCase().includes(search.toLowerCase())) &&
       (project === '' || u.project === project) &&
-      (author === '' || u.author === author) &&
-      (statusColor === '' || u.status_color === statusColor)
+      (owner === '' || u.owner === owner) &&
+      (statusColor === '' || u.status_color === statusColor) &&
+      (!activeFilter || (activeFilter.type === 'program' && u.program === activeFilter.value) ||
+        (activeFilter.type === 'owner' && u.owner === activeFilter.value) ||
+        (activeFilter.type === 'objective' && Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))))
     );
   });
 
@@ -204,6 +293,7 @@ function App() {
           project={selectedProject} 
           updates={selectedProjectUpdates}
           onClose={() => setSelectedProject(null)}
+          onFilter={applyFilter}
         />
       )}
       
@@ -227,11 +317,103 @@ function App() {
       
       {/* Main content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Summary section */}
-        <section className="mb-10">       
-          <div className="bg-white rounded-xl shadow-card mb-6">
-            {getSummary(updatesData)}
+        {activeFilter && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between bg-primary-50 border border-primary-200 text-primary-800 rounded-lg px-4 py-3">
+              <div className="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm9-3a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" />
+                </svg>
+                <span className="font-medium">Active Filter</span>
+                <span className="px-2 py-0.5 text-xs rounded-full bg-white border border-primary-200 text-primary-800">
+                  {activeFilter.type.charAt(0).toUpperCase() + activeFilter.type.slice(1)}
+                </span>
+                <span className="text-primary-900">=</span>
+                <span className="font-semibold">{String(activeFilter.value)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {(activeFilter.type === 'program' || activeFilter.type === 'objective') && (
+                  <span className="text-xs text-primary-700">(Top summary is scoped to this {activeFilter.type}.)</span>
+                )}
+                <button onClick={clearActiveFilter} className="inline-flex items-center gap-1 text-sm text-primary-800 hover:text-primary-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                  Clear filter
+                </button>
+              </div>
+            </div>
           </div>
+        )}
+        {/* Summary section */}
+        <section className="mb-10">
+          {/* Summary filters */}
+          <div className="bg-white rounded-xl shadow-card p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-neutral-600">Summary view:</span>
+              <div className="inline-flex bg-neutral-100 rounded-lg p-1">
+                {['overall','program','objective'].map(mode => (
+                  <button
+                    key={mode}
+                    onClick={() => { setSummaryMode(mode); setSelectedProgram(''); setSelectedObjective(''); }}
+                    className={`px-3 py-1.5 text-sm rounded-md ${summaryMode === mode ? 'bg-white shadow text-neutral-900' : 'text-neutral-600'}`}
+                  >
+                    {mode === 'overall' ? 'Overall' : mode === 'program' ? 'By Program' : 'By Objective'}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {summaryMode === 'program' && (
+                <select
+                  value={selectedProgram}
+                  onChange={e => setSelectedProgram(e.target.value)}
+                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
+                >
+                  <option value="">Select a program…</option>
+                  {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              )}
+              {summaryMode === 'objective' && (
+                <select
+                  value={selectedObjective}
+                  onChange={e => setSelectedObjective(e.target.value)}
+                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
+                >
+                  <option value="">Select an objective…</option>
+                  {allObjectives.map(o => <option key={o} value={String(o)}>{o}</option>)}
+                </select>
+              )}
+              {activeFilter && (
+                <div className="flex items-center gap-2 ml-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-primary-50 text-primary-700 border border-primary-200">
+                    Filter: {activeFilter.type.charAt(0).toUpperCase() + activeFilter.type.slice(1)} = {String(activeFilter.value)}
+                  </span>
+                  <button onClick={clearActiveFilter} className="text-xs text-neutral-500 hover:text-neutral-700">Clear</button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/** Compute summary dataset based on controls + global clickable filter */}
+          {(() => {
+            let summaryData = updatesData;
+            if (summaryMode === 'program' && selectedProgram) {
+              summaryData = updatesData.filter(u => u.program === selectedProgram);
+            } else if (summaryMode === 'objective' && selectedObjective) {
+              summaryData = updatesData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective)));
+            }
+            if (activeFilter) {
+              if (activeFilter.type === 'program') summaryData = summaryData.filter(u => u.program === activeFilter.value);
+              if (activeFilter.type === 'owner') summaryData = summaryData.filter(u => u.owner === activeFilter.value);
+              if (activeFilter.type === 'objective') summaryData = summaryData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
+            }
+            return (
+              <div className="bg-white rounded-xl shadow-card mb-6">
+                {getSummary(summaryData, { onProgramClick: (p) => applyFilter('program', p) })}
+              </div>
+            );
+          })()}
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl shadow-card p-6">
@@ -242,7 +424,17 @@ function App() {
                 </svg>
                 Emerging Themes
               </h3>
-              {getEmergingThemes(updatesData)}
+              {getEmergingThemes(
+                (() => {
+                  let data = updatesData;
+                  if (activeFilter) {
+                    if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value);
+                    if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value);
+                    if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
+                  }
+                  return data;
+                })()
+              )}
             </div>
             <div className="bg-white rounded-xl shadow-card p-6">
               <h3 className="font-display font-semibold text-lg mb-4 text-primary-700 flex items-center">
@@ -251,7 +443,17 @@ function App() {
                 </svg>
                 Related Work
               </h3>
-              {getRelatedWork(updatesData)}
+              {getRelatedWork(
+                (() => {
+                  let data = updatesData;
+                  if (activeFilter) {
+                    if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value);
+                    if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value);
+                    if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
+                  }
+                  return data;
+                })()
+              )}
             </div>
           </div>
         </section>
@@ -270,7 +472,7 @@ function App() {
             <div className="w-full sm:w-auto">
               <input
                 type="text"
-                placeholder="Search projects, authors, updates..."
+                placeholder="Search projects, owners, updates..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
@@ -317,23 +519,44 @@ function App() {
               </select>
               
               <select 
-                value={author} 
-                onChange={e => setAuthor(e.target.value)} 
+                value={owner} 
+                onChange={e => setOwner(e.target.value)} 
                 className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
               >
-                <option value="">All Authors</option>
-                {allAuthors.map(a => <option key={a} value={a}>{a}</option>)}
+                <option value="">All Owners</option>
+                {allOwners.map(a => <option key={a} value={a}>{a}</option>)}
               </select>
+              {allPrograms.length > 0 && (
+                <select 
+                  value={activeFilter?.type === 'program' ? activeFilter.value : ''}
+                  onChange={e => e.target.value ? applyFilter('program', e.target.value) : clearActiveFilter()}
+                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
+                >
+                  <option value="">All Programs</option>
+                  {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              )}
+              {allObjectives.length > 0 && (
+                <select 
+                  value={activeFilter?.type === 'objective' ? String(activeFilter.value) : ''}
+                  onChange={e => e.target.value ? applyFilter('objective', e.target.value) : clearActiveFilter()}
+                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
+                >
+                  <option value="">All OOMs</option>
+                  {allObjectives.map(o => <option key={o} value={String(o)}>{o}</option>)}
+                </select>
+              )}
             </div>
           </div>
           
-          {/* Display most recent update per project as cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Display most recent update per project as cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredProjects.map((update, i) => (
               <RelaiCard 
                 key={i} 
                 relai={update} 
-                onClick={() => setSelectedProject(update.project)}
+        onClick={() => setSelectedProject(update.project)}
+        onFilter={applyFilter}
               />
             ))}
             {filteredProjects.length === 0 && (
@@ -344,7 +567,7 @@ function App() {
                 <p className="text-lg font-medium">No Relais match your filters</p>
                 <p className="text-sm">Try adjusting your search criteria</p>
                 <button 
-                  onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setAuthor(''); }}
+                  onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }}
                   className="mt-4 px-4 py-2 text-sm font-medium text-primary-700 hover:text-primary-800"
                 >
                   Clear all filters

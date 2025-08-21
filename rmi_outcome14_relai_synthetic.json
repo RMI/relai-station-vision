@@ -1,0 +1,2431 @@
+{
+  "meta": {
+    "outcome": "Outcome 14: Products & services",
+    "generated_on": "2025-08-20",
+    "notes": "Synthetic dataset; five bi-weekly dates; each principal has exactly one program and 1\u20134 projects. Progress is incremental; some fields intentionally blank for realism."
+  },
+  "dates": [
+    "2025-06-25",
+    "2025-07-09",
+    "2025-07-23",
+    "2025-08-06",
+    "2025-08-20"
+  ],
+  "relai": [
+    {
+      "owner": {
+        "principal": "Asha Rao",
+        "program": "Climate-Aligned Industries (CAI)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Steel Buyers Index",
+          "oom_contributions": [
+            14,
+            11,
+            9
+          ],
+          "updates": {
+            "key_achievements": "Green Steel Buyers Index: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Green Steel Buyers Index.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Cement Carbon Labeling Pilot",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Cement Carbon Labeling Pilot: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Cement Carbon Labeling Pilot; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize procurement guardrails for near-zero materials in the next sprint for Cement Carbon Labeling Pilot.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Ammonia Offtake Registry",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Green Ammonia Offtake Registry; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize procurement guardrails for near-zero materials in the next sprint for Green Ammonia Offtake Registry.",
+            "emerging_themes": "transition finance for brown-to-green assets",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; procurement guardrails for near-zero materials",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Asha Rao",
+        "program": "Climate-Aligned Industries (CAI)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Steel Buyers Index",
+          "oom_contributions": [
+            14,
+            11,
+            9
+          ],
+          "updates": {
+            "key_achievements": "Green Steel Buyers Index: internal alpha tested by Asha's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize transition finance for brown-to-green assets in the next sprint for Green Steel Buyers Index.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Green Steel Buyers Index.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Cement Carbon Labeling Pilot",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Cement Carbon Labeling Pilot: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Cement Carbon Labeling Pilot; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Ammonia Offtake Registry",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Green Ammonia Offtake Registry; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize transition finance for brown-to-green assets in the next sprint for Green Ammonia Offtake Registry.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Bloomberg Philanthropies for Green Ammonia Offtake Registry.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; procurement guardrails for near-zero materials",
+        "funding_conversation": "Exploratory discussion with Climate Imperative about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Asha Rao",
+        "program": "Climate-Aligned Industries (CAI)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Steel Buyers Index",
+          "oom_contributions": [
+            14,
+            11,
+            9
+          ],
+          "updates": {
+            "key_achievements": "Green Steel Buyers Index: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize procurement guardrails for near-zero materials in the next sprint for Green Steel Buyers Index.",
+            "emerging_themes": "",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Climate Imperative.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Cement Carbon Labeling Pilot",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Cement Carbon Labeling Pilot: internal alpha tested by Asha's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Cement Carbon Labeling Pilot; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize procurement guardrails for near-zero materials in the next sprint for Cement Carbon Labeling Pilot.",
+            "emerging_themes": "AI-driven MRV and synthetic data QA",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Cement Carbon Labeling Pilot.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Ammonia Offtake Registry",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Green Ammonia Offtake Registry; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize procurement guardrails for near-zero materials in the next sprint for Green Ammonia Offtake Registry.",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Global Methane Hub.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; offtake aggregation to de-risk first movers",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Asha Rao",
+        "program": "Climate-Aligned Industries (CAI)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Steel Buyers Index",
+          "oom_contributions": [
+            14,
+            11,
+            9
+          ],
+          "updates": {
+            "key_achievements": "Green Steel Buyers Index: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Green Steel Buyers Index.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Cement Carbon Labeling Pilot",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Cement Carbon Labeling Pilot: internal alpha tested by Asha's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Cement Carbon Labeling Pilot; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize transition finance for brown-to-green assets in the next sprint for Cement Carbon Labeling Pilot.",
+            "emerging_themes": "",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Global Methane Hub.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Ammonia Offtake Registry",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "Green Ammonia Offtake Registry: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize transition finance for brown-to-green assets in the next sprint for Green Ammonia Offtake Registry.",
+            "emerging_themes": "procurement guardrails for near-zero materials",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Green Ammonia Offtake Registry.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; transition finance for brown-to-green assets",
+        "funding_conversation": "Exploratory discussion with Climate Imperative about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Asha Rao",
+        "program": "Climate-Aligned Industries (CAI)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Steel Buyers Index",
+          "oom_contributions": [
+            14,
+            11,
+            9
+          ],
+          "updates": {
+            "key_achievements": "Green Steel Buyers Index: closed beta with 2\u20133 external users; preliminary results show usability gains.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Green Steel Buyers Index.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Cement Carbon Labeling Pilot",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Cement Carbon Labeling Pilot; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize offtake aggregation to de-risk first movers in the next sprint for Cement Carbon Labeling Pilot.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Climate-Aligned Industries (CAI)",
+          "name": "Green Ammonia Offtake Registry",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize procurement guardrails for near-zero materials in the next sprint for Green Ammonia Offtake Registry.",
+            "emerging_themes": "",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; offtake aggregation to de-risk first movers",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Miguel Santos",
+        "program": "Climate Intelligence (CI)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Open Product Emissions Schema (OPES)",
+          "oom_contributions": [
+            14
+          ],
+          "updates": {
+            "key_achievements": "Open Product Emissions Schema (OPES): scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Open Product Emissions Schema (OPES).",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Open Product Emissions Schema (OPES).",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Chain-of-Custody Verifier",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize asset-level traceability and emissions MRV in the next sprint for Chain-of-Custody Verifier.",
+            "emerging_themes": "asset-level traceability and emissions MRV",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Chain-of-Custody Verifier.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Climate Data Cookbook v2",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Climate Data Cookbook v2.",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; reference datasets for product carbon footprints",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Miguel Santos",
+        "program": "Climate Intelligence (CI)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Open Product Emissions Schema (OPES)",
+          "oom_contributions": [
+            14
+          ],
+          "updates": {
+            "key_achievements": "Open Product Emissions Schema (OPES): internal alpha tested by Miguel's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Open Product Emissions Schema (OPES).",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Early EOI shared with Google.org for Open Product Emissions Schema (OPES).",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Chain-of-Custody Verifier",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize asset-level traceability and emissions MRV in the next sprint for Chain-of-Custody Verifier.",
+            "emerging_themes": "",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Breakthrough Energy.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Climate Data Cookbook v2",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Climate Data Cookbook v2: internal alpha tested by Miguel's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; reference datasets for product carbon footprints",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Miguel Santos",
+        "program": "Climate Intelligence (CI)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Open Product Emissions Schema (OPES)",
+          "oom_contributions": [
+            14
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize interoperable data standards and provenance in the next sprint for Open Product Emissions Schema (OPES).",
+            "emerging_themes": "interoperable data standards and provenance",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Global Methane Hub.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Chain-of-Custody Verifier",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Chain-of-Custody Verifier.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Climate Data Cookbook v2",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Climate Data Cookbook v2: internal alpha tested by Miguel's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; interoperable data standards and provenance",
+        "funding_conversation": "Exploratory discussion with Climate Imperative about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Miguel Santos",
+        "program": "Climate Intelligence (CI)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Open Product Emissions Schema (OPES)",
+          "oom_contributions": [
+            14
+          ],
+          "updates": {
+            "key_achievements": "Open Product Emissions Schema (OPES): internal alpha tested by Miguel's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Open Product Emissions Schema (OPES).",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Open Product Emissions Schema (OPES).",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Chain-of-Custody Verifier",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Chain-of-Custody Verifier.",
+            "emerging_themes": "AI-driven MRV and synthetic data QA",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Chain-of-Custody Verifier.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Climate Data Cookbook v2",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize asset-level traceability and emissions MRV in the next sprint for Climate Data Cookbook v2.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Climate Data Cookbook v2.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; asset-level traceability and emissions MRV",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Miguel Santos",
+        "program": "Climate Intelligence (CI)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Open Product Emissions Schema (OPES)",
+          "oom_contributions": [
+            14
+          ],
+          "updates": {
+            "key_achievements": "Open Product Emissions Schema (OPES): first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize interoperable data standards and provenance in the next sprint for Open Product Emissions Schema (OPES).",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Open Product Emissions Schema (OPES).",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Chain-of-Custody Verifier",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize reference datasets for product carbon footprints in the next sprint for Chain-of-Custody Verifier.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Chain-of-Custody Verifier.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Climate Intelligence (CI)",
+          "name": "Climate Data Cookbook v2",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Climate Data Cookbook v2: closed beta with 2\u20133 external users; preliminary results show usability gains.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize interoperable data standards and provenance in the next sprint for Climate Data Cookbook v2.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; asset-level traceability and emissions MRV",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Lena Kovacs",
+        "program": "Carbon-Free Transportation (CFT)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "Zero-Emission Freight Score",
+          "oom_contributions": [
+            14,
+            2,
+            8
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize charging constraints for depot-heavy fleets in the next sprint for Zero-Emission Freight Score.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Early EOI shared with Global Methane Hub for Zero-Emission Freight Score.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "EV Battery Passport for Fleets",
+          "oom_contributions": [
+            14,
+            18
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize freight corridor coordination in the next sprint for EV Battery Passport for Fleets.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "Early EOI shared with Global Methane Hub for EV Battery Passport for Fleets.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: supply-chain exposure to geopolitical risk; freight corridor coordination",
+        "funding_conversation": "Exploratory discussion with Breakthrough Energy about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Lena Kovacs",
+        "program": "Carbon-Free Transportation (CFT)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "Zero-Emission Freight Score",
+          "oom_contributions": [
+            14,
+            2,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Zero-Emission Freight Score: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize freight corridor coordination in the next sprint for Zero-Emission Freight Score.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Bloomberg Philanthropies for Zero-Emission Freight Score.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "EV Battery Passport for Fleets",
+          "oom_contributions": [
+            14,
+            18
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize battery lifecycle transparency in the next sprint for EV Battery Passport for Fleets.",
+            "emerging_themes": "battery lifecycle transparency",
+            "funding_conversation": "Early EOI shared with Google.org for EV Battery Passport for Fleets.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; charging constraints for depot-heavy fleets",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Lena Kovacs",
+        "program": "Carbon-Free Transportation (CFT)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "Zero-Emission Freight Score",
+          "oom_contributions": [
+            14,
+            2,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Zero-Emission Freight Score: internal alpha tested by Lena's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize battery lifecycle transparency in the next sprint for Zero-Emission Freight Score.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Bloomberg Philanthropies for Zero-Emission Freight Score.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "EV Battery Passport for Fleets",
+          "oom_contributions": [
+            14,
+            18
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize charging constraints for depot-heavy fleets in the next sprint for EV Battery Passport for Fleets.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Climate Imperative for EV Battery Passport for Fleets.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: supply-chain exposure to geopolitical risk; battery lifecycle transparency",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Lena Kovacs",
+        "program": "Carbon-Free Transportation (CFT)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "Zero-Emission Freight Score",
+          "oom_contributions": [
+            14,
+            2,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Zero-Emission Freight Score: internal alpha tested by Lena's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize freight corridor coordination in the next sprint for Zero-Emission Freight Score.",
+            "emerging_themes": "charging constraints for depot-heavy fleets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Climate Imperative.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "EV Battery Passport for Fleets",
+          "oom_contributions": [
+            14,
+            18
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize battery lifecycle transparency in the next sprint for EV Battery Passport for Fleets.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; charging constraints for depot-heavy fleets",
+        "funding_conversation": "Exploratory discussion with Bloomberg Philanthropies about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Lena Kovacs",
+        "program": "Carbon-Free Transportation (CFT)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "Zero-Emission Freight Score",
+          "oom_contributions": [
+            14,
+            2,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Zero-Emission Freight Score: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize battery lifecycle transparency in the next sprint for Zero-Emission Freight Score.",
+            "emerging_themes": "charging constraints for depot-heavy fleets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Breakthrough Energy.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Transportation (CFT)",
+          "name": "EV Battery Passport for Fleets",
+          "oom_contributions": [
+            14,
+            18
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; battery lifecycle transparency",
+        "funding_conversation": "Exploratory discussion with Breakthrough Energy about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Nkiru Adeyemi",
+        "program": "Africa Energy Program (AEP)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Clean Cooking Certification Framework",
+          "oom_contributions": [
+            14,
+            6
+          ],
+          "updates": {
+            "key_achievements": "Clean Cooking Certification Framework: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize capacity building for verification bodies in the next sprint for Clean Cooking Certification Framework.",
+            "emerging_themes": "localized standards that reflect cost realities",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Low-Carbon Cement Buyers Club\u2014Nigeria",
+          "oom_contributions": [
+            14,
+            11,
+            3
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Low-Carbon Cement Buyers Club\u2014Nigeria; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize capacity building for verification bodies in the next sprint for Low-Carbon Cement Buyers Club\u2014Nigeria.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "Early EOI shared with Bloomberg Philanthropies for Low-Carbon Cement Buyers Club\u2014Nigeria.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; capacity building for verification bodies",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Nkiru Adeyemi",
+        "program": "Africa Energy Program (AEP)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Clean Cooking Certification Framework",
+          "oom_contributions": [
+            14,
+            6
+          ],
+          "updates": {
+            "key_achievements": "Clean Cooking Certification Framework: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize import duties and FX risk in supply chains in the next sprint for Clean Cooking Certification Framework.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Early EOI shared with Climate Imperative for Clean Cooking Certification Framework.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Low-Carbon Cement Buyers Club\u2014Nigeria",
+          "oom_contributions": [
+            14,
+            11,
+            3
+          ],
+          "updates": {
+            "key_achievements": "Low-Carbon Cement Buyers Club\u2014Nigeria: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Low-Carbon Cement Buyers Club\u2014Nigeria; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize localized standards that reflect cost realities in the next sprint for Low-Carbon Cement Buyers Club\u2014Nigeria.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Early EOI shared with Bloomberg Philanthropies for Low-Carbon Cement Buyers Club\u2014Nigeria.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; capacity building for verification bodies",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Nkiru Adeyemi",
+        "program": "Africa Energy Program (AEP)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Clean Cooking Certification Framework",
+          "oom_contributions": [
+            14,
+            6
+          ],
+          "updates": {
+            "key_achievements": "Clean Cooking Certification Framework: internal alpha tested by Nkiru's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize capacity building for verification bodies in the next sprint for Clean Cooking Certification Framework.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Quadrature Climate Foundation for Clean Cooking Certification Framework.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Low-Carbon Cement Buyers Club\u2014Nigeria",
+          "oom_contributions": [
+            14,
+            11,
+            3
+          ],
+          "updates": {
+            "key_achievements": "Low-Carbon Cement Buyers Club\u2014Nigeria: internal alpha tested by Nkiru's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Low-Carbon Cement Buyers Club\u2014Nigeria; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Climate Imperative.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; localized standards that reflect cost realities",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Nkiru Adeyemi",
+        "program": "Africa Energy Program (AEP)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Clean Cooking Certification Framework",
+          "oom_contributions": [
+            14,
+            6
+          ],
+          "updates": {
+            "key_achievements": "Clean Cooking Certification Framework: internal alpha tested by Nkiru's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize localized standards that reflect cost realities in the next sprint for Clean Cooking Certification Framework.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Low-Carbon Cement Buyers Club\u2014Nigeria",
+          "oom_contributions": [
+            14,
+            11,
+            3
+          ],
+          "updates": {
+            "key_achievements": "Low-Carbon Cement Buyers Club\u2014Nigeria: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Low-Carbon Cement Buyers Club\u2014Nigeria; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize capacity building for verification bodies in the next sprint for Low-Carbon Cement Buyers Club\u2014Nigeria.",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Breakthrough Energy.",
+            "overall_project_status": "Watch: progress continues but external dependencies could delay wider pilot."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; localized standards that reflect cost realities",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Nkiru Adeyemi",
+        "program": "Africa Energy Program (AEP)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Clean Cooking Certification Framework",
+          "oom_contributions": [
+            14,
+            6
+          ],
+          "updates": {
+            "key_achievements": "Clean Cooking Certification Framework: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize capacity building for verification bodies in the next sprint for Clean Cooking Certification Framework.",
+            "emerging_themes": "AI-driven MRV and synthetic data QA",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Africa Energy Program (AEP)",
+          "name": "Low-Carbon Cement Buyers Club\u2014Nigeria",
+          "oom_contributions": [
+            14,
+            11,
+            3
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Low-Carbon Cement Buyers Club\u2014Nigeria; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "AI-driven MRV and synthetic data QA",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Low-Carbon Cement Buyers Club\u2014Nigeria.",
+            "overall_project_status": "Watch: progress continues but external dependencies could delay wider pilot."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; capacity building for verification bodies",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Chen Guowei",
+        "program": "China Program"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "China Program",
+          "name": "China Green Hydrogen Certification Toolkit",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "China Green Hydrogen Certification Toolkit: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize domestic standards alignment with export markets in the next sprint for China Green Hydrogen Certification Toolkit.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "China Program",
+          "name": "Low-Emission Steel Label\u2014Pilots",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Low-Emission Steel Label\u2014Pilots: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid integration of new industrial loads in the next sprint for Low-Emission Steel Label\u2014Pilots.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; domestic standards alignment with export markets",
+        "funding_conversation": "Exploratory discussion with Breakthrough Energy about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Chen Guowei",
+        "program": "China Program"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "China Program",
+          "name": "China Green Hydrogen Certification Toolkit",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "China Green Hydrogen Certification Toolkit: internal alpha tested by Chen's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize domestic standards alignment with export markets in the next sprint for China Green Hydrogen Certification Toolkit.",
+            "emerging_themes": "grid integration of new industrial loads",
+            "funding_conversation": "Early EOI shared with Global Methane Hub for China Green Hydrogen Certification Toolkit.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "China Program",
+          "name": "Low-Emission Steel Label\u2014Pilots",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Low-Emission Steel Label\u2014Pilots: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid integration of new industrial loads in the next sprint for Low-Emission Steel Label\u2014Pilots.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Global Methane Hub for Low-Emission Steel Label\u2014Pilots.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; pilot permissions for certification sandboxes",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Chen Guowei",
+        "program": "China Program"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "China Program",
+          "name": "China Green Hydrogen Certification Toolkit",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "China Green Hydrogen Certification Toolkit: internal alpha tested by Chen's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize grid integration of new industrial loads in the next sprint for China Green Hydrogen Certification Toolkit.",
+            "emerging_themes": "pilot permissions for certification sandboxes",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Global Methane Hub.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "China Program",
+          "name": "Low-Emission Steel Label\u2014Pilots",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Low-Emission Steel Label\u2014Pilots: internal alpha tested by Chen's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid integration of new industrial loads in the next sprint for Low-Emission Steel Label\u2014Pilots.",
+            "emerging_themes": "domestic standards alignment with export markets",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; pilot permissions for certification sandboxes",
+        "funding_conversation": "Exploratory discussion with Climate Imperative about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Chen Guowei",
+        "program": "China Program"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "China Program",
+          "name": "China Green Hydrogen Certification Toolkit",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "China Green Hydrogen Certification Toolkit: internal alpha tested by Chen's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid integration of new industrial loads in the next sprint for China Green Hydrogen Certification Toolkit.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope China Green Hydrogen Certification Toolkit.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "China Program",
+          "name": "Low-Emission Steel Label\u2014Pilots",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Low-Emission Steel Label\u2014Pilots: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize pilot permissions for certification sandboxes in the next sprint for Low-Emission Steel Label\u2014Pilots.",
+            "emerging_themes": "",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Climate Imperative.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: supply-chain exposure to geopolitical risk; grid integration of new industrial loads",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Chen Guowei",
+        "program": "China Program"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "China Program",
+          "name": "China Green Hydrogen Certification Toolkit",
+          "oom_contributions": [
+            14,
+            9
+          ],
+          "updates": {
+            "key_achievements": "China Green Hydrogen Certification Toolkit: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize pilot permissions for certification sandboxes in the next sprint for China Green Hydrogen Certification Toolkit.",
+            "emerging_themes": "grid integration of new industrial loads",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "China Program",
+          "name": "Low-Emission Steel Label\u2014Pilots",
+          "oom_contributions": [
+            14,
+            11
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize domestic standards alignment with export markets in the next sprint for Low-Emission Steel Label\u2014Pilots.",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Low-Emission Steel Label\u2014Pilots.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; grid integration of new industrial loads",
+        "funding_conversation": "Exploratory discussion with Breakthrough Energy about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Priya Menon",
+        "program": "Carbon-Free Buildings (CFB)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Embodied Carbon Label for Concrete\u2014US Pilots",
+          "oom_contributions": [
+            14,
+            4,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Embodied Carbon Label for Concrete\u2014US Pilots: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Embodied Carbon Label for Concrete\u2014US Pilots; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Google.org for Embodied Carbon Label for Concrete\u2014US Pilots.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Heat Pump Ready Label",
+          "oom_contributions": [
+            14,
+            4
+          ],
+          "updates": {
+            "key_achievements": "Heat Pump Ready Label: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize code-aligned labeling for retrofit components in the next sprint for Heat Pump Ready Label.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Climate Imperative for Heat Pump Ready Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; code-aligned labeling for retrofit components",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Priya Menon",
+        "program": "Carbon-Free Buildings (CFB)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Embodied Carbon Label for Concrete\u2014US Pilots",
+          "oom_contributions": [
+            14,
+            4,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Embodied Carbon Label for Concrete\u2014US Pilots: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize code-aligned labeling for retrofit components in the next sprint for Embodied Carbon Label for Concrete\u2014US Pilots.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Heat Pump Ready Label",
+          "oom_contributions": [
+            14,
+            4
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize buyers clubs for low-carbon materials in the next sprint for Heat Pump Ready Label.",
+            "emerging_themes": "code-aligned labeling for retrofit components",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Heat Pump Ready Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; whole-life carbon reporting",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Priya Menon",
+        "program": "Carbon-Free Buildings (CFB)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Embodied Carbon Label for Concrete\u2014US Pilots",
+          "oom_contributions": [
+            14,
+            4,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Embodied Carbon Label for Concrete\u2014US Pilots: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize buyers clubs for low-carbon materials in the next sprint for Embodied Carbon Label for Concrete\u2014US Pilots.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Quadrature Climate Foundation.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Heat Pump Ready Label",
+          "oom_contributions": [
+            14,
+            4
+          ],
+          "updates": {
+            "key_achievements": "Heat Pump Ready Label: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize buyers clubs for low-carbon materials in the next sprint for Heat Pump Ready Label.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Quadrature Climate Foundation for Heat Pump Ready Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; buyers clubs for low-carbon materials",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Priya Menon",
+        "program": "Carbon-Free Buildings (CFB)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Embodied Carbon Label for Concrete\u2014US Pilots",
+          "oom_contributions": [
+            14,
+            4,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Embodied Carbon Label for Concrete\u2014US Pilots: internal alpha tested by Priya's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize code-aligned labeling for retrofit components in the next sprint for Embodied Carbon Label for Concrete\u2014US Pilots.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Heat Pump Ready Label",
+          "oom_contributions": [
+            14,
+            4
+          ],
+          "updates": {
+            "key_achievements": "Heat Pump Ready Label: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize whole-life carbon reporting in the next sprint for Heat Pump Ready Label.",
+            "emerging_themes": "whole-life carbon reporting",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: supply-chain exposure to geopolitical risk; whole-life carbon reporting",
+        "funding_conversation": "Exploratory discussion with Bloomberg Philanthropies about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Priya Menon",
+        "program": "Carbon-Free Buildings (CFB)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Embodied Carbon Label for Concrete\u2014US Pilots",
+          "oom_contributions": [
+            14,
+            4,
+            11
+          ],
+          "updates": {
+            "key_achievements": "Embodied Carbon Label for Concrete\u2014US Pilots: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize whole-life carbon reporting in the next sprint for Embodied Carbon Label for Concrete\u2014US Pilots.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Embodied Carbon Label for Concrete\u2014US Pilots.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Buildings (CFB)",
+          "name": "Heat Pump Ready Label",
+          "oom_contributions": [
+            14,
+            4
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize whole-life carbon reporting in the next sprint for Heat Pump Ready Label.",
+            "emerging_themes": "code-aligned labeling for retrofit components",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; code-aligned labeling for retrofit components",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "James O'Connor",
+        "program": "Carbon-Free Electricity (CFE)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Clean Power Attribute Tariff Scorecard",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Clean Power Attribute Tariff Scorecard; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize tariff design for clean attributes in the next sprint for Clean Power Attribute Tariff Scorecard.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "VPP Reliability Label",
+          "oom_contributions": [
+            14,
+            8,
+            19
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for VPP Reliability Label; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize tariff design for clean attributes in the next sprint for VPP Reliability Label.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Grid Carbon Intensity API",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Grid Carbon Intensity API: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Grid Carbon Intensity API; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize tariff design for clean attributes in the next sprint for Grid Carbon Intensity API.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Grid Carbon Intensity API.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; tariff design for clean attributes",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "James O'Connor",
+        "program": "Carbon-Free Electricity (CFE)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Clean Power Attribute Tariff Scorecard",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Clean Power Attribute Tariff Scorecard; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize resource adequacy and flexible demand in the next sprint for Clean Power Attribute Tariff Scorecard.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Early EOI shared with Google.org for Clean Power Attribute Tariff Scorecard.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "VPP Reliability Label",
+          "oom_contributions": [
+            14,
+            8,
+            19
+          ],
+          "updates": {
+            "key_achievements": "VPP Reliability Label: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for VPP Reliability Label; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid congestion data transparency in the next sprint for VPP Reliability Label.",
+            "emerging_themes": "grid congestion data transparency",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Grid Carbon Intensity API",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Grid Carbon Intensity API: internal alpha tested by James's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Grid Carbon Intensity API; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid congestion data transparency in the next sprint for Grid Carbon Intensity API.",
+            "emerging_themes": "",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; grid congestion data transparency",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "James O'Connor",
+        "program": "Carbon-Free Electricity (CFE)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Clean Power Attribute Tariff Scorecard",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Clean Power Attribute Tariff Scorecard: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Clean Power Attribute Tariff Scorecard; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize resource adequacy and flexible demand in the next sprint for Clean Power Attribute Tariff Scorecard.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Global Methane Hub for Clean Power Attribute Tariff Scorecard.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "VPP Reliability Label",
+          "oom_contributions": [
+            14,
+            8,
+            19
+          ],
+          "updates": {
+            "key_achievements": "VPP Reliability Label: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize tariff design for clean attributes in the next sprint for VPP Reliability Label.",
+            "emerging_themes": "resource adequacy and flexible demand",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for VPP Reliability Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Grid Carbon Intensity API",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Grid Carbon Intensity API: internal alpha tested by James's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize resource adequacy and flexible demand in the next sprint for Grid Carbon Intensity API.",
+            "emerging_themes": "AI-driven MRV and synthetic data QA",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Grid Carbon Intensity API.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; tariff design for clean attributes",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "James O'Connor",
+        "program": "Carbon-Free Electricity (CFE)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Clean Power Attribute Tariff Scorecard",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Clean Power Attribute Tariff Scorecard: internal alpha tested by James's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Clean Power Attribute Tariff Scorecard; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize resource adequacy and flexible demand in the next sprint for Clean Power Attribute Tariff Scorecard.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Climate Imperative.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "VPP Reliability Label",
+          "oom_contributions": [
+            14,
+            8,
+            19
+          ],
+          "updates": {
+            "key_achievements": "VPP Reliability Label: internal alpha tested by James's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "tariff design for clean attributes",
+            "funding_conversation": "Early EOI shared with Bloomberg Philanthropies for VPP Reliability Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Grid Carbon Intensity API",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Grid Carbon Intensity API: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize grid congestion data transparency in the next sprint for Grid Carbon Intensity API.",
+            "emerging_themes": "resource adequacy and flexible demand",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; grid congestion data transparency",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "James O'Connor",
+        "program": "Carbon-Free Electricity (CFE)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Clean Power Attribute Tariff Scorecard",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Clean Power Attribute Tariff Scorecard: internal alpha tested by James's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Clean Power Attribute Tariff Scorecard; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize resource adequacy and flexible demand in the next sprint for Clean Power Attribute Tariff Scorecard.",
+            "emerging_themes": "tariff design for clean attributes",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "VPP Reliability Label",
+          "oom_contributions": [
+            14,
+            8,
+            19
+          ],
+          "updates": {
+            "key_achievements": "VPP Reliability Label: internal alpha tested by James's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Climate Imperative for VPP Reliability Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "Carbon-Free Electricity (CFE)",
+          "name": "Grid Carbon Intensity API",
+          "oom_contributions": [],
+          "updates": {
+            "key_achievements": "Grid Carbon Intensity API: first pilot partner onboarded; limited data sharing agreement executed.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize resource adequacy and flexible demand in the next sprint for Grid Carbon Intensity API.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; grid congestion data transparency",
+        "funding_conversation": "Exploratory discussion with Breakthrough Energy about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Amina Farouk",
+        "program": "Global South Program (C3)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Global South Program (C3)",
+          "name": "SAF Import\u2013Export Label\u2014Islands",
+          "oom_contributions": [
+            14,
+            6,
+            11
+          ],
+          "updates": {
+            "key_achievements": "SAF Import\u2013Export Label\u2014Islands: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for SAF Import\u2013Export Label\u2014Islands; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize port logistics for clean fuels in the next sprint for SAF Import\u2013Export Label\u2014Islands.",
+            "emerging_themes": "",
+            "funding_conversation": "Early EOI shared with Global Methane Hub for SAF Import\u2013Export Label\u2014Islands.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Global South Program (C3)",
+          "name": "Renewable Microgrid Product Standard",
+          "oom_contributions": [
+            14,
+            6,
+            5
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Renewable Microgrid Product Standard; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize port logistics for clean fuels in the next sprint for Renewable Microgrid Product Standard.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Early EOI shared with Breakthrough Energy for Renewable Microgrid Product Standard.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; port logistics for clean fuels",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Amina Farouk",
+        "program": "Global South Program (C3)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Global South Program (C3)",
+          "name": "SAF Import\u2013Export Label\u2014Islands",
+          "oom_contributions": [
+            14,
+            6,
+            11
+          ],
+          "updates": {
+            "key_achievements": "SAF Import\u2013Export Label\u2014Islands: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for SAF Import\u2013Export Label\u2014Islands; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize supply chain resilience for microgrids in the next sprint for SAF Import\u2013Export Label\u2014Islands.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Bloomberg Philanthropies.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Global South Program (C3)",
+          "name": "Renewable Microgrid Product Standard",
+          "oom_contributions": [
+            14,
+            6,
+            5
+          ],
+          "updates": {
+            "key_achievements": "Renewable Microgrid Product Standard: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize SIDS-focused certification practicality in the next sprint for Renewable Microgrid Product Standard.",
+            "emerging_themes": "SIDS-focused certification practicality",
+            "funding_conversation": "Early EOI shared with Google.org for Renewable Microgrid Product Standard.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; SIDS-focused certification practicality",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Amina Farouk",
+        "program": "Global South Program (C3)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Global South Program (C3)",
+          "name": "SAF Import\u2013Export Label\u2014Islands",
+          "oom_contributions": [
+            14,
+            6,
+            11
+          ],
+          "updates": {
+            "key_achievements": "SAF Import\u2013Export Label\u2014Islands: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for SAF Import\u2013Export Label\u2014Islands; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize supply chain resilience for microgrids in the next sprint for SAF Import\u2013Export Label\u2014Islands.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope SAF Import\u2013Export Label\u2014Islands.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Global South Program (C3)",
+          "name": "Renewable Microgrid Product Standard",
+          "oom_contributions": [
+            14,
+            6,
+            5
+          ],
+          "updates": {
+            "key_achievements": "Renewable Microgrid Product Standard: internal alpha tested by Amina's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize SIDS-focused certification practicality in the next sprint for Renewable Microgrid Product Standard.",
+            "emerging_themes": "supply chain resilience for microgrids",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Global Methane Hub.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; supply chain resilience for microgrids",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Amina Farouk",
+        "program": "Global South Program (C3)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Global South Program (C3)",
+          "name": "SAF Import\u2013Export Label\u2014Islands",
+          "oom_contributions": [
+            14,
+            6,
+            11
+          ],
+          "updates": {
+            "key_achievements": "SAF Import\u2013Export Label\u2014Islands: internal alpha tested by Amina's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for SAF Import\u2013Export Label\u2014Islands; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize port logistics for clean fuels in the next sprint for SAF Import\u2013Export Label\u2014Islands.",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope SAF Import\u2013Export Label\u2014Islands.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Global South Program (C3)",
+          "name": "Renewable Microgrid Product Standard",
+          "oom_contributions": [
+            14,
+            6,
+            5
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize SIDS-focused certification practicality in the next sprint for Renewable Microgrid Product Standard.",
+            "emerging_themes": "SIDS-focused certification practicality",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Climate Imperative.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; SIDS-focused certification practicality",
+        "funding_conversation": "Exploratory discussion with Climate Imperative about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Amina Farouk",
+        "program": "Global South Program (C3)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Global South Program (C3)",
+          "name": "SAF Import\u2013Export Label\u2014Islands",
+          "oom_contributions": [
+            14,
+            6,
+            11
+          ],
+          "updates": {
+            "key_achievements": "SAF Import\u2013Export Label\u2014Islands: internal alpha tested by Amina's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for SAF Import\u2013Export Label\u2014Islands; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize port logistics for clean fuels in the next sprint for SAF Import\u2013Export Label\u2014Islands.",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        },
+        {
+          "program": "Global South Program (C3)",
+          "name": "Renewable Microgrid Product Standard",
+          "oom_contributions": [
+            14,
+            6,
+            5
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Breakthrough Energy.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; SIDS-focused certification practicality",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Victor Almeida",
+        "program": "US Program (USP)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "US Program (USP)",
+          "name": "Low-Methane Gas Certificate Market Tracker",
+          "oom_contributions": [
+            14,
+            12,
+            8
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize large-load tariff principles in the next sprint for Low-Methane Gas Certificate Market Tracker.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "US Program (USP)",
+          "name": "Large Load Clean Tariff Label",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Large Load Clean Tariff Label; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize large-load tariff principles in the next sprint for Large Load Clean Tariff Label.",
+            "emerging_themes": "supply-chain exposure to geopolitical risk",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: embedding equity outcomes into differentiated markets; large-load tariff principles",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Victor Almeida",
+        "program": "US Program (USP)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "US Program (USP)",
+          "name": "Low-Methane Gas Certificate Market Tracker",
+          "oom_contributions": [
+            14,
+            12,
+            8
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize regulatory interoperability across states in the next sprint for Low-Methane Gas Certificate Market Tracker.",
+            "emerging_themes": "data center load growth impacts on clean power allocation",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Google.org.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "US Program (USP)",
+          "name": "Large Load Clean Tariff Label",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Large Load Clean Tariff Label: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Large Load Clean Tariff Label; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize regulatory interoperability across states in the next sprint for Large Load Clean Tariff Label.",
+            "emerging_themes": "harmonization between EU and US product carbon rules",
+            "funding_conversation": "",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; large-load tariff principles",
+        "funding_conversation": "Exploratory discussion with Quadrature Climate Foundation about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Victor Almeida",
+        "program": "US Program (USP)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "US Program (USP)",
+          "name": "Low-Methane Gas Certificate Market Tracker",
+          "oom_contributions": [
+            14,
+            12,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Low-Methane Gas Certificate Market Tracker: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize regulatory interoperability across states in the next sprint for Low-Methane Gas Certificate Market Tracker.",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Low-Methane Gas Certificate Market Tracker.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "US Program (USP)",
+          "name": "Large Load Clean Tariff Label",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Large Load Clean Tariff Label: internal alpha tested by Victor's team; feedback logged.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Large Load Clean Tariff Label; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize large-load tariff principles in the next sprint for Large Load Clean Tariff Label.",
+            "emerging_themes": "large-load tariff principles",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Global Methane Hub.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; regulatory interoperability across states",
+        "funding_conversation": ""
+      }
+    },
+    {
+      "owner": {
+        "principal": "Victor Almeida",
+        "program": "US Program (USP)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "US Program (USP)",
+          "name": "Low-Methane Gas Certificate Market Tracker",
+          "oom_contributions": [
+            14,
+            12,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Low-Methane Gas Certificate Market Tracker: internal alpha tested by Victor's team; feedback logged.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize large-load tariff principles in the next sprint for Low-Methane Gas Certificate Market Tracker.",
+            "emerging_themes": "large-load tariff principles",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "US Program (USP)",
+          "name": "Large Load Clean Tariff Label",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Large Load Clean Tariff Label: internal alpha tested by Victor's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize regulatory interoperability across states in the next sprint for Large Load Clean Tariff Label.",
+            "emerging_themes": "",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Large Load Clean Tariff Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; consumer affordability signaling",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Victor Almeida",
+        "program": "US Program (USP)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "US Program (USP)",
+          "name": "Low-Methane Gas Certificate Market Tracker",
+          "oom_contributions": [
+            14,
+            12,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Low-Methane Gas Certificate Market Tracker: internal alpha tested by Victor's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize consumer affordability signaling in the next sprint for Low-Methane Gas Certificate Market Tracker.",
+            "emerging_themes": "consumer affordability signaling",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        },
+        {
+          "program": "US Program (USP)",
+          "name": "Large Load Clean Tariff Label",
+          "oom_contributions": [
+            14,
+            8
+          ],
+          "updates": {
+            "key_achievements": "Large Load Clean Tariff Label: internal alpha tested by Victor's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize regulatory interoperability across states in the next sprint for Large Load Clean Tariff Label.",
+            "emerging_themes": "regulatory interoperability across states",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Large Load Clean Tariff Label.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; consumer affordability signaling",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Yara Haddad",
+        "program": "Climate Finance (CF)"
+      },
+      "date": "2025-06-25",
+      "relai_projects": [
+        {
+          "program": "Climate Finance (CF)",
+          "name": "Differentiated Products Fundability Playbook",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Differentiated Products Fundability Playbook; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize risk stacking and blended finance in the next sprint for Differentiated Products Fundability Playbook.",
+            "emerging_themes": "bankability templates and due diligence rubrics",
+            "funding_conversation": "Early EOI shared with Google.org for Differentiated Products Fundability Playbook.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; risk stacking and blended finance",
+        "funding_conversation": "Exploratory discussion with Google.org about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Yara Haddad",
+        "program": "Climate Finance (CF)"
+      },
+      "date": "2025-07-09",
+      "relai_projects": [
+        {
+          "program": "Climate Finance (CF)",
+          "name": "Differentiated Products Fundability Playbook",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "Differentiated Products Fundability Playbook: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "Dependence on third-party data/API for Differentiated Products Fundability Playbook; uncertainty on access terms and rate limits. Team capacity tight (5\u20138 FTEs) slowing iteration.",
+            "key_new_insights_and_decisions": "Decided to prioritize bankability templates and due diligence rubrics in the next sprint for Differentiated Products Fundability Playbook.",
+            "emerging_themes": "embedding equity outcomes into differentiated markets",
+            "funding_conversation": "Concept note drafted; exploring co-funding with Google.org.",
+            "overall_project_status": "At risk: blockers on data access and limited capacity; mitigation plan active."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: supply-chain exposure to geopolitical risk; performance-linked grant structures",
+        "funding_conversation": "Exploratory discussion with Global Methane Hub about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Yara Haddad",
+        "program": "Climate Finance (CF)"
+      },
+      "date": "2025-07-23",
+      "relai_projects": [
+        {
+          "program": "Climate Finance (CF)",
+          "name": "Differentiated Products Fundability Playbook",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "Differentiated Products Fundability Playbook: scope defined and initial KPI baselines drafted.",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize risk stacking and blended finance in the next sprint for Differentiated Products Fundability Playbook.",
+            "emerging_themes": "performance-linked grant structures",
+            "funding_conversation": "Proposal under internal review; soft commitments from one philanthropist to scope Differentiated Products Fundability Playbook.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: AI-driven MRV and synthetic data QA; risk stacking and blended finance",
+        "funding_conversation": "Exploratory discussion with Breakthrough Energy about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Yara Haddad",
+        "program": "Climate Finance (CF)"
+      },
+      "date": "2025-08-06",
+      "relai_projects": [
+        {
+          "program": "Climate Finance (CF)",
+          "name": "Differentiated Products Fundability Playbook",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "Differentiated Products Fundability Playbook: internal alpha tested by Yara's team; feedback logged.",
+            "key_blockers_and_concerns": "",
+            "key_new_insights_and_decisions": "Decided to prioritize bankability templates and due diligence rubrics in the next sprint for Differentiated Products Fundability Playbook.",
+            "emerging_themes": "",
+            "funding_conversation": "Funding committed in principle pending diligence; aligning milestones and disbursement triggers.",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: data center load growth impacts on clean power allocation; performance-linked grant structures",
+        "funding_conversation": "Exploratory discussion with Bloomberg Philanthropies about portfolio support for Outcome 14-aligned products."
+      }
+    },
+    {
+      "owner": {
+        "principal": "Yara Haddad",
+        "program": "Climate Finance (CF)"
+      },
+      "date": "2025-08-20",
+      "relai_projects": [
+        {
+          "program": "Climate Finance (CF)",
+          "name": "Differentiated Products Fundability Playbook",
+          "oom_contributions": [
+            14,
+            15
+          ],
+          "updates": {
+            "key_achievements": "",
+            "key_blockers_and_concerns": "No material blockers this period; monitoring data access licenses and partner timelines.",
+            "key_new_insights_and_decisions": "Decided to prioritize bankability templates and due diligence rubrics in the next sprint for Differentiated Products Fundability Playbook.",
+            "emerging_themes": "",
+            "funding_conversation": "",
+            "overall_project_status": "On track: incremental progress consistent with 5\u201310 person team velocity."
+          }
+        }
+      ],
+      "misc_section": {
+        "emerging_themes": "Cross-cutting: harmonization between EU and US product carbon rules; bankability templates and due diligence rubrics",
+        "funding_conversation": "Exploratory discussion with Bloomberg Philanthropies about portfolio support for Outcome 14-aligned products."
+      }
+    }
+  ]
+}

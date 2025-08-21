@@ -15,20 +15,42 @@ export function getEmergingThemes(updates) {
 }
 
 export function getRelatedWork(updates) {
-  // Use hardcoded sector information instead of dynamically generating
-  const clusters = hardcodedInsights.sectorProjects.map(sector => ({
-    topic: sector.sector,
-    projects: sector.projects.map(project => project) // List projects without author
-  }));
-  
+  // One-time static synthesis: identify cross-principal/topic overlaps where teams should connect
+  const connections = [
+    // Grid and AI
+    "Grid: CI is increasingly working on the grid as part of their AI focus (e.g., MRV, data standards). CFE does not seem to be looped into this work yet.",
+    
+    // MRV & provenance
+    "AI-driven MRV & provenance: Miguel (CI), James (CFE), Nkiru (AEP), and Priya (CFB) all reference AI-driven MRV or traceability. They should coordinate a shared MRV tooling roadmap.",
+    
+    // EU/US harmonization
+    "Product-carbon rule harmonization (EU/US): Asha (CAI), Miguel (CI), Lena (CFT), Chen (China), and James (CFE) all cite this. Form a cross-program working group to align advocacy and data standards.",
+    
+    // Near-zero materials / procurement guardrails
+    "Near-zero materials procurement: Asha (CAI) and Priya (CFB) both push procurement guardrails and buyer enablement. Connect to unify labeling and buyers-club playbooks.",
+    
+    // Supply-chain risk
+    "Supply-chain exposure to geopolitical risk: Asha (CAI), Lena (CFT), and Priya (CFB) surfaced similar risks. Share a mitigation playbook and vendor-risk heuristics.",
+    
+    // Chain-of-custody vs Battery Passport
+    "Product provenance & battery passports: Miguel’s Chain-of-Custody Verifier (CI) and Lena’s EV Battery Passport for Fleets (CFT) overlap on data schemas and traceability. Align on a common schema.",
+    
+    // Grid signals for microgrids
+    "Microgrids & grid signals: Amina (C3) on renewable microgrid standards and James (CFE) on grid carbon intensity API could combine for location-based signals in microgrid certification.",
+    
+    // Cement & buyers clubs across regions
+    "Low-carbon cement coordination: Asha’s Cement Carbon Labeling (CAI) and Nkiru’s Buyers Club—Nigeria (AEP) are parallel tracks. Sync labeling criteria with buyers-club demand signals.",
+    
+    // Hydrogen & ammonia standards
+    "Hydrogen/ammonia standards: Chen’s Green Hydrogen Certification (China Program) and Asha’s Green Ammonia Offtake Registry (CAI) both deal with clean-molecule standards. Align certification and registry fields."
+  ];
+
   return (
     <ul className="list-disc pl-5 text-gray-800 text-sm">
-      {clusters.map((cluster, i) => (
-        <li key={i}>
-          <span className="font-semibold">{cluster.topic}:</span> {cluster.projects.join(', ')}
-        </li>
+      {connections.map((line, i) => (
+        <li key={i}>{line}</li>
       ))}
-      {clusters.length === 0 && <li>No significant clusters of related work detected.</li>}
+      {connections.length === 0 && <li>No obvious overlaps yet—check again after next Relai cycle.</li>}
     </ul>
   );
 }
@@ -383,7 +405,8 @@ function analyzeUpdates(mostRecentUpdates) {
   };
 }
 
-export function getSummary(updates) {
+export function getSummary(updates, options = {}) {
+  const { onProgramClick } = options;
   // Get the most recent updates for each project
   const projectsMap = {};
   updates.forEach(update => {
@@ -401,10 +424,8 @@ export function getSummary(updates) {
     yellow: mostRecentUpdates.filter(u => u.status_color === 'yellow').length,
     red: mostRecentUpdates.filter(u => u.status_color === 'red').length
   };
-  
-  // Use the hardcoded insights for projects with newly changed status
-  // For demonstration purposes, we'll just use Delhi & NH-48 electrification pilot as an example
-  const newlyRed = ["Delhi & NH-48 electrification pilot"];
+  // Static content only: do not flag newly changed status here
+  const newlyRed = [];
   const newlyGreen = [];
   
   // Use the existing executive summary function with hardcoded data
@@ -432,7 +453,7 @@ export function getSummary(updates) {
           
           <div className="prose prose-sm max-w-none text-gray-700">
             <p className="mb-2">
-              Analysis of {mostRecentUpdates.length} active projects across {hardcodedInsights.summary.sectors.length} sectors reveals several key patterns:
+              {`Analysis of ${hardcodedInsights.summary.totalProjects} active projects across ${hardcodedInsights.summary.sectors.length} programs reveals several key patterns:`}
             </p>
             <ul className="list-disc pl-5 space-y-1 mb-3">
               {hardcodedInsights.insights.map((insight, i) => (
@@ -477,7 +498,18 @@ export function getSummary(updates) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {hardcodedInsights.sectorProjects.map((sector, i) => (
               <div key={i} className="bg-gray-50 rounded-lg p-3">
-                <div className="font-medium capitalize">{sector.sector}</div>
+                <div className="font-medium capitalize">
+                  {onProgramClick ? (
+                    <button
+                      type="button"
+                      onClick={() => onProgramClick(sector.sector)}
+                      className="underline decoration-dotted underline-offset-2 hover:text-neutral-800"
+                      title="Filter by program"
+                    >
+                      {sector.sector}
+                    </button>
+                  ) : sector.sector}
+                </div>
                 <div className="flex items-center mt-1">
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
@@ -507,16 +539,7 @@ export function getSummary(updates) {
             </p>
           </div>
           
-          {newlyRed.length > 0 && (
-            <div className="mt-3 flex items-start gap-2 bg-red-50 p-3 rounded-md">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-              <p className="text-sm text-red-800">
-                <strong>Urgent Action:</strong> Schedule intervention for {newlyRed.length} project{newlyRed.length > 1 ? 's' : ''} that recently moved to critical status: <span className="font-medium">{newlyRed.join(', ')}</span>
-              </p>
-            </div>
-          )}
+          {/* Static snapshot only; no urgent alerts rendered */}
         </div>
       </div>
     </div>

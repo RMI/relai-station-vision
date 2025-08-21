@@ -1,0 +1,902 @@
+[
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Shenzhen–Dongguan–Huizhou corridor pilot",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on charging‑depot construction and fleet onboarding has begun.",
+    "key blockers and concerns": "Initial transformer delivery and depot permits issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Shenzhen–Dongguan–Huizhou corridor pilot",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of charging‑depot construction and fleet onboarding underway.",
+    "key blockers and concerns": "Persistent transformer delivery and depot permits challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Shenzhen–Dongguan–Huizhou corridor pilot",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; charging‑depot construction and fleet onboarding about 50 % complete.",
+    "key blockers and concerns": "Ongoing transformer delivery and depot permits delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Shenzhen–Dongguan–Huizhou corridor pilot",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; charging‑depot construction and fleet onboarding nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual transformer delivery and depot permits risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Delhi & NH-48 electrification pilot",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on route electrification works has begun.",
+    "key blockers and concerns": "Initial utility connection approvals issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Delhi & NH-48 electrification pilot",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of route electrification works underway.",
+    "key blockers and concerns": "Persistent utility connection approvals challenges; schedule buffer tightening.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Delhi & NH-48 electrification pilot",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; route electrification works about 50 % complete.",
+    "key blockers and concerns": "Ongoing utility connection approvals delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Delhi & NH-48 electrification pilot",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; route electrification works nearing hand‑off for validation.",
+    "key blockers and concerns": "Critical utility connection approvals blockage threatening deliverables; resolution expected within next sprint.",
+    "overall project status": "Schedule at significant risk; immediate intervention needed to prevent material slippage.",
+    "traffic_light": "red"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "EU cross-border e-truck corridor design",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on cross‑border corridor schematic has begun.",
+    "key blockers and concerns": "Initial data‑sharing agreements issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "EU cross-border e-truck corridor design",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of cross‑border corridor schematic underway.",
+    "key blockers and concerns": "Persistent data‑sharing agreements challenges; schedule buffer tightening.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "EU cross-border e-truck corridor design",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; cross‑border corridor schematic about 50 % complete.",
+    "key blockers and concerns": "Ongoing data‑sharing agreements delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "EU cross-border e-truck corridor design",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; cross‑border corridor schematic nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual data‑sharing agreements risk; resolution expected within next sprint.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Battery-swap standards task-force",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on battery‑swap technical specification has begun.",
+    "key blockers and concerns": "Initial OEM alignment issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Battery-swap standards task-force",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of battery‑swap technical specification underway.",
+    "key blockers and concerns": "Persistent OEM alignment challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Battery-swap standards task-force",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; battery‑swap technical specification about 50 % complete.",
+    "key blockers and concerns": "Ongoing OEM alignment delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Battery-swap standards task-force",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; battery‑swap technical specification nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual OEM alignment risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Fleet TCO finance toolkit rollout",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on finance toolkit rollout to operators has begun.",
+    "key blockers and concerns": "Initial staff bandwidth constraints issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Fleet TCO finance toolkit rollout",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of finance toolkit rollout to operators underway.",
+    "key blockers and concerns": "Persistent staff bandwidth constraints challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Fleet TCO finance toolkit rollout",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; finance toolkit rollout to operators about 50 % complete.",
+    "key blockers and concerns": "Ongoing staff bandwidth constraints delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Heavy-duty zero-emission trucking",
+    "project": "Fleet TCO finance toolkit rollout",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; finance toolkit rollout to operators nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual staff bandwidth constraints risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "14 GW PPA rulebook implementation",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on LatAm PPA rulebook rollout has begun.",
+    "key blockers and concerns": "Initial stakeholder ratification issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "14 GW PPA rulebook implementation",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of LatAm PPA rulebook rollout underway.",
+    "key blockers and concerns": "Persistent stakeholder ratification challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "14 GW PPA rulebook implementation",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; LatAm PPA rulebook rollout about 50 % complete.",
+    "key blockers and concerns": "Ongoing stakeholder ratification delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "14 GW PPA rulebook implementation",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; LatAm PPA rulebook rollout nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual stakeholder ratification risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "South‑Asia blended-market pilot",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on blended-market design has begun.",
+    "key blockers and concerns": "Initial regulatory clearance issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "South‑Asia blended-market pilot",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of blended-market design underway.",
+    "key blockers and concerns": "Persistent regulatory clearance challenges; schedule buffer tightening.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "South‑Asia blended-market pilot",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; blended-market design about 50 % complete.",
+    "key blockers and concerns": "Ongoing regulatory clearance delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "South‑Asia blended-market pilot",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; blended-market design nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual regulatory clearance risk; resolution expected within next sprint.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "MENA competitive-procurement framework",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on framework localisation has begun.",
+    "key blockers and concerns": "Initial partner coordination issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "MENA competitive-procurement framework",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of framework localisation underway.",
+    "key blockers and concerns": "Persistent partner coordination challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "MENA competitive-procurement framework",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; framework localisation about 50 % complete.",
+    "key blockers and concerns": "Ongoing partner coordination delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "MENA competitive-procurement framework",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; framework localisation nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual partner coordination risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Grid‑flexibility & demand‑response pilots",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on demand‑response pilot deployments has begun.",
+    "key blockers and concerns": "Initial utility IT integration issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Grid‑flexibility & demand‑response pilots",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of demand‑response pilot deployments underway.",
+    "key blockers and concerns": "Persistent utility IT integration challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Grid‑flexibility & demand‑response pilots",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; demand‑response pilot deployments about 50 % complete.",
+    "key blockers and concerns": "Ongoing utility IT integration delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Grid‑flexibility & demand‑response pilots",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; demand‑response pilot deployments nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual utility IT integration risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Integrated‑resource‑planning guidance expansion",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on IRP guidance workshops has begun.",
+    "key blockers and concerns": "Initial training uptake issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Integrated‑resource‑planning guidance expansion",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of IRP guidance workshops underway.",
+    "key blockers and concerns": "Persistent training uptake challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Integrated‑resource‑planning guidance expansion",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; IRP guidance workshops about 50 % complete.",
+    "key blockers and concerns": "Ongoing training uptake delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Utility business-model reform & clean-power procurement",
+    "project": "Integrated‑resource‑planning guidance expansion",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; IRP guidance workshops nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual training uptake risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑steel FID package (India)",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on green‑steel investor package has begun.",
+    "key blockers and concerns": "Initial supply‑chain cost projections issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑steel FID package (India)",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of green‑steel investor package underway.",
+    "key blockers and concerns": "Persistent supply‑chain cost projections challenges; schedule buffer tightening.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑steel FID package (India)",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; green‑steel investor package about 50 % complete.",
+    "key blockers and concerns": "Ongoing supply‑chain cost projections delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑steel FID package (India)",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; green‑steel investor package nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual supply‑chain cost projections risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Low‑carbon cement pre‑FEED (Indonesia)",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on pre‑FEED study has begun.",
+    "key blockers and concerns": "Initial site‑access logistics issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Low‑carbon cement pre‑FEED (Indonesia)",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of pre‑FEED study underway.",
+    "key blockers and concerns": "Persistent site‑access logistics challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Low‑carbon cement pre‑FEED (Indonesia)",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; pre‑FEED study about 50 % complete.",
+    "key blockers and concerns": "Ongoing site‑access logistics delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Low‑carbon cement pre‑FEED (Indonesia)",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; pre‑FEED study nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual site‑access logistics risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Electrified chemicals feasibility (US Gulf Coast)",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on electrified‑chemicals feasibility study has begun.",
+    "key blockers and concerns": "Initial data‑licensing costs issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Electrified chemicals feasibility (US Gulf Coast)",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of electrified‑chemicals feasibility study underway.",
+    "key blockers and concerns": "Persistent data‑licensing costs challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Electrified chemicals feasibility (US Gulf Coast)",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; electrified‑chemicals feasibility study about 50 % complete.",
+    "key blockers and concerns": "Ongoing data‑licensing costs delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Electrified chemicals feasibility (US Gulf Coast)",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; electrified‑chemicals feasibility study nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual data‑licensing costs risk; resolution expected within next sprint.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑ammonia export MoU (Morocco‑EU)",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on green‑ammonia export MoU drafting has begun.",
+    "key blockers and concerns": "Initial cross‑border legal review issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑ammonia export MoU (Morocco‑EU)",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of green‑ammonia export MoU drafting underway.",
+    "key blockers and concerns": "Persistent cross‑border legal review challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑ammonia export MoU (Morocco‑EU)",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; green‑ammonia export MoU drafting about 50 % complete.",
+    "key blockers and concerns": "Ongoing cross‑border legal review delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Green‑ammonia export MoU (Morocco‑EU)",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; green‑ammonia export MoU drafting nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual cross‑border legal review risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Hard‑to‑abate finance facility design",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on finance facility term‑sheet has begun.",
+    "key blockers and concerns": "Initial capital‑allocation approvals issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Hard‑to‑abate finance facility design",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of finance facility term‑sheet underway.",
+    "key blockers and concerns": "Persistent capital‑allocation approvals challenges; schedule buffer tightening.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Hard‑to‑abate finance facility design",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; finance facility term‑sheet about 50 % complete.",
+    "key blockers and concerns": "Ongoing capital‑allocation approvals delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Industrial decarbonisation bankability",
+    "project": "Hard‑to‑abate finance facility design",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; finance facility term‑sheet nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual capital‑allocation approvals risk; resolution expected within next sprint.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Tax‑equity structure replication",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on tax‑equity replication package has begun.",
+    "key blockers and concerns": "Initial jurisdictional tax rulings issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Tax‑equity structure replication",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of tax‑equity replication package underway.",
+    "key blockers and concerns": "Persistent jurisdictional tax rulings challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Tax‑equity structure replication",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; tax‑equity replication package about 50 % complete.",
+    "key blockers and concerns": "Ongoing jurisdictional tax rulings delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Tax‑equity structure replication",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; tax‑equity replication package nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual jurisdictional tax rulings risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Transition‑bond framework (ASEAN)",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on transition‑bond framework has begun.",
+    "key blockers and concerns": "Initial investor appetite issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Transition‑bond framework (ASEAN)",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of transition‑bond framework underway.",
+    "key blockers and concerns": "Persistent investor appetite challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Transition‑bond framework (ASEAN)",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; transition‑bond framework about 50 % complete.",
+    "key blockers and concerns": "Ongoing investor appetite delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Transition‑bond framework (ASEAN)",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; transition‑bond framework nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual investor appetite risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Development‑bank climate‑lending training",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on development‑bank training modules has begun.",
+    "key blockers and concerns": "Initial participant scheduling issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Development‑bank climate‑lending training",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of development‑bank training modules underway.",
+    "key blockers and concerns": "Persistent participant scheduling challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Development‑bank climate‑lending training",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; development‑bank training modules about 50 % complete.",
+    "key blockers and concerns": "Ongoing participant scheduling delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Development‑bank climate‑lending training",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; development‑bank training modules nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual participant scheduling risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Portfolio‑alignment tool v2 release",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on tool v2 feature set has begun.",
+    "key blockers and concerns": "Initial code‑review backlog issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Portfolio‑alignment tool v2 release",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of tool v2 feature set underway.",
+    "key blockers and concerns": "Persistent code‑review backlog challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Portfolio‑alignment tool v2 release",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; tool v2 feature set about 50 % complete.",
+    "key blockers and concerns": "Ongoing code‑review backlog delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Portfolio‑alignment tool v2 release",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; tool v2 feature set nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual code‑review backlog risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Investor alliance expansion",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on investor‑alliance onboarding has begun.",
+    "key blockers and concerns": "Initial member due‑diligence issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Investor alliance expansion",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of investor‑alliance onboarding underway.",
+    "key blockers and concerns": "Persistent member due‑diligence challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Investor alliance expansion",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; investor‑alliance onboarding about 50 % complete.",
+    "key blockers and concerns": "Ongoing member due‑diligence delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑aligned investment structures",
+    "project": "Investor alliance expansion",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; investor‑alliance onboarding nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual member due‑diligence risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Early‑stage acceleration fund deployment",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on fund deployment pipeline has begun.",
+    "key blockers and concerns": "Initial legal compliance checks issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Early‑stage acceleration fund deployment",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of fund deployment pipeline underway.",
+    "key blockers and concerns": "Persistent legal compliance checks challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Early‑stage acceleration fund deployment",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; fund deployment pipeline about 50 % complete.",
+    "key blockers and concerns": "Ongoing legal compliance checks delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Early‑stage acceleration fund deployment",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; fund deployment pipeline nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual legal compliance checks risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Growth‑stage venture‑debt pilot",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on venture‑debt structuring has begun.",
+    "key blockers and concerns": "Initial credit‑risk models issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Growth‑stage venture‑debt pilot",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of venture‑debt structuring underway.",
+    "key blockers and concerns": "Persistent credit‑risk models challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Growth‑stage venture‑debt pilot",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; venture‑debt structuring about 50 % complete.",
+    "key blockers and concerns": "Ongoing credit‑risk models delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Growth‑stage venture‑debt pilot",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; venture‑debt structuring nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual credit‑risk models risk; resolution expected within next sprint.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "CDR credit marketplace integration study",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on marketplace integration analysis has begun.",
+    "key blockers and concerns": "Initial API access constraints issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "CDR credit marketplace integration study",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of marketplace integration analysis underway.",
+    "key blockers and concerns": "Persistent API access constraints challenges; schedule buffer tightening.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "CDR credit marketplace integration study",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; marketplace integration analysis about 50 % complete.",
+    "key blockers and concerns": "Ongoing API access constraints delays compressing timeline; active escalation.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "CDR credit marketplace integration study",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; marketplace integration analysis nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual API access constraints risk; resolution expected within next sprint.",
+    "overall project status": "Schedule buffer is narrowing; risks require active management to avoid knock‑on delays.",
+    "traffic_light": "yellow"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Hardware‑lab access program",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on hardware‑lab cohort support has begun.",
+    "key blockers and concerns": "Initial equipment maintenance downtime issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Hardware‑lab access program",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of hardware‑lab cohort support underway.",
+    "key blockers and concerns": "Persistent equipment maintenance downtime challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Hardware‑lab access program",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; hardware‑lab cohort support about 50 % complete.",
+    "key blockers and concerns": "Ongoing equipment maintenance downtime delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Hardware‑lab access program",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; hardware‑lab cohort support nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual equipment maintenance downtime risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Valley‑of‑death mentoring network",
+    "as_of": "2025-06-25",
+    "key developments and decisions": "Kick‑off completed; foundational work on mentoring network launch has begun.",
+    "key blockers and concerns": "Initial mentor availability issues identified; mitigation plan drafted.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Valley‑of‑death mentoring network",
+    "as_of": "2025-07-09",
+    "key developments and decisions": "Baseline phase finished; partial implementation of mentoring network launch underway.",
+    "key blockers and concerns": "Persistent mentor availability challenges; schedule buffer tightening.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Valley‑of‑death mentoring network",
+    "as_of": "2025-07-23",
+    "key developments and decisions": "Mid‑project milestone achieved; mentoring network launch about 50 % complete.",
+    "key blockers and concerns": "Ongoing mentor availability delays compressing timeline; active escalation.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  },
+  {
+    "program": "Climate‑tech scale‑up & start‑ups",
+    "project": "Valley‑of‑death mentoring network",
+    "as_of": "2025-08-06",
+    "key developments and decisions": "Advanced execution stage; mentoring network launch nearing hand‑off for validation.",
+    "key blockers and concerns": "Residual mentor availability risk; resolution expected within next sprint.",
+    "overall project status": "Project progressing smoothly with manageable risks and milestones tracking on schedule.",
+    "traffic_light": "green"
+  }
+]
