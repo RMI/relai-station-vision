@@ -333,46 +333,21 @@ function App() {
         <div className="hero-bg"></div>
         <div className="hero-overlay"></div>
         <div className="hero-content relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-              <div className="max-w-3xl">
-                <div className="flex items-center mb-5">
-                  <div className="h-12 w-12 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center shadow-inner backdrop-blur-sm mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h1 className="display-title">Relai Station</h1>
-                    <p className="subheading">A synthesized, multi-program view of fictional Relais activity.</p>
-                  </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <div className="max-w-4xl">
+              <div className="flex items-center mb-6">
+                <div className="h-12 w-12 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center shadow-inner backdrop-blur-sm mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clipRule="evenodd" />
+                  </svg>
                 </div>
-                <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 text-white/80 text-xs font-medium">
-                  <div className="glass-panel rounded-lg px-3 py-2 flex flex-col gap-1">
-                    <span className="text-white/60">Projects</span>
-                    <span className="text-sm font-semibold text-white/95">{Object.keys(mostRecentByProject).length}</span>
-                  </div>
-                  <div className="glass-panel rounded-lg px-3 py-2 flex flex-col gap-1">
-                    <span className="text-white/60">Updated</span>
-                    <span className="text-sm font-semibold text-white/95">{new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>
-                  </div>
-                  <div className="glass-panel rounded-lg px-3 py-2 flex flex-col gap-1">
-                    <span className="text-white/60">Green Ratio</span>
-                    <span className="text-sm font-semibold text-white/95">{(() => { const greens = Object.values(mostRecentByProject).filter(u=>u.status_color==='green').length; const total = Object.keys(mostRecentByProject).length||1; return Math.round((greens/total)*100)+'%'; })()}</span>
-                  </div>
-                  <div className="glass-panel rounded-lg px-3 py-2 flex flex-col gap-1">
-                    <span className="text-white/60">Signals</span>
-                    <span className="text-sm font-semibold text-white/95">Live</span>
-                  </div>
+                <div>
+                  <h1 className="display-title">Relai Station</h1>
+                  <p className="subheading">A synthesized, multi-program view of fictional Relais activity.</p>
                 </div>
               </div>
-              <div className="flex md:flex-col gap-4 items-start md:items-end justify-end">
-                <div className="text-white/80 text-sm font-medium mt-1">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                <div className="hidden md:flex items-center gap-3 text-xs text-white/70">
-                  <span className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Healthy</span>
-                  <span className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Watch</span>
-                  <span className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-400"></span> Critical</span>
-                </div>
+              <div className="text-white/70 text-sm font-medium tracking-wide">
+                {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
               </div>
             </div>
           </div>
