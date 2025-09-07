@@ -157,15 +157,18 @@ export function getSummary(updates, options = {}) {
           <div className="space-y-3">
             {noAchievements && <div className="text-xs text-neutral-500">No multi-project achievement clusters.</div>}
             {achievementClusters.map((c,idx) => (
-              <div key={idx} className="rounded-md border border-emerald-200 bg-emerald-50/60 px-3 py-2">
-                <div className="text-[12px] font-medium text-emerald-800 leading-snug">{c.label}</div>
-                <div className="mt-1 flex flex-wrap gap-1.5">
+              <div key={idx} className="cluster-card border-emerald-200/70">
+                <div className="cluster-label text-emerald-800 flex items-start gap-2">
+                  <span className="inline-block w-1.5 h-1.5 mt-1 rounded-full bg-emerald-500" />
+                  <span>{c.label}</span>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
                   {c.items.map(item => (
                     <button
                       key={item.project}
                       type="button"
                       onClick={() => openProjectUpdate && openProjectUpdate(item.project, item.date)}
-                      className="text-[11px] px-2 py-0.5 rounded-full bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      className="cluster-project-pill px-2 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all"
                       title={`Open update for ${item.project}`}
                     >
                       {item.project}
@@ -181,15 +184,18 @@ export function getSummary(updates, options = {}) {
           <div className="space-y-3">
             {noBlockers && <div className="text-xs text-neutral-500">No multi-project blocker clusters.</div>}
             {blockerClusters.map((c,idx) => (
-              <div key={idx} className="rounded-md border border-amber-200 bg-amber-50/70 px-3 py-2">
-                <div className="text-[12px] font-medium text-amber-800 leading-snug">{c.label}</div>
-                <div className="mt-1 flex flex-wrap gap-1.5">
+              <div key={idx} className="cluster-card border-amber-200/70">
+                <div className="cluster-label text-amber-800 flex items-start gap-2">
+                  <span className="inline-block w-1.5 h-1.5 mt-1 rounded-full bg-amber-500" />
+                  <span>{c.label}</span>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
                   {c.items.map(item => (
                     <button
                       key={item.project}
                       type="button"
                       onClick={() => openProjectUpdate && openProjectUpdate(item.project, item.date)}
-                      className={`text-[11px] px-2 py-0.5 rounded-full bg-white border ${item.severity === 'red' ? 'border-rose-300 text-rose-700 hover:bg-rose-100 focus:ring-rose-400' : 'border-amber-300 text-amber-700 hover:bg-amber-100 focus:ring-amber-400'} focus:outline-none focus:ring-2`}
+                      className={`cluster-project-pill px-2 py-1 rounded-full border ${item.severity === 'red' ? 'bg-rose-50 border-rose-300 text-rose-700 hover:bg-white hover:shadow-sm focus:ring-rose-400' : 'bg-amber-50 border-amber-300 text-amber-700 hover:bg-white hover:shadow-sm focus:ring-amber-400'} focus:outline-none focus:ring-2 transition-all`}
                       title={`Open update for ${item.project}`}
                     >
                       {item.project}
