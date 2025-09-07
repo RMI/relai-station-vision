@@ -1,25 +1,39 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import updatesData, { projectSummaries } from './updatesData';
-import { getSummary, getEmergingThemes, getRelatedWork } from './summary.jsx';
+import { getSummary, getEmergingThemes, getRelatedWork, projectSlug } from './summary.jsx';
+import { variants, springLayout, listStagger } from './motionTokens';
 
 // RelaiCard component for displaying the most recent update per project
-const RelaiCard = ({ relai, onClick, onFilter }) => {
+const RelaiCard = ({ relai, onClick, onFilter, index }) => {
   const projSummary = projectSummaries[relai.project];
   return (
-    <div
+    <motion.article
+      layout
+      variants={variants.scaleCard}
+      custom={index}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      transition={springLayout}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.985 }}
       onClick={onClick}
-      className={`flex h-full flex-col bg-white rounded-xl shadow-card p-6 border-l-4 hover:shadow-lg transition-all cursor-pointer 
-        ${relai.status_color === 'green' ? 'border-secondary-500' : 
-          relai.status_color === 'yellow' ? 'border-amber-400' : 
+      id={`project-${projectSlug(relai.project)}`}
+      className={`flex h-full flex-col surface-card border-l-4 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400
+        ${relai.status_color === 'green' ? 'border-secondary-500' :
+          relai.status_color === 'yellow' ? 'border-amber-400' :
           'border-rose-500'}`}
+      role="listitem"
+      aria-label={`Project ${relai.project}`}
     >
       <div className="mb-3">
-        <h3 className="font-display font-semibold text-xl leading-snug tracking-tight text-primary-800">{relai.project}</h3>
+        <h3 className="font-semibold text-lg leading-snug tracking-tight text-neutral-900">{relai.project}</h3>
         <div className="mt-1 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
-            className="text-xs inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+            className="token-pill text-[11px]"
             title="Filter by program"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 01.8 1.6l-4.2 5.6V16a1 1 0 01-1.447.894l-3-1.5A1 1 0 017 14.5V10.2L2.2 5.6A1 1 0 013 4z"/></svg>
@@ -28,7 +42,7 @@ const RelaiCard = ({ relai, onClick, onFilter }) => {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
-            className="text-xs inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+            className="token-pill text-[11px]"
             title="Filter by owner"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/></svg>
@@ -36,7 +50,7 @@ const RelaiCard = ({ relai, onClick, onFilter }) => {
           </button>
         </div>
       </div>
-      <div className="space-y-2 text-[15px] leading-relaxed text-neutral-800">
+      <div className="space-y-2 text-[13px] leading-snug text-neutral-800">
         <div>
           <span className="font-semibold text-neutral-900">Health:</span>{' '}
           <span>{projSummary?.headline || 'Summary not available.'}</span>
@@ -62,23 +76,38 @@ const RelaiCard = ({ relai, onClick, onFilter }) => {
       </div>
       <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-end gap-3">
         <span className="text-xs text-neutral-500">Last updated {relai.date}</span>
-        <button className="text-sm text-primary-700 hover:text-primary-800 font-medium flex items-center">
+        <button className="text-xs font-medium text-blue-600 hover:text-blue-700 focus-ring flex items-center">
           View Details
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
           </svg>
         </button>
       </div>
-    </div>
+    </motion.article>
   );
 };
 
 // Detail modal component for showing project history
-const RelaiDetailModal = ({ project, updates, onClose, onFilter }) => {
+const RelaiDetailModal = ({ project, updates, onClose, onFilter, targetUpdateDate }) => {
   // Sort updates by date (newest first)
   const sortedUpdates = [...updates].sort((a, b) => new Date(b.date) - new Date(a.date));
   const latestUpdate = sortedUpdates[0];
   const objectives = latestUpdate?.objectives || [];
+  React.useEffect(() => {
+    if (targetUpdateDate) {
+      // Wait a tick for modal render
+      setTimeout(() => {
+        const el = document.getElementById(`update-${projectSlug(project)}-${targetUpdateDate.replace(/[^a-zA-Z0-9]/g,'-')}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          el.classList.add('ring-2','ring-blue-400','ring-offset-2','ring-offset-white');
+          setTimeout(() => {
+            el.classList.remove('ring-2','ring-blue-400','ring-offset-2','ring-offset-white');
+          }, 1800);
+        }
+      }, 90);
+    }
+  }, [targetUpdateDate, project]);
   
   return (
     <div className="fixed inset-0 bg-neutral-900/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
@@ -126,7 +155,7 @@ const RelaiDetailModal = ({ project, updates, onClose, onFilter }) => {
             </h3>
             <div className="border-l-2 border-neutral-200 ml-2 pl-4 space-y-8 py-2">
               {sortedUpdates.map((update, index) => (
-                <div key={index} className="relative">
+                <div key={index} id={`update-${projectSlug(project)}-${update.date.replace(/[^a-zA-Z0-9]/g,'-')}`} className="relative">
                   <div className="absolute -left-[21px] mt-1 w-3 h-3 rounded-full bg-primary-600 border-2 border-white"></div>
                   <div className={`rounded-lg p-4 ${index === 0 ? 'bg-primary-50 ring-1 ring-primary-100' : 'hover:bg-neutral-50'}`}>
                     <div className="flex justify-between items-center mb-2">
@@ -202,6 +231,7 @@ function App() {
   const [statusColor, setStatusColor] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
   const [mostRecentByProject, setMostRecentByProject] = useState({});
+  const [targetUpdateDate, setTargetUpdateDate] = useState(null); // when opening modal at specific update
   // Summary filters
   const [summaryMode, setSummaryMode] = useState('overall'); // overall | program | objective
   const [selectedProgram, setSelectedProgram] = useState('');
@@ -292,8 +322,9 @@ function App() {
         <RelaiDetailModal 
           project={selectedProject} 
           updates={selectedProjectUpdates}
-          onClose={() => setSelectedProject(null)}
+          onClose={() => { setSelectedProject(null); setTargetUpdateDate(null); }}
           onFilter={applyFilter}
+          targetUpdateDate={targetUpdateDate}
         />
       )}
       
@@ -410,7 +441,12 @@ function App() {
             }
             return (
               <div className="bg-white rounded-xl shadow-card mb-6">
-                {getSummary(summaryData, { onProgramClick: (p) => applyFilter('program', p) })}
+                {getSummary(summaryData, { 
+                  openProjectUpdate: (proj, date) => {
+                    setSelectedProject(proj);
+                    setTargetUpdateDate(date);
+                  }
+                })}
               </div>
             );
           })()}
@@ -550,31 +586,48 @@ function App() {
           </div>
           
       {/* Display most recent update per project as cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredProjects.map((update, i) => (
-              <RelaiCard 
-                key={i} 
-                relai={update} 
-        onClick={() => setSelectedProject(update.project)}
-        onFilter={applyFilter}
-              />
-            ))}
-            {filteredProjects.length === 0 && (
-              <div className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-neutral-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p className="text-lg font-medium">No Relais match your filters</p>
-                <p className="text-sm">Try adjusting your search criteria</p>
-                <button 
-                  onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }}
-                  className="mt-4 px-4 py-2 text-sm font-medium text-primary-700 hover:text-primary-800"
-                >
-                  Clear all filters
-                </button>
-              </div>
-            )}
-          </div>
+      <motion.div
+        layout
+        variants={listStagger}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+        role="list"
+      >
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((update, i) => (
+            <RelaiCard
+              key={update.project}
+              relai={update}
+              index={i}
+              onClick={() => setSelectedProject(update.project)}
+              onFilter={applyFilter}
+            />
+          ))}
+          {filteredProjects.length === 0 && (
+            <motion.div
+              key="empty"
+              variants={variants.fadeInUp}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-neutral-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-lg font-medium">No Relais match your filters</p>
+              <p className="text-sm">Try adjusting your search criteria</p>
+              <button
+                onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }}
+                className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                Clear all filters
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
         </section>
       </main>
       

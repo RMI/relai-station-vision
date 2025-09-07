@@ -1,5 +1,12 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { hardcodedInsights } from './updatesData';
+
+// Utility to slugify project names for DOM ids
+export function projectSlug(name = '') {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+import { variants, listStagger } from './motionTokens';
 
 // Use hardcoded insights instead of generating on the fly
 export function getEmergingThemes(updates) {
@@ -65,64 +72,136 @@ export function getRelatedWork(updates) {
     </div>
   );
 }
+// Utility to slugify date for element ids
+export function dateSlug(dateStr = '') {
+  return dateStr.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
 
+// Basic stopword list for naive clustering
+const STOPWORDS = new Set(['the','and','to','of','a','in','on','for','with','by','is','at','as','an','from','this','that','into','via','be','are','was','were','over','new','key','near']);
+
+function tokenize(text = '') {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9\s]/g,' ')
+    .split(/\s+/)
+    .filter(t => t && t.length > 2 && !STOPWORDS.has(t));
+}
+
+function sentenceFirst(text='') {
+  return (text.split(/(?<=\.)\s+/)[0] || text).trim();
+}
+
+function clusterSentences(items, { minSimilarity = 0.3 } = {}) {
+  // Each item: { project, date, raw, severity }
+  const entries = items.map(it => {
+    const sentence = sentenceFirst(it.raw);
+    const tokens = Array.from(new Set(tokenize(sentence)));
+    return { ...it, sentence, tokens };
+  }).filter(e => e.sentence.length > 0 && e.tokens.length > 0);
+
+  const clusters = [];
+  const used = new Set();
+  for (let i=0;i<entries.length;i++) {
+    if (used.has(i)) continue;
+    const base = entries[i];
+    const groupIdxs = [i];
+    for (let j=i+1;j<entries.length;j++) {
+      if (used.has(j)) continue;
+      const cand = entries[j];
+      const inter = cand.tokens.filter(t => base.tokens.includes(t));
+      const union = Array.from(new Set([...cand.tokens, ...base.tokens]));
+      const sim = inter.length / union.length;
+      if (sim >= minSimilarity || inter.length >= 3) {
+        groupIdxs.push(j);
+      }
+    }
+    groupIdxs.forEach(k => used.add(k));
+    const group = groupIdxs.map(k => entries[k]);
+    // Derive label: choose the shortest sentence OR majority tokens
+    const label = group.slice().sort((a,b)=>a.sentence.length-b.sentence.length)[0].sentence.replace(/\.$/,'');
+    clusters.push({ label, items: group });
+  }
+  // Only keep clusters with >1 project to satisfy "based on several cards"
+  return clusters.filter(c => c.items.length > 1);
+}
 
 export function getSummary(updates, options = {}) {
-  const { onProgramClick } = options;
-  // Get the most recent updates for each project
-  const projectsMap = {};
-  updates.forEach(update => {
-    if (!projectsMap[update.project] || new Date(update.date) > new Date(projectsMap[update.project].date)) {
-      projectsMap[update.project] = update;
+  const { openProjectUpdate } = options;
+  // Pick most recent update per project for signal recency
+  const latestByProject = {};
+  updates.forEach(u => {
+    if (!latestByProject[u.project] || new Date(u.date) > new Date(latestByProject[u.project].date)) {
+      latestByProject[u.project] = u;
     }
   });
-  
-  // Convert to array of most recent updates per project
-  const mostRecentUpdates = Object.values(projectsMap);
-  
-  // Get color counts
-  const colorCounts = {
-    green: mostRecentUpdates.filter(u => u.status_color === 'green').length,
-    yellow: mostRecentUpdates.filter(u => u.status_color === 'yellow').length,
-    red: mostRecentUpdates.filter(u => u.status_color === 'red').length
-  };
-  // Static content only: do not flag newly changed status here
-  const newlyRed = [];
-  const newlyGreen = [];
-  
-  // Use the existing executive summary function with hardcoded data
-  const currentDate = new Date().toLocaleDateString('en-US', { 
-    month: 'long', 
-    day: 'numeric', 
-    year: 'numeric' 
-  });
-  
+  const recent = Object.values(latestByProject);
+
+  const achievementItems = recent
+    .filter(u => u.status_color === 'green' && u.key_developments_and_decisions)
+    .map(u => ({ project: u.project, date: u.date, raw: u.key_developments_and_decisions }));
+  const blockerItems = recent
+    .filter(u => (u.status_color === 'yellow' || u.status_color === 'red') && u.key_blockers_and_concerns)
+    .map(u => ({ project: u.project, date: u.date, raw: u.key_blockers_and_concerns, severity: u.status_color }));
+
+  const achievementClusters = clusterSentences(achievementItems).slice(0,4);
+  const blockerClusters = clusterSentences(blockerItems).slice(0,4);
+
+  const noAchievements = achievementClusters.length === 0;
+  const noBlockers = blockerClusters.length === 0;
+
   return (
-    <div className="rounded-lg shadow-md overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-secondary-500 p-4 flex justify-between items-center">
-        <h3 className="font-bold text-white text-lg">Relai Overview</h3>
-        <div className="text-white text-xs font-medium">{currentDate}</div>
-      </div>
-      <div className="p-4 bg-white">
-        <div className="flex flex-wrap gap-3 text-xs">
-          <div className="px-3 py-2 rounded-md bg-neutral-50 border border-neutral-200">
-            <span className="font-semibold text-neutral-800 mr-1">Projects:</span>
-            {hardcodedInsights.summary.totalProjects}
+    <motion.div className="space-y-6" variants={listStagger} initial="hidden" animate="visible">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Cross-Project Achievements</h4>
+          <div className="space-y-3">
+            {noAchievements && <div className="text-xs text-neutral-500">No multi-project achievement clusters.</div>}
+            {achievementClusters.map((c,idx) => (
+              <div key={idx} className="rounded-md border border-emerald-200 bg-emerald-50/60 px-3 py-2">
+                <div className="text-[12px] font-medium text-emerald-800 leading-snug">{c.label}</div>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {c.items.map(item => (
+                    <button
+                      key={item.project}
+                      type="button"
+                      onClick={() => openProjectUpdate && openProjectUpdate(item.project, item.date)}
+                      className="text-[11px] px-2 py-0.5 rounded-full bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      title={`Open update for ${item.project}`}
+                    >
+                      {item.project}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="px-3 py-2 rounded-md bg-neutral-50 border border-neutral-200 flex items-center gap-1">
-            <span className="font-semibold text-neutral-800 mr-1">Status:</span>
-            <span className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-secondary-500"></span>{hardcodedInsights.summary.statusBreakdown.green}</span>
-              <span className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500"></span>{hardcodedInsights.summary.statusBreakdown.yellow}</span>
-              <span className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span>{hardcodedInsights.summary.statusBreakdown.red}</span>
-            </span>
-          </div>
-          <div className="px-3 py-2 rounded-md bg-neutral-50 border border-neutral-200">
-            <span className="font-semibold text-neutral-800 mr-1">Programs:</span>{hardcodedInsights.summary.sectors.length}
+        </div>
+        <div>
+          <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Cross-Project Blockers</h4>
+          <div className="space-y-3">
+            {noBlockers && <div className="text-xs text-neutral-500">No multi-project blocker clusters.</div>}
+            {blockerClusters.map((c,idx) => (
+              <div key={idx} className="rounded-md border border-amber-200 bg-amber-50/70 px-3 py-2">
+                <div className="text-[12px] font-medium text-amber-800 leading-snug">{c.label}</div>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {c.items.map(item => (
+                    <button
+                      key={item.project}
+                      type="button"
+                      onClick={() => openProjectUpdate && openProjectUpdate(item.project, item.date)}
+                      className={`text-[11px] px-2 py-0.5 rounded-full bg-white border ${item.severity === 'red' ? 'border-rose-300 text-rose-700 hover:bg-rose-100 focus:ring-rose-400' : 'border-amber-300 text-amber-700 hover:bg-amber-100 focus:ring-amber-400'} focus:outline-none focus:ring-2`}
+                      title={`Open update for ${item.project}`}
+                    >
+                      {item.project}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
