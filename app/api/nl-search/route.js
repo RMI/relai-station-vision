@@ -91,60 +91,101 @@ export async function POST(req) {
     scored.sort((a,b)=> b.score - a.score);
     console.log('[nl-search] top scores:', scored.slice(0,3).map(t=>t.score.toFixed(4)));
 
-    // Provide numbered context for every update (may be large). To prevent excessive token usage, cap at 120 entries.
-    const MAX_CONTEXT = 120;
-    const contextSubset = meta.slice(0, MAX_CONTEXT); // original order for stable numbering
-    const context = contextSubset.map((t,i) => `[${i+1}] ${t.project} (${t.date})\n${t.text}`).join('\n---\n');
+    // Build numbered context with size & char safeguards.
+    const MAX_CONTEXT_ENTRIES = 120; // hard ceiling
+    const MAX_CONTEXT_CHARS = 45000; // approximate token safety guard
+    const contextEntriesRaw = meta.slice(0, MAX_CONTEXT_ENTRIES);
+    let running = 0;
+    const contextParts = [];
+    const usedEntries = [];
+    for (let i=0; i<contextEntriesRaw.length; i++) {
+      const t = contextEntriesRaw[i];
+      const block = `[${i+1}] ${t.project} (${t.date})\n${t.text}`;
+      if ((running + block.length) > MAX_CONTEXT_CHARS) break;
+      contextParts.push(block);
+      usedEntries.push(t);
+      running += block.length + 5; // include delimiter estimate
+    }
+    let contextSubset = usedEntries; // actual entries included in context
+    let context = contextParts.join('\n---\n');
 
     // For matches list we still return top relevance subset (first 25 for UI)
     const contextSources = scored.slice(0, 25);
 
-    // Generate answer with timeout & enriched error classification
-    let answer = '';
+    // Generate answer with timeout, retry, enriched error classification
     const GEN_TIMEOUT_MS = 30000; // 30s ceiling
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const template = await loadAnswerPrompt();
-    const prompt = template
-      .replace(/{{QUERY}}/g, query)
-      .replace(/{{CONTEXT}}/g, context);
 
     function classifyError(err){
       const msg = (err?.message || '').toLowerCase();
+      if (msg.includes('invalid json payload') || msg.includes('unknown name')) return 'INVALID_REQUEST';
       if (msg.includes('rate') || msg.includes('quota')) return 'RATE_LIMIT';
       if (msg.includes('timeout')) return 'TIMEOUT';
       if (msg.includes('permission') || msg.includes('auth') || msg.includes('unauthorized')) return 'AUTH';
       if (msg.includes('overloaded') || msg.includes('resource')) return 'OVERLOADED';
-      if (msg.includes('invalid') || msg.includes('syntax')) return 'INVALID_REQUEST';
+      if (msg.includes('empty response')) return 'EMPTY_ANSWER';
       return 'UNKNOWN';
     }
 
-    async function generateWithTimeout(){
-      const controller = new AbortController();
-      const to = setTimeout(()=>controller.abort(), GEN_TIMEOUT_MS);
-      try {
-        const resp = await model.generateContent({ contents: [{ role:'user', parts:[{ text: prompt }] }], signal: controller.signal });
-        return resp.response.text();
-      } finally { clearTimeout(to); }
+    async function generateOnce(currentContext){
+      const prompt = template
+        .replace(/{{QUERY}}/g, query)
+        .replace(/{{CONTEXT}}/g, currentContext);
+      const genPromise = model.generateContent(prompt).then(r => r?.response?.text() || '');
+      const timeoutPromise = new Promise((_,rej)=> setTimeout(()=>rej(new Error('timeout exceeded')), GEN_TIMEOUT_MS));
+      return Promise.race([genPromise, timeoutPromise]);
     }
 
-    try {
-      answer = await generateWithTimeout();
-      if(!answer || !answer.trim()) {
-        return NextResponse.json({ error: 'Empty answer returned by model', code: 'EMPTY_ANSWER', detail: 'Model responded with no textual content', matches: [] }, { status: 502 });
+    let answer = '';
+    let attempt = 0;
+    let fallbackUsed = false;
+    let trimmed = false;
+    let lastError = null;
+    const MAX_ATTEMPTS = 2;
+    while (attempt < MAX_ATTEMPTS) {
+      attempt++;
+      try {
+        answer = await generateOnce(context);
+        if (!answer.trim()) throw new Error('empty response');
+        break; // success
+      } catch(err) {
+        lastError = err;
+        const classified = classifyError(err);
+        // If invalid request or timeout on first attempt, try trimming context and retry.
+        if (attempt < MAX_ATTEMPTS && (classified === 'INVALID_REQUEST' || classified === 'TIMEOUT')) {
+          // Trim: reduce entries by half and shorten each block to 1200 chars
+          const reducedEntries = contextSubset.slice(0, Math.max(8, Math.floor(contextSubset.length/2)));
+          trimmed = true;
+            const trimmedParts = reducedEntries.map((t,i)=>{
+            const txt = t.text.length > 1200 ? t.text.slice(0,1200)+'…' : t.text;
+            return `[${i+1}] ${t.project} (${t.date})\n${txt}`;
+          });
+          contextSubset = reducedEntries;
+          context = trimmedParts.join('\n---\n');
+          fallbackUsed = true;
+          continue; // retry
+        }
+        // Non-retry or exhausted attempts
+        const diagnostics = {
+          code: classified,
+          raw: err?.message || String(err),
+          elapsedMs: Date.now() - start,
+          corpusSize: meta.length,
+          contextEntries: contextSubset.length,
+          contextChars: context.length,
+          queryLength: query.length,
+          attempt,
+          fallbackUsed,
+          trimmed
+        };
+        console.error('[nl-search] generation error', diagnostics);
+        const httpStatus = classified === 'RATE_LIMIT' ? 429 : classified === 'AUTH' ? 401 : classified === 'TIMEOUT' ? 504 : classified === 'INVALID_REQUEST' ? 400 : 500;
+        return NextResponse.json({ error: 'Failed to generate answer', code: 'ANSWER_FAIL', diagnostics, matches: [] }, { status: httpStatus });
       }
-    } catch(genErr) {
-      const classified = classifyError(genErr);
-      const diagnostics = {
-        code: classified,
-        raw: genErr?.message || String(genErr),
-        elapsedMs: Date.now() - start,
-        corpusSize: meta.length,
-        contextEntries: contextSubset.length,
-        queryLength: query.length
-      };
-      console.error('[nl-search] generation error', diagnostics);
-      const httpStatus = classified === 'RATE_LIMIT' ? 429 : classified === 'AUTH' ? 401 : classified === 'TIMEOUT' ? 504 : 500;
-      return NextResponse.json({ error: 'Failed to generate answer', code: 'ANSWER_FAIL', diagnostics, matches: [] }, { status: httpStatus });
+    }
+    if (!answer || !answer.trim()) {
+      return NextResponse.json({ error: 'Empty answer returned by model', code: 'EMPTY_ANSWER', detail: 'Model responded with no textual content', matches: [] }, { status: 502 });
     }
 
     // Extract cited source numbers from answer (e.g., [1], [2,4,7])
@@ -181,8 +222,8 @@ export async function POST(req) {
     }).filter(Boolean);
 
     const elapsed = Date.now()-start;
-    console.log('[nl-search] success in', elapsed,'ms','citations:', matches.length);
-  return NextResponse.json({ matches, answer, meta: { elapsedMs: elapsed, citedCount: matches.length, corpus: meta.length } });
+    console.log('[nl-search] success in', elapsed,'ms','citations:', matches.length,'attempts:', attempt, trimmed ? '(trimmed)' : '');
+  return NextResponse.json({ matches, answer, meta: { elapsedMs: elapsed, citedCount: matches.length, corpus: meta.length, attemptCount: attempt, contextEntries: contextSubset.length, contextChars: context.length, fallbackUsed, trimmed } });
   } catch (e) {
     console.error('nl-search error', e);
     return NextResponse.json({ error: e.message, code: 'UNCAUGHT', detail: e?.stack }, { status: 500 });
