@@ -86,15 +86,18 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Failed to embed query', code: 'EMBED_QUERY_FAIL', detail: embedErr.message }, { status: 500 });
     }
 
-    // Score
-  const scored = meta.map((m, i) => ({ ...m, score: cosineSim(qEmb, vectors[i]) }));
+    // Score all and retain full ordering for matches while providing ENTIRE corpus context.
+    const scored = meta.map((m, i) => ({ ...m, score: cosineSim(qEmb, vectors[i]) }));
     scored.sort((a,b)=> b.score - a.score);
-  const top = scored.slice(0, 18);
-  console.log('[nl-search] top scores:', top.slice(0,3).map(t=>t.score.toFixed(4)));
+    console.log('[nl-search] top scores:', scored.slice(0,3).map(t=>t.score.toFixed(4)));
 
-    // Compose context for answer
-  const contextSources = top.slice(0, 8);
-  const context = contextSources.map((t,i) => `[${i+1}] ${t.project} (${t.date})\n${t.text}`).join('\n---\n');
+    // Provide numbered context for every update (may be large). To prevent excessive token usage, cap at 120 entries.
+    const MAX_CONTEXT = 120;
+    const contextSubset = meta.slice(0, MAX_CONTEXT); // original order for stable numbering
+    const context = contextSubset.map((t,i) => `[${i+1}] ${t.project} (${t.date})\n${t.text}`).join('\n---\n');
+
+    // For matches list we still return top relevance subset (first 25 for UI)
+    const contextSources = scored.slice(0, 25);
 
     // Generate answer using external prompt template
     let answer = '';
