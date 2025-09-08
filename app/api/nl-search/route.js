@@ -99,18 +99,52 @@ export async function POST(req) {
     // For matches list we still return top relevance subset (first 25 for UI)
     const contextSources = scored.slice(0, 25);
 
-    // Generate answer using external prompt template
+    // Generate answer with timeout & enriched error classification
     let answer = '';
+    const GEN_TIMEOUT_MS = 30000; // 30s ceiling
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const template = await loadAnswerPrompt();
+    const prompt = template
+      .replace(/{{QUERY}}/g, query)
+      .replace(/{{CONTEXT}}/g, context);
+
+    function classifyError(err){
+      const msg = (err?.message || '').toLowerCase();
+      if (msg.includes('rate') || msg.includes('quota')) return 'RATE_LIMIT';
+      if (msg.includes('timeout')) return 'TIMEOUT';
+      if (msg.includes('permission') || msg.includes('auth') || msg.includes('unauthorized')) return 'AUTH';
+      if (msg.includes('overloaded') || msg.includes('resource')) return 'OVERLOADED';
+      if (msg.includes('invalid') || msg.includes('syntax')) return 'INVALID_REQUEST';
+      return 'UNKNOWN';
+    }
+
+    async function generateWithTimeout(){
+      const controller = new AbortController();
+      const to = setTimeout(()=>controller.abort(), GEN_TIMEOUT_MS);
+      try {
+        const resp = await model.generateContent({ contents: [{ role:'user', parts:[{ text: prompt }] }], signal: controller.signal });
+        return resp.response.text();
+      } finally { clearTimeout(to); }
+    }
+
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-      const template = await loadAnswerPrompt();
-      const prompt = template
-        .replace(/{{QUERY}}/g, query)
-        .replace(/{{CONTEXT}}/g, context);
-      const resp = await model.generateContent(prompt);
-      answer = resp.response.text();
+      answer = await generateWithTimeout();
+      if(!answer || !answer.trim()) {
+        return NextResponse.json({ error: 'Empty answer returned by model', code: 'EMPTY_ANSWER', detail: 'Model responded with no textual content', matches: [] }, { status: 502 });
+      }
     } catch(genErr) {
-      return NextResponse.json({ error: 'Failed to generate answer', code: 'ANSWER_FAIL', detail: genErr.message, matches: [] }, { status: 500 });
+      const classified = classifyError(genErr);
+      const diagnostics = {
+        code: classified,
+        raw: genErr?.message || String(genErr),
+        elapsedMs: Date.now() - start,
+        corpusSize: meta.length,
+        contextEntries: contextSubset.length,
+        queryLength: query.length
+      };
+      console.error('[nl-search] generation error', diagnostics);
+      const httpStatus = classified === 'RATE_LIMIT' ? 429 : classified === 'AUTH' ? 401 : classified === 'TIMEOUT' ? 504 : 500;
+      return NextResponse.json({ error: 'Failed to generate answer', code: 'ANSWER_FAIL', diagnostics, matches: [] }, { status: httpStatus });
     }
 
     // Extract cited source numbers from answer (e.g., [1], [2,4,7])
@@ -146,10 +180,11 @@ export async function POST(req) {
       };
     }).filter(Boolean);
 
-    console.log('[nl-search] success in', Date.now()-start,'ms');
-  return NextResponse.json({ matches, answer });
+    const elapsed = Date.now()-start;
+    console.log('[nl-search] success in', elapsed,'ms','citations:', matches.length);
+  return NextResponse.json({ matches, answer, meta: { elapsedMs: elapsed, citedCount: matches.length, corpus: meta.length } });
   } catch (e) {
     console.error('nl-search error', e);
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({ error: e.message, code: 'UNCAUGHT', detail: e?.stack }, { status: 500 });
   }
 }
