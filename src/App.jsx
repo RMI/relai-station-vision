@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import updatesData, { projectSummaries } from './updatesData';
-import { projectSlug } from './summary.jsx';
+import updatesData, { projectSummaries } from '../lib/updatesData';
+// import { projectSlug } from './summary.jsx';
 import { variants, springLayout, listStagger } from './motionTokens';
 
 // Restyled RelaiCard component
@@ -202,11 +202,21 @@ const RelaiDetailModal = ({ project, updates, onClose, onFilter, targetUpdateDat
   );
 };
 
+function projectSlug(name = '') {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+    .trim();
+}
+
 function App() {
   function parseDate(dateStr) {
     // Format: 'Aug 5, 2025'
     return new Date(dateStr);
   }
+
+ 
 
   const [search, setSearch] = useState('');
   const [project, setProject] = useState('');
@@ -630,9 +640,9 @@ function App() {
                               <div className="h-3 w-32 bg-neutral-200 rounded animate-pulse" />
                             </div>
                             <div className="space-y-2">
-                              <div className="h-2.5 bg-neutral-200 rounded w-full animate-pulse" />
-                              <div className="h-2.5 bg-neutral-200 rounded w-5/6 animate-pulse" />
-                              <div className="h-2.5 bg-neutral-200 rounded w-2/3 animate-pulse" />
+                              <div className="h-2.5 bg-neutral-200 rounded" />
+                              <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                              <div className="h-2.5 bg-neutral-200 rounded w-2/3" />
                             </div>
                           </li>
                         ))

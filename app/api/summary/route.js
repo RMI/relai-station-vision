@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs/promises';
 import path from 'path';
-import updatesData from '../../../src/updatesData';
+import updatesData from '../../../lib/updatesData';
 
 // In-memory cache (resets on server restart / redeploy)
 // Structure: { key: { ts: number, data: { achievements, flags, trends } } }
 const CACHE = new Map();
-const TTL_MS = 1000 * 60 * 10; // 10 minutes
+const TTL_MS = 1000 * 60 * 60; // 60 minutes
 
 function scopeUpdates(scope) {
   if (!scope || scope.mode === 'overall') return updatesData;
