@@ -113,14 +113,38 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Failed to generate answer', code: 'ANSWER_FAIL', detail: genErr.message, matches: [] }, { status: 500 });
     }
 
-    const matches = contextSources.map((t,i) => ({
-      id: t.id,
-      project: t.project,
-      date: t.date,
-      score: t.score,
-      rank: i+1,
-      snippet: buildSnippet(t.text)
-    }));
+    // Extract cited source numbers from answer (e.g., [1], [2,4,7])
+    function extractCitations(ans, maxIndex){
+      const citedOrder = [];
+      const seen = new Set();
+      const re = /\[(\d+(?:\s*,\s*\d+)*)\]/g;
+      let m;
+      while((m = re.exec(ans))){
+        const group = m[1].split(/\s*,\s*/).map(n=>parseInt(n,10)).filter(n=>Number.isInteger(n) && n>=1 && n<=maxIndex);
+        for(const n of group){
+          if(!seen.has(n)) { seen.add(n); citedOrder.push(n); }
+        }
+      }
+      return citedOrder;
+    }
+    const citedNumbers = extractCitations(answer, contextSubset.length);
+    // Map numbered context (1-based) to entries
+    const contextByNumber = contextSubset.reduce((acc, entry, idx)=>{ acc[idx+1] = entry; return acc; }, {});
+    // Build matches only for cited sources; include score if available
+    const scoreById = scored.reduce((acc,s)=>{ acc[s.id] = s.score; return acc; }, {});
+    const matches = citedNumbers.map((num, rankIdx) => {
+      const entry = contextByNumber[num];
+      if(!entry) return null;
+      return {
+        id: entry.id,
+        project: entry.project,
+        date: entry.date,
+        score: scoreById[entry.id] ?? null,
+        rank: rankIdx + 1,
+        sourceNumber: num,
+        snippet: buildSnippet(entry.text)
+      };
+    }).filter(Boolean);
 
     console.log('[nl-search] success in', Date.now()-start,'ms');
   return NextResponse.json({ matches, answer });
