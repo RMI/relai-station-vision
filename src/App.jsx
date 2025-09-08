@@ -375,24 +375,33 @@ function App() {
       {/* Hero Header (unchanged content, updated spacing for new layout) */}
       <header className="hero-shell relative">
         <div className="hero-bg" />
+        <div className="hero-aurora" />
+        <div className="hero-aurora" />
+        <div className="hero-particles" />
+        <div className="hero-noise" />
         <div className="hero-overlay" />
         <div className="hero-content relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20">
-            <div className="max-w-4xl">
-              <div className="flex items-center mb-6">
-                <div className="h-12 w-12 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center shadow-inner backdrop-blur-sm mr-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-28">
+            <div className="max-w-5xl">
+              <motion.div initial={{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:0.9,ease:[0.25,0.8,0.25,1]}} className="flex items-start gap-6 mb-10">
+                <motion.div initial={{scale:0.85,opacity:0}} animate={{scale:1,opacity:1}} transition={{delay:0.15,duration:0.8,type:'spring',stiffness:110}} className="relative">
+                  <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-cyan-400/30 via-sky-500/30 to-sky-700/30 border border-cyan-300/30 backdrop-blur-xl flex items-center justify-center shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_10px_30px_-5px_rgba(14,165,233,0.55)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-cyan-200 drop-shadow" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clipRule="evenodd" />
+                    </svg>
+                    <div className="absolute inset-0 rounded-2xl animate-pulse bg-gradient-to-tr from-cyan-300/10 via-sky-400/5 to-transparent" />
+                  </div>
+                </motion.div>
                 <div>
                   <h1 className="display-title">Relai Station</h1>
-                  <p className="subheading">A synthesized, multi-program view of fictional Relais activity.</p>
+                  <p className="subheading mt-5 leading-relaxed">A synthesized, multi-program view of fictional Relais activity. High-signal updates, semantic search, and grounded AI summaries in one luminous surface.</p>
+                  <div className="mt-8 flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 bg-cyan-400/10 border border-cyan-300/20 px-3 py-1.5 rounded-full backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.12)]">Live Semantic QA</div>
+                    <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 bg-cyan-400/10 border border-cyan-300/20 px-3 py-1.5 rounded-full backdrop-blur-md">Real-time Project Health</div>
+                    <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 bg-cyan-400/10 border border-cyan-300/20 px-3 py-1.5 rounded-full backdrop-blur-md">Context Grounded Summaries</div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-white/70 text-sm font-medium tracking-wide">
-                {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
