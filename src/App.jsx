@@ -4,7 +4,7 @@ import updatesData, { projectSummaries } from './updatesData';
 import { getSummary, getEmergingThemes, getRelatedWork, projectSlug } from './summary.jsx';
 import { variants, springLayout, listStagger } from './motionTokens';
 
-// RelaiCard component for displaying the most recent update per project
+// Restyled RelaiCard component
 const RelaiCard = ({ relai, onClick, onFilter, index }) => {
   const projSummary = projectSummaries[relai.project];
   return (
@@ -20,68 +20,55 @@ const RelaiCard = ({ relai, onClick, onFilter, index }) => {
       whileTap={{ scale: 0.985 }}
       onClick={onClick}
       id={`project-${projectSlug(relai.project)}`}
-      className={`flex h-full flex-col surface-card border-l-4 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition-all
-        ${relai.status_color === 'green' ? 'border-secondary-500' :
-          relai.status_color === 'yellow' ? 'border-amber-400' :
-          'border-rose-500'} hover:-translate-y-1`}
+      className={`surface-card cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:ring-accent/60 transition-all group border-l-4
+        ${relai.status_color === 'green' ? 'border-emerald-400' : relai.status_color === 'yellow' ? 'border-amber-400' : 'border-rose-500'}`}
       role="listitem"
       aria-label={`Project ${relai.project}`}
     >
-      <div className="mb-3">
-        <h3 className="font-semibold text-lg leading-snug tracking-tight text-neutral-900">{relai.project}</h3>
-        <div className="mt-1 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
-            className="token-pill text-[11px]"
-            title="Filter by program"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 01.8 1.6l-4.2 5.6V16a1 1 0 01-1.447.894l-3-1.5A1 1 0 017 14.5V10.2L2.2 5.6A1 1 0 013 4z"/></svg>
-            {relai.program}
-          </button>
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
-            className="token-pill text-[11px]"
-            title="Filter by owner"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/></svg>
-            {relai.owner}
-          </button>
-        </div>
-      </div>
-      <div className="space-y-2 text-[13px] leading-snug text-neutral-800">
+      <div className="flex items-start justify-between mb-3">
         <div>
-          <span className="font-semibold text-neutral-900">Health:</span>{' '}
-          <span>{projSummary?.headline || 'Summary not available.'}</span>
-        </div>
-        {projSummary?.recentFocus && (
-          <div>
-            <span className="font-semibold text-neutral-900">Recent focus:</span>{' '}
-            <span>{projSummary.recentFocus}</span>
+          <div className="meta-line mb-1 tracking-[0.5px] flex items-center gap-2">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
+              className="hover:text-neutral-800 transition-colors"
+            >
+              {relai.program}
+            </button>
+            <span className="w-1 h-1 rounded-full bg-neutral-300" />
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
+              className="hover:text-neutral-800 transition-colors"
+            >
+              {relai.owner}
+            </button>
           </div>
+          <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-neutral-900 group-hover:text-neutral-950 transition-colors">
+            {relai.project}
+          </h3>
+        </div>
+        <span className={`status-badge ${relai.status_color === 'green' ? 'status-green' : relai.status_color === 'yellow' ? 'status-yellow' : 'status-red'}`}>{relai.status_color}</span>
+      </div>
+      <div className="space-y-2 text-[13px] leading-snug text-neutral-700">
+        <div><span className="font-semibold text-neutral-900">Health:</span> {projSummary?.headline || 'Summary not available.'}</div>
+        {projSummary?.recentFocus && (
+          <div><span className="font-semibold text-neutral-900">Focus:</span> {projSummary.recentFocus}</div>
         )}
         {projSummary?.keyRisks && (
-          <div>
-            <span className="font-semibold text-neutral-900">Key risks:</span>{' '}
-            <span>{projSummary.keyRisks}</span>
-          </div>
+          <div><span className="font-semibold text-neutral-900">Risks:</span> {projSummary.keyRisks}</div>
         )}
         {projSummary?.themes && projSummary.themes.length > 0 && (
-          <div>
-            <span className="font-semibold text-neutral-900">Themes:</span>{' '}
-            <span>{projSummary.themes.join('; ')}</span>
-          </div>
+          <div><span className="font-semibold text-neutral-900">Themes:</span> {projSummary.themes.join('; ')}</div>
         )}
       </div>
-      <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-end gap-3">
-        <span className="text-xs text-neutral-500">Last updated {relai.date}</span>
-        <button className="text-xs font-medium text-blue-600 hover:text-blue-700 focus-ring flex items-center">
-          View Details
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+      <div className="mt-5 pt-4 border-t border-neutral-200 flex items-center justify-between text-[11px] text-neutral-500">
+        <span>Updated {relai.date}</span>
+        <span className="inline-flex items-center gap-1 font-medium text-accent text-xs">Open
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
           </svg>
-        </button>
+        </span>
       </div>
     </motion.article>
   );
@@ -95,108 +82,105 @@ const RelaiDetailModal = ({ project, updates, onClose, onFilter, targetUpdateDat
   const objectives = latestUpdate?.objectives || [];
   React.useEffect(() => {
     if (targetUpdateDate) {
-      // Wait a tick for modal render
       setTimeout(() => {
         const el = document.getElementById(`update-${projectSlug(project)}-${targetUpdateDate.replace(/[^a-zA-Z0-9]/g,'-')}`);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          el.classList.add('ring-2','ring-blue-400','ring-offset-2','ring-offset-white');
+          // Remove any existing pulse first
+          el.classList.remove('update-pulse');
+          void el.offsetWidth; // force reflow
+          el.classList.add('update-pulse');
           setTimeout(() => {
-            el.classList.remove('ring-2','ring-blue-400','ring-offset-2','ring-offset-white');
-          }, 1800);
+            el.classList.remove('update-pulse');
+          }, 2200);
         }
       }, 90);
     }
   }, [targetUpdateDate, project]);
   
   return (
-    <div className="fixed inset-0 bg-neutral-900/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl shadow-modal max-w-3xl w-full max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white/95 border border-neutral-200 rounded-2xl shadow-lg max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className={`px-6 py-4 border-b border-neutral-200 flex justify-between items-center rounded-t-xl
-          ${latestUpdate.status_color === 'green' ? 'bg-secondary-50' : 
-            latestUpdate.status_color === 'yellow' ? 'bg-amber-50' : 
-            'bg-rose-50'}`}>
-          <div>
-            <h2 className="font-display text-xl font-semibold text-neutral-800">{project}</h2>
-            <p className="text-sm text-neutral-500 flex items-center">
-              <span className={`inline-block w-2 h-2 rounded-full mr-2
-                ${latestUpdate.status_color === 'green' ? 'bg-secondary-500' : 
-                  latestUpdate.status_color === 'yellow' ? 'bg-amber-500' : 
-                  'bg-rose-500'}`}></span>
-              Current Status: {latestUpdate.status_color.charAt(0).toUpperCase() + latestUpdate.status_color.slice(1)}
-            </p>
-            <p className="text-xs text-neutral-500">Program: <button onClick={() => onFilter && onFilter('program', latestUpdate.program)} className="font-medium text-neutral-700 underline decoration-dotted underline-offset-2 hover:text-neutral-800">{latestUpdate.program}</button></p>
-            <p className="text-xs text-neutral-500">Owner: <button onClick={() => onFilter && onFilter('owner', latestUpdate.owner)} className="font-medium text-neutral-700 underline decoration-dotted underline-offset-2 hover:text-neutral-800">{latestUpdate.owner}</button></p>
-            {objectives.length > 0 && (
-              <p className="text-xs text-neutral-500">OOMs: {objectives.map((o, i) => (
-                <button key={i} onClick={() => onFilter && onFilter('objective', o)} className="ml-1 font-medium text-neutral-700 underline decoration-dotted underline-offset-2 hover:text-neutral-800">{String(o)}</button>
-              ))}</p>
-            )}
+        <div className={`px-6 py-5 border-b border-neutral-200 flex justify-between items-start rounded-t-2xl bg-gradient-to-r from-white/80 via-white to-white/90 backdrop-blur-sm`}> 
+          <div className="pr-6">
+            <h2 className="text-xl font-semibold tracking-tight text-neutral-900 mb-1">{project}</h2>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-500">
+              <div className="flex items-center gap-1.5">
+                <span className={`w-2.5 h-2.5 rounded-full ${latestUpdate.status_color === 'green' ? 'bg-emerald-500' : latestUpdate.status_color === 'yellow' ? 'bg-amber-500' : 'bg-rose-500'}`} />
+                <span className="font-medium text-neutral-700">{latestUpdate.status_color.toUpperCase()}</span>
+              </div>
+              <span className="w-1 h-1 rounded-full bg-neutral-300" />
+              <button onClick={() => onFilter && onFilter('program', latestUpdate.program)} className="underline decoration-dotted underline-offset-2 hover:text-neutral-700">{latestUpdate.program}</button>
+              <span className="w-1 h-1 rounded-full bg-neutral-300" />
+              <button onClick={() => onFilter && onFilter('owner', latestUpdate.owner)} className="underline decoration-dotted underline-offset-2 hover:text-neutral-700">{latestUpdate.owner}</button>
+              {objectives.length > 0 && (
+                <>
+                  <span className="w-1 h-1 rounded-full bg-neutral-300" />
+                  <span className="text-neutral-400">OOMs:</span>
+                  {objectives.map((o, i) => (
+                    <button key={i} onClick={() => onFilter && onFilter('objective', o)} className="underline decoration-dotted underline-offset-2 hover:text-neutral-700">{String(o)}</button>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
           <button 
             onClick={onClose} 
-            className="rounded-full p-2 hover:bg-neutral-200 text-neutral-400 hover:text-neutral-600 transition-colors"
+            className="rounded-lg p-2 hover:bg-neutral-100 text-neutral-400 hover:text-neutral-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
         </div>
-        
         {/* Content */}
-        <div className="overflow-y-auto p-6 flex-grow">
-          <div className="mb-6">
-            <h3 className="font-medium text-neutral-900 mb-1 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Project History ({sortedUpdates.length} Relais)
-            </h3>
-            <div className="border-l-2 border-neutral-200 ml-2 pl-4 space-y-8 py-2">
+        <div className="overflow-y-auto px-6 py-6 flex-grow">
+          <div className="relative pl-6">
+            <div className="absolute left-2 top-0 bottom-0 w-px bg-gradient-to-b from-accent/40 via-neutral-200 to-neutral-300" />
+            <div className="space-y-10">
               {sortedUpdates.map((update, index) => (
-                <div key={index} id={`update-${projectSlug(project)}-${update.date.replace(/[^a-zA-Z0-9]/g,'-')}`} className="relative">
-                  <div className="absolute -left-[21px] mt-1 w-3 h-3 rounded-full bg-primary-600 border-2 border-white"></div>
-                  <div className={`rounded-lg p-4 ${index === 0 ? 'bg-primary-50 ring-1 ring-primary-100' : 'hover:bg-neutral-50'}`}>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium text-primary-800">{update.date}</span>
-                      <span className={`px-2 py-0.5 text-xs font-medium rounded-full
-                        ${update.status_color === 'green' ? 'bg-secondary-100 text-secondary-700' : 
-                          update.status_color === 'yellow' ? 'bg-amber-100 text-amber-700' : 
-                          'bg-rose-100 text-rose-700'}`}>
-                        {update.status_color.charAt(0).toUpperCase() + update.status_color.slice(1)}
-                      </span>
+                <div key={index} id={`update-${projectSlug(project)}-${update.date.replace(/[^a-zA-Z0-9]/g,'-')}`} className="relative group scroll-mt-24">
+                  <div className="absolute -left-3 mt-1 w-5 h-5">
+                    <div className={`absolute inset-0 rounded-full border-2 bg-white ${index === 0 ? 'border-accent' : 'border-neutral-300 group-hover:border-accent transition-colors'} flex items-center justify-center`}> 
+                      <div className={`w-2 h-2 rounded-full ${update.status_color === 'green' ? 'bg-emerald-500' : update.status_color === 'yellow' ? 'bg-amber-500' : 'bg-rose-500'}`} />
                     </div>
-                    <p className="text-sm text-neutral-500 mb-3">By {update.owner} • {update.program}</p>
-                    <div className="mb-3">
-                      <h4 className="text-sm font-medium text-neutral-700 mb-1">Key Developments & Decisions</h4>
-                      <p className="text-sm text-neutral-600">{update.key_developments_and_decisions}</p>
+                  </div>
+                  <div className={`rounded-xl p-5 border transition-colors ${index === 0 ? 'border-accent/40 bg-accent-soft' : 'border-neutral-200 hover:border-neutral-300 bg-white/70'} backdrop-blur-sm`}> 
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-semibold text-neutral-800 tracking-tight">{update.date}</span>
+                      <span className={`status-badge ${update.status_color === 'green' ? 'status-green' : update.status_color === 'yellow' ? 'status-yellow' : 'status-red'}`}>{update.status_color}</span>
                     </div>
-                    {update.key_new_insights_and_decisions && (
-                      <div className="mb-3">
-                        <h4 className="text-sm font-medium text-neutral-700 mb-1">Key New Insights & Decisions</h4>
-                        <p className="text-sm text-neutral-600">{update.key_new_insights_and_decisions}</p>
+                    <div className="grid gap-4 text-[13px] leading-relaxed text-neutral-700">
+                      <div>
+                        <h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key Developments & Decisions</h4>
+                        <p>{update.key_developments_and_decisions}</p>
                       </div>
-                    )}
-                    <div className="mb-3">
-                      <h4 className="text-sm font-medium text-neutral-700 mb-1">Key Blockers & Concerns</h4>
-                      <p className="text-sm text-neutral-600">{update.key_blockers_and_concerns}</p>
-                    </div>
-                    {update.emerging_themes && (
-                      <div className="mb-3">
-                        <h4 className="text-sm font-medium text-neutral-700 mb-1">Emerging Themes</h4>
-                        <p className="text-sm text-neutral-600">{update.emerging_themes}</p>
+                      {update.key_new_insights_and_decisions && (
+                        <div>
+                          <h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key New Insights & Decisions</h4>
+                          <p>{update.key_new_insights_and_decisions}</p>
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key Blockers & Concerns</h4>
+                        <p>{update.key_blockers_and_concerns}</p>
                       </div>
-                    )}
-                    {update.funding_conversation && (
-                      <div className="mb-3">
-                        <h4 className="text-sm font-medium text-neutral-700 mb-1">Funding Conversation</h4>
-                        <p className="text-sm text-neutral-600">{update.funding_conversation}</p>
+                      {update.emerging_themes && (
+                        <div>
+                          <h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Emerging Themes</h4>
+                          <p>{update.emerging_themes}</p>
+                        </div>
+                      )}
+                      {update.funding_conversation && (
+                        <div>
+                          <h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Funding Conversation</h4>
+                          <p>{update.funding_conversation}</p>
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Overall Project Status</h4>
+                        <p>{update.overall_project_status}</p>
                       </div>
-                    )}
-                    <div>
-                      <h4 className="text-sm font-medium text-neutral-700 mb-1">Overall Project Status</h4>
-                      <p className="text-sm text-neutral-600">{update.overall_project_status}</p>
                     </div>
                   </div>
                 </div>
@@ -204,12 +188,11 @@ const RelaiDetailModal = ({ project, updates, onClose, onFilter, targetUpdateDat
             </div>
           </div>
         </div>
-        
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-neutral-200 flex justify-end">
+        <div className="px-6 py-4 border-t border-neutral-200 flex justify-end bg-white/80 backdrop-blur-sm">
           <button 
             onClick={onClose}
-            className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-lg text-sm font-medium transition-colors"
+            className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
           >
             Close
           </button>
@@ -238,6 +221,21 @@ function App() {
   const [selectedObjective, setSelectedObjective] = useState('');
   // Global clickable filter (program | owner | objective)
   const [activeFilter, setActiveFilter] = useState(null); // { type: 'program'|'owner'|'objective', value: string }
+  const [nlSearchQuery, setNlSearchQuery] = useState('');
+  const [nlSearchActive, setNlSearchActive] = useState(false);
+  const [nlSearchResults, setNlSearchResults] = useState([]); // server: {id, project, date, snippet, score}
+  const [nlAnswer, setNlAnswer] = useState('');
+  const [nlLoading, setNlLoading] = useState(false);
+  const [nlError, setNlError] = useState(null);
+  
+  // Helper to open a search result (project + specific date) from NL results
+  const openUpdate = (id) => {
+    const match = nlSearchResults.find(r => r.update.id === id);
+    if (match) {
+      setSelectedProject(match.update.project);
+      setTargetUpdateDate(match.update.date);
+    }
+  };
 
   const applyFilter = (type, value) => {
     setActiveFilter({ type, value });
@@ -258,6 +256,39 @@ function App() {
     setSelectedProgram('');
     setSelectedObjective('');
   };
+  
+  const runNlSearch = async (q) => {
+    setNlError(null);
+    if (q.trim().length < 3) {
+      setNlSearchActive(false);
+      setNlSearchResults([]);
+      setNlAnswer('');
+      return;
+    }
+    try {
+      // Activate NL search mode immediately so loading UI (spinner + skeleton) is visible
+      setNlSearchActive(true);
+      // Clear prior answer & sources to avoid showing stale content while loading
+      setNlSearchResults([]);
+      setNlAnswer('');
+      setNlLoading(true);
+      const resp = await fetch('/api/nl-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: q })
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      setNlAnswer(data.answer || '');
+      setNlSearchResults((data.matches || []).map(m => ({ update: { project: m.project, date: m.date, id: m.id }, score: m.score, snippet: m.snippet })));
+      setNlSearchActive((data.matches || []).length > 0 || !!data.answer);
+    } catch(e){
+      setNlError(e.message);
+    } finally {
+      setNlLoading(false);
+    }
+  };
+  const clearNlSearch = () => { setNlSearchQuery(''); setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setNlError(null); };
   
   // Organize updates - get the most recent update for each project
   useEffect(() => {
@@ -294,9 +325,21 @@ function App() {
   const selectedProjectUpdates = selectedProject ? 
     updatesData.filter(u => u.project === selectedProject) : [];
 
-  // Filter the most recent updates based on search criteria and global clickable filter
+  const matchedProjectSet = useMemo(() => {
+    if (!nlSearchActive) return null;
+    const set = new Set(nlSearchResults.map(r => r.update.project));
+    return set;
+  }, [nlSearchActive, nlSearchResults]);
+
+  // Filter the most recent updates based on search criteria, summary filters, and global clickable filter
   let filteredProjects = Object.values(mostRecentByProject).filter((u) => {
+    const matchesSummaryScope = (
+      (summaryMode !== 'program' || !selectedProgram || u.program === selectedProgram) &&
+      (summaryMode !== 'objective' || !selectedObjective || (Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective))))
+    );
+    const matchesSearchCorpus = (!matchedProjectSet || matchedProjectSet.has(u.project));
     return (
+      matchesSummaryScope && matchesSearchCorpus &&
       (search === '' ||
         u.owner.toLowerCase().includes(search.toLowerCase()) ||
         u.project.toLowerCase().includes(search.toLowerCase()) ||
@@ -306,7 +349,7 @@ function App() {
       (project === '' || u.project === project) &&
       (owner === '' || u.owner === owner) &&
       (statusColor === '' || u.status_color === statusColor) &&
-      (!activeFilter || (activeFilter.type === 'program' && u.program === activeFilter.value) ||
+      (!activeFilter || (activeFilter.type === 'project' && u.project === activeFilter.value) ||
         (activeFilter.type === 'owner' && u.owner === activeFilter.value) ||
         (activeFilter.type === 'objective' && Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))))
     );
@@ -314,6 +357,8 @@ function App() {
 
   // Sort the projects by date of most recent update
   filteredProjects = filteredProjects.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+
+  const synthesizedAnswer = nlAnswer;
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
@@ -327,13 +372,12 @@ function App() {
           targetUpdateDate={targetUpdateDate}
         />
       )}
-      
-      {/* Hero Header */}
+      {/* Hero Header (unchanged content, updated spacing for new layout) */}
       <header className="hero-shell relative">
-        <div className="hero-bg"></div>
-        <div className="hero-overlay"></div>
+        <div className="hero-bg" />
+        <div className="hero-overlay" />
         <div className="hero-content relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20">
             <div className="max-w-4xl">
               <div className="flex items-center mb-6">
                 <div className="h-12 w-12 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center shadow-inner backdrop-blur-sm mr-4">
@@ -353,294 +397,226 @@ function App() {
           </div>
         </div>
       </header>
-      
-      {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeFilter && (
-          <div className="mb-4">
-            <div className="flex items-center justify-between bg-primary-50 border border-primary-200 text-primary-800 rounded-lg px-4 py-3">
-              <div className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm9-3a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" />
-                </svg>
-                <span className="font-medium">Active Filter</span>
-                <span className="px-2 py-0.5 text-xs rounded-full bg-white border border-primary-200 text-primary-800">
-                  {activeFilter.type.charAt(0).toUpperCase() + activeFilter.type.slice(1)}
-                </span>
-                <span className="text-primary-900">=</span>
-                <span className="font-semibold">{String(activeFilter.value)}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                {(activeFilter.type === 'program' || activeFilter.type === 'objective') && (
-                  <span className="text-xs text-primary-700">(Top summary is scoped to this {activeFilter.type}.)</span>
-                )}
-                <button onClick={clearActiveFilter} className="inline-flex items-center gap-1 text-sm text-primary-800 hover:text-primary-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                  Clear filter
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        {/* Summary section */}
-        <section className="mb-10">
-          {/* Summary filters */}
-          <div className="bg-white rounded-xl shadow-card p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-neutral-600">Summary view:</span>
-              <div className="inline-flex bg-neutral-100 rounded-lg p-1">
-                {['overall','program','objective'].map(mode => (
-                  <button
-                    key={mode}
-                    onClick={() => { setSummaryMode(mode); setSelectedProgram(''); setSelectedObjective(''); }}
-                    className={`px-3 py-1.5 text-sm rounded-md ${summaryMode === mode ? 'bg-white shadow text-neutral-900' : 'text-neutral-600'}`}
-                  >
-                    {mode === 'overall' ? 'Overall' : mode === 'program' ? 'By Program' : 'By Objective'}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {summaryMode === 'program' && (
-                <select
-                  value={selectedProgram}
-                  onChange={e => setSelectedProgram(e.target.value)}
-                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
-                >
-                  <option value="">Select a program…</option>
-                  {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
-              )}
-              {summaryMode === 'objective' && (
-                <select
-                  value={selectedObjective}
-                  onChange={e => setSelectedObjective(e.target.value)}
-                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
-                >
-                  <option value="">Select an objective…</option>
-                  {allObjectives.map(o => <option key={o} value={String(o)}>{o}</option>)}
-                </select>
-              )}
+      {/* Main content two-column layout */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 pb-16 relative z-10">
+        <div className={`grid ${nlSearchActive ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-[340px,1fr]'} gap-10 items-start`}>
+          {/* Left sticky summary / insights (hidden in NL search mode) */}
+          {!nlSearchActive && (
+          <aside className="relative">
+            <div className="sticky top-6 space-y-6">
+              {/* Active filter banner (moved inside aside) */}
               {activeFilter && (
-                <div className="flex items-center gap-2 ml-2">
-                  <span className="px-2 py-1 text-xs rounded-full bg-primary-50 text-primary-700 border border-primary-200">
-                    Filter: {activeFilter.type.charAt(0).toUpperCase() + activeFilter.type.slice(1)} = {String(activeFilter.value)}
-                  </span>
-                  <button onClick={clearActiveFilter} className="text-xs text-neutral-500 hover:text-neutral-700">Clear</button>
+                <div className="bg-white border border-neutral-200 rounded-xl p-4 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="text-sm leading-snug">
+                      <div className="font-semibold text-neutral-800 mb-1">Active Filter</div>
+                      <div className="inline-flex items-center gap-2 text-neutral-600 text-xs bg-neutral-50 px-2 py-1 rounded-md border border-neutral-200">
+                        <span className="font-medium">{activeFilter.type.charAt(0).toUpperCase() + activeFilter.type.slice(1)}</span>
+                        <span className="text-neutral-400">=</span>
+                        <span className="font-semibold text-neutral-800">{String(activeFilter.value)}</span>
+                      </div>
+                      {(activeFilter.type === 'program' || activeFilter.type === 'objective') && (
+                        <div className="mt-2 text-[11px] text-neutral-500">Top summary scoped to this {activeFilter.type}.</div>
+                      )}
+                    </div>
+                    <button onClick={clearActiveFilter} className="text-xs text-neutral-500 hover:text-neutral-700">Clear</button>
+                  </div>
+                </div>
+              )}
+              {/* Summary filters + content */}
+              <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
+                <div className="mb-4">
+                  <div className="text-[11px] font-semibold tracking-wide uppercase text-neutral-500 mb-2">Summary View</div>
+                  <div className="inline-flex bg-neutral-100 rounded-lg p-1 w-full">
+                    {['overall','program','objective'].map(mode => (
+                      <button
+                        key={mode}
+                        onClick={() => { setSummaryMode(mode); setSelectedProgram(''); setSelectedObjective(''); }}
+                        className={`flex-1 px-3 py-1.5 text-xs rounded-md transition-colors ${summaryMode === mode ? 'bg-white shadow text-neutral-900' : 'text-neutral-600 hover:text-neutral-800'}`}
+                      >
+                        {mode === 'overall' ? 'Overall' : mode === 'program' ? 'Program' : 'Objective'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {summaryMode === 'program' && (
+                    <select
+                      value={selectedProgram}
+                      onChange={e => setSelectedProgram(e.target.value)}
+                      className="w-full px-3 py-2 rounded-md text-xs border border-neutral-200 bg-white text-neutral-700 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    >
+                      <option value="">Select a program…</option>
+                      {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
+                    </select>
+                  )}
+                  {summaryMode === 'objective' && (
+                    <select
+                      value={selectedObjective}
+                      onChange={e => setSelectedObjective(e.target.value)}
+                      className="w-full px-3 py-2 rounded-md text-xs border border-neutral-200 bg-white text-neutral-700 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    >
+                      <option value="">Select an objective…</option>
+                      {allObjectives.map(o => <option key={o} value={String(o)}>{o}</option>)}
+                    </select>
+                  )}
+                </div>
+                {/* Summary clusters */}
+                <div className="mt-6 border-t border-neutral-200 pt-5">
+                  {(() => {
+                    let summaryData = updatesData;
+                    if (summaryMode === 'program' && selectedProgram) summaryData = updatesData.filter(u => u.program === selectedProgram);
+                    else if (summaryMode === 'objective' && selectedObjective) summaryData = updatesData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective)));
+                    if (activeFilter) {
+                      if (activeFilter.type === 'program') summaryData = summaryData.filter(u => u.program === activeFilter.value);
+                      if (activeFilter.type === 'owner') summaryData = summaryData.filter(u => u.owner === activeFilter.value);
+                      if (activeFilter.type === 'objective') summaryData = summaryData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
+                    }
+                    return getSummary(summaryData, { 
+                      openProjectUpdate: (proj, date) => { setSelectedProject(proj); setTargetUpdateDate(date); }
+                    });
+                  })()}
+                </div>
+              </div>
+              {/* Emerging Themes & Related Work combined */}
+              <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 space-y-6">
+                <div>
+                  <h3 className="text-[11px] font-semibold tracking-wide text-neutral-500 uppercase mb-3">Emerging Themes</h3>
+                  {getEmergingThemes((() => { let data = updatesData; if (activeFilter) { if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value); if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value); if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))); } return data; })())}
+                </div>
+                <div className="divider-soft" />
+                <div>
+                  <h3 className="text-[11px] font-semibold tracking-wide text-neutral-500 uppercase mb-3">Related Work</h3>
+                  {getRelatedWork((() => { let data = updatesData; if (activeFilter) { if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value); if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value); if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))); } return data; })())}
+                </div>
+              </div>
+            </div>
+          </aside>
+          )}
+          {/* Right content area */}
+          <section className="space-y-10">
+            {/* NL Search Experience (always positioned above filters) */}
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5" role="search" aria-label="Natural language corpus search">
+              <form
+                onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }}
+                className="flex gap-3 items-center"
+              >
+                <input
+                  type="text"
+                  aria-label="Ask a question about all updates"
+                  placeholder="Ask: What are the main blockers for platform integration?"
+                  value={nlSearchQuery}
+                  onChange={(e)=>{ setNlSearchQuery(e.target.value); }}
+                  className="flex-1 rounded-md bg-neutral-50 border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/40"
+                />
+                {nlSearchActive && !nlLoading && (
+                  <button type="button" onClick={clearNlSearch} className="px-3 py-2 text-xs rounded-md bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 focus:outline-none focus:ring-2 focus:ring-accent/40">Clear</button>
+                )}
+                <button
+                  type="submit"
+                  disabled={nlLoading || nlSearchQuery.trim().length < 3}
+                  className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 ${nlLoading ? 'bg-neutral-200 border-neutral-300 text-neutral-500 cursor-wait' : nlSearchQuery.trim().length < 3 ? 'bg-neutral-100 border-neutral-200 text-neutral-400 cursor-not-allowed' : 'bg-accent-soft border-accent/30 text-accent hover:border-accent/50'}`}
+                >
+                  {nlLoading ? 'Searching…' : 'Search'}
+                </button>
+              </form>
+              {nlSearchQuery.trim().length > 0 && nlSearchQuery.trim().length < 3 && !nlLoading && (
+                <p className="mt-3 text-xs text-neutral-500">Type at least 3 characters then press Enter to search.</p>
+              )}
+              {nlSearchActive && (
+                <div className="mt-6 space-y-6" aria-live="polite">
+                  {nlLoading && (
+                    <div className="flex items-center gap-3 text-sm text-neutral-500 animate-pulse">
+                      <svg className="h-5 w-5 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" />
+                        <path d="M22 12a10 10 0 0 1-10 10" className="opacity-75" />
+                      </svg>
+                      <span>Analyzing updates & generating answer…</span>
+                    </div>
+                  )}
+                  {!nlLoading && synthesizedAnswer && <div className="bg-accent-soft rounded-lg p-4 border border-accent/30"><p className="text-sm leading-relaxed text-neutral-800"><span className="font-semibold text-accent">Answer:</span> <span dangerouslySetInnerHTML={{__html: highlightSnippet(synthesizedAnswer, '')}} /></p></div>}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-xs uppercase tracking-wide font-semibold text-neutral-500">Sources Used <span className="text-neutral-400 font-normal">({nlLoading ? '…' : nlSearchResults.length})</span></h3>
+                      <div className="text-[11px] text-neutral-400">{nlLoading ? 'Gathering sources…' : `Projects matched: ${matchedProjectSet ? matchedProjectSet.size : 0}`}</div>
+                    </div>
+                    <ul className="space-y-3" aria-label="Search results list">
+                      {nlLoading && (
+                        Array.from({length:4}).map((_,i)=>(
+                          <li key={i} className="rounded-lg p-3 border border-neutral-200 bg-white">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="w-5 h-5 rounded-full bg-accent/10 border border-accent/20" />
+                              <div className="h-3 w-32 bg-neutral-200 rounded animate-pulse" />
+                            </div>
+                            <div className="space-y-2">
+                              <div className="h-2.5 bg-neutral-200 rounded w-full animate-pulse" />
+                              <div className="h-2.5 bg-neutral-200 rounded w-5/6 animate-pulse" />
+                              <div className="h-2.5 bg-neutral-200 rounded w-2/3 animate-pulse" />
+                            </div>
+                          </li>
+                        ))
+                      )}
+                       {!nlLoading && nlSearchResults.slice(0,40).map((r, idx) => (
+                        <li key={r.update.id} className="rounded-lg p-3 border border-neutral-200 bg-white hover:border-accent/40 transition-colors focus-within:border-accent/50">
+                          <button onClick={()=>openUpdate(r.update.id)} className="text-left w-full focus:outline-none">
+                            <div className="flex justify-between items-center mb-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] w-5 h-5 inline-flex items-center justify-center rounded-full bg-accent/15 text-accent font-semibold border border-accent/30">{idx+1}</span>
+                                <span className="text-xs font-semibold text-accent tracking-wide">{r.update.project}</span>
+                              </div>
+                            </div>
+                            <p className="text-[12px] leading-snug text-neutral-600">{r.snippet}</p>
+                          </button>
+                        </li>
+                      ))}
+                       {!nlLoading && nlSearchResults.length===0 && !nlError && <li className="text-xs text-neutral-500">No matches. Refine or broaden your question.</li>}
+                       {!nlLoading && nlError && <li className="text-xs text-rose-600">Error: {nlError}</li>}
+                    </ul>
+                  </div>
                 </div>
               )}
             </div>
-          </div>
-
-          {/** Compute summary dataset based on controls + global clickable filter */}
-          {(() => {
-            let summaryData = updatesData;
-            if (summaryMode === 'program' && selectedProgram) {
-              summaryData = updatesData.filter(u => u.program === selectedProgram);
-            } else if (summaryMode === 'objective' && selectedObjective) {
-              summaryData = updatesData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective)));
-            }
-            if (activeFilter) {
-              if (activeFilter.type === 'program') summaryData = summaryData.filter(u => u.program === activeFilter.value);
-              if (activeFilter.type === 'owner') summaryData = summaryData.filter(u => u.owner === activeFilter.value);
-              if (activeFilter.type === 'objective') summaryData = summaryData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
-            }
-            return (
-              <div className="bg-white rounded-xl shadow-card mb-6">
-                {getSummary(summaryData, { 
-                  openProjectUpdate: (proj, date) => {
-                    setSelectedProject(proj);
-                    setTargetUpdateDate(date);
-                  }
-                })}
-              </div>
-            );
-          })()}
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white rounded-xl shadow-card p-6">
-              <h3 className="font-display font-semibold text-lg mb-4 text-primary-700 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
-                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
-                </svg>
-                Emerging Themes
-              </h3>
-              {getEmergingThemes(
-                (() => {
-                  let data = updatesData;
-                  if (activeFilter) {
-                    if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value);
-                    if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value);
-                    if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
-                  }
-                  return data;
-                })()
+            {!nlSearchActive && (
+              <div>
+              {((summaryMode === 'program' && selectedProgram) || (summaryMode === 'objective' && selectedObjective)) && (
+                <div className="mb-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-neutral-100 border border-neutral-200 text-xs text-neutral-600">
+                  <span className="font-semibold text-neutral-800">Scope:</span>
+                  {summaryMode === 'program' && selectedProgram && <span className="text-neutral-700">Program = {selectedProgram}</span>}
+                  {summaryMode === 'objective' && selectedObjective && <span className="text-neutral-700">Objective = {selectedObjective}</span>}
+                  <button
+                    onClick={() => { setSelectedProgram(''); setSelectedObjective(''); setSummaryMode('overall'); }}
+                    className="ml-2 text-[11px] text-neutral-500 hover:text-neutral-700 underline decoration-dotted underline-offset-2"
+                  >Clear</button>
+                </div>
               )}
+              <h2 className="text-lg font-semibold text-neutral-800 mb-4">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
+              <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
+                <AnimatePresence mode="popLayout">
+                  {filteredProjects.map((update, i) => (
+                    <RelaiCard
+                      key={update.project}
+                      relai={update}
+                      index={i}
+                      onClick={() => setSelectedProject(update.project)}
+                      onFilter={applyFilter}
+                    />
+                  ))}
+                  {filteredProjects.length === 0 && (
+                    <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
+                      <p className="text-lg font-medium">No Relais match your filters</p>
+                      <p className="text-sm">Try adjusting your search criteria</p>
+                      <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             </div>
-            <div className="bg-white rounded-xl shadow-card p-6">
-              <h3 className="font-display font-semibold text-lg mb-4 text-primary-700 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                </svg>
-                Related Work
-              </h3>
-              {getRelatedWork(
-                (() => {
-                  let data = updatesData;
-                  if (activeFilter) {
-                    if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value);
-                    if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value);
-                    if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
-                  }
-                  return data;
-                })()
-              )}
-            </div>
-          </div>
-        </section>
-        
-        {/* Relai updates section */}
-        <section>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <h2 className="text-xl font-display font-semibold text-neutral-800 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clipRule="evenodd" />
-              </svg>
-              Latest Relais
-              <span className="ml-2 text-sm font-normal text-neutral-500">({filteredProjects.length} projects)</span>
-            </h2>
-            
-            <div className="w-full sm:w-auto">
-              <input
-                type="text"
-                placeholder="Search projects, owners, updates..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
-              />
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap gap-3 mb-6">
-            <div className="flex flex-nowrap overflow-x-auto pb-2 gap-2 w-full sm:w-auto">
-              <button
-                onClick={() => setStatusColor('')}
-                className={`px-3 py-1.5 rounded-lg text-sm whitespace-nowrap ${statusColor === '' ? 'bg-primary-100 text-primary-800' : 'bg-white text-neutral-600'}`}
-              >
-                All Statuses
-              </button>
-              {allStatusColors.map(color => (
-                <button
-                  key={color}
-                  onClick={() => setStatusColor(color)}
-                  className={`px-3 py-1.5 rounded-lg text-sm flex items-center whitespace-nowrap
-                    ${statusColor === color ? 
-                      (color === 'green' ? 'bg-secondary-100 text-secondary-800' : 
-                      color === 'yellow' ? 'bg-amber-100 text-amber-800' : 
-                      'bg-rose-100 text-rose-800') : 
-                      'bg-white text-neutral-600'}`}
-                >
-                  <span className={`inline-block w-2 h-2 rounded-full mr-1.5
-                    ${color === 'green' ? 'bg-secondary-500' : 
-                      color === 'yellow' ? 'bg-amber-500' : 
-                      'bg-rose-500'}`}></span>
-                  {color.charAt(0).toUpperCase() + color.slice(1)}
-                </button>
-              ))}
-            </div>
-            
-            <div className="flex flex-nowrap overflow-x-auto pb-2 gap-2 w-full sm:w-auto">
-              <select 
-                value={project} 
-                onChange={e => setProject(e.target.value)} 
-                className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
-              >
-                <option value="">All Projects</option>
-                {allProjects.map(p => <option key={p} value={p}>{p}</option>)}
-              </select>
-              
-              <select 
-                value={owner} 
-                onChange={e => setOwner(e.target.value)} 
-                className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
-              >
-                <option value="">All Owners</option>
-                {allOwners.map(a => <option key={a} value={a}>{a}</option>)}
-              </select>
-              {allPrograms.length > 0 && (
-                <select 
-                  value={activeFilter?.type === 'program' ? activeFilter.value : ''}
-                  onChange={e => e.target.value ? applyFilter('program', e.target.value) : clearActiveFilter()}
-                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
-                >
-                  <option value="">All Programs</option>
-                  {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
-              )}
-              {allObjectives.length > 0 && (
-                <select 
-                  value={activeFilter?.type === 'objective' ? String(activeFilter.value) : ''}
-                  onChange={e => e.target.value ? applyFilter('objective', e.target.value) : clearActiveFilter()}
-                  className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 bg-white text-neutral-600"
-                >
-                  <option value="">All OOMs</option>
-                  {allObjectives.map(o => <option key={o} value={String(o)}>{o}</option>)}
-                </select>
-              )}
-            </div>
-          </div>
-          
-      {/* Display most recent update per project as cards */}
-      <motion.div
-        layout
-        variants={listStagger}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-        role="list"
-      >
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((update, i) => (
-            <RelaiCard
-              key={update.project}
-              relai={update}
-              index={i}
-              onClick={() => setSelectedProject(update.project)}
-              onFilter={applyFilter}
-            />
-          ))}
-          {filteredProjects.length === 0 && (
-            <motion.div
-              key="empty"
-              variants={variants.fadeInUp}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-neutral-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="text-lg font-medium">No Relais match your filters</p>
-              <p className="text-sm">Try adjusting your search criteria</p>
-              <button
-                onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }}
-                className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
-              >
-                Clear all filters
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-        </section>
+            )}
+          </section>
+        </div>
       </main>
-      
       {/* Footer */}
-      <footer className="bg-white border-t border-neutral-200 py-4 mt-12">
+      <footer className="bg-white border-t border-neutral-200 py-4 mt-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-sm text-neutral-500">
             <p>Relai Station • {new Date().getFullYear()} • Powered by AI-driven insights</p>
@@ -652,3 +628,19 @@ function App() {
 }
 
 export default App;
+
+function highlightSnippet(snippet, query){
+  if(!query) return escapeHtml(snippet);
+  try {
+    const tokens = Array.from(new Set(query.toLowerCase().split(/[^a-z0-9]+/i).filter(Boolean)));
+    if(!tokens.length) return escapeHtml(snippet);
+    const pattern = new RegExp('(' + tokens.map(t => t.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|') + ')', 'ig');
+    return escapeHtml(snippet).replace(pattern, '<mark class="nlhi">$1</mark>');
+  } catch(e){
+    return escapeHtml(snippet);
+  }
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"]+/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
