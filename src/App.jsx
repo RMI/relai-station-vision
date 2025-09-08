@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import updatesData, { projectSummaries } from './updatesData';
-import { getSummary, getEmergingThemes, getRelatedWork, projectSlug } from './summary.jsx';
+import { projectSlug } from './summary.jsx';
 import { variants, springLayout, listStagger } from './motionTokens';
 
 // Restyled RelaiCard component
@@ -219,6 +219,13 @@ function App() {
   const [summaryMode, setSummaryMode] = useState('overall'); // overall | program | objective
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedObjective, setSelectedObjective] = useState('');
+  // AI Generated sectional summaries
+  const [sectionLoading, setSectionLoading] = useState(false);
+  const [sectionError, setSectionError] = useState(null);
+  const [achievementsMd, setAchievementsMd] = useState('');
+  const [flagsMd, setFlagsMd] = useState('');
+  const [trendsMd, setTrendsMd] = useState('');
+  const [lastGenAt, setLastGenAt] = useState(null);
   // Global clickable filter (program | owner | objective)
   const [activeFilter, setActiveFilter] = useState(null); // { type: 'program'|'owner'|'objective', value: string }
   const [nlSearchQuery, setNlSearchQuery] = useState('');
@@ -256,6 +263,48 @@ function App() {
     setSelectedProgram('');
     setSelectedObjective('');
   };
+
+  function currentScope(){
+    if (summaryMode === 'program' && selectedProgram) return { mode: 'program', value: selectedProgram };
+    if (summaryMode === 'objective' && selectedObjective) return { mode: 'objective', value: selectedObjective };
+    return { mode: 'overall' };
+  }
+
+  const fetchSections = async (force=false) => {
+    try {
+      setSectionError(null);
+      setSectionLoading(true);
+      const resp = await fetch('/api/summary', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ scope: currentScope(), force }) });
+      if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      setAchievementsMd(data.achievements || '');
+      setFlagsMd(data.flags || '');
+      setTrendsMd(data.trends || '');
+      setLastGenAt(data.generatedAt || null);
+    } catch(e){
+      setSectionError(e.message);
+    } finally {
+      setSectionLoading(false);
+    }
+  };
+
+  // Fetch on mount & when scope changes
+  useEffect(()=>{ fetchSections(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [summaryMode, selectedProgram, selectedObjective]);
+
+  function renderMarkdown(md){
+    if(!md) return null;
+    // minimal markdown to HTML (bold + bullets + inline code); keep secure.
+    const esc = (s) => s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    const lines = md.split(/\n+/);
+    const html = lines.map(l=>{
+      if(/^\s*-\s+/.test(l)) return `<li>${esc(l.replace(/^\s*-\s+/,'')).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</li>`;
+      if(/^\*\*(.*?)\*\*/.test(l.trim())) return `<p><strong>${esc(l.trim().replace(/^\*\*(.*?)\*\*/,'$1'))}</strong></p>`;
+      return `<p>${esc(l).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</p>`;
+    }).join('');
+    if(/<li>/.test(html)) return `<ul class="list-disc pl-4 space-y-1">${html}</ul>`;
+    return html;
+  }
   
   const runNlSearch = async (q) => {
     setNlError(null);
@@ -434,18 +483,24 @@ function App() {
               )}
               {/* Summary filters + content */}
               <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
-                <div className="mb-4">
-                  <div className="text-[11px] font-semibold tracking-wide uppercase text-neutral-500 mb-2">Summary View</div>
-                  <div className="inline-flex bg-neutral-100 rounded-lg p-1 w-full">
-                    {['overall','program','objective'].map(mode => (
-                      <button
-                        key={mode}
-                        onClick={() => { setSummaryMode(mode); setSelectedProgram(''); setSelectedObjective(''); }}
-                        className={`flex-1 px-3 py-1.5 text-xs rounded-md transition-colors ${summaryMode === mode ? 'bg-white shadow text-neutral-900' : 'text-neutral-600 hover:text-neutral-800'}`}
-                      >
-                        {mode === 'overall' ? 'Overall' : mode === 'program' ? 'Program' : 'Objective'}
-                      </button>
-                    ))}
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <div className="text-[11px] font-semibold tracking-wide uppercase text-neutral-500 mb-2">Summary Scope</div>
+                    <div className="inline-flex bg-neutral-100 rounded-lg p-1 w-full">
+                      {['overall','program','objective'].map(mode => (
+                        <button
+                          key={mode}
+                          onClick={() => { setSummaryMode(mode); setSelectedProgram(''); setSelectedObjective(''); }}
+                          className={`flex-1 px-3 py-1.5 text-xs rounded-md transition-colors ${summaryMode === mode ? 'bg-white shadow text-neutral-900' : 'text-neutral-600 hover:text-neutral-800'}`}
+                        >
+                          {mode === 'overall' ? 'Overall' : mode === 'program' ? 'Program' : 'Objective'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <button onClick={()=>fetchSections(true)} disabled={sectionLoading} className={`text-[11px] px-2 py-1 rounded-md border ${sectionLoading ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-wait' : 'bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border-neutral-200'}`}>Refresh</button>
+                    {lastGenAt && <span className="text-[10px] text-neutral-400">{new Date(lastGenAt).toLocaleTimeString()}</span>}
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -470,33 +525,50 @@ function App() {
                     </select>
                   )}
                 </div>
-                {/* Summary clusters */}
-                <div className="mt-6 border-t border-neutral-200 pt-5">
-                  {(() => {
-                    let summaryData = updatesData;
-                    if (summaryMode === 'program' && selectedProgram) summaryData = updatesData.filter(u => u.program === selectedProgram);
-                    else if (summaryMode === 'objective' && selectedObjective) summaryData = updatesData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective)));
-                    if (activeFilter) {
-                      if (activeFilter.type === 'program') summaryData = summaryData.filter(u => u.program === activeFilter.value);
-                      if (activeFilter.type === 'owner') summaryData = summaryData.filter(u => u.owner === activeFilter.value);
-                      if (activeFilter.type === 'objective') summaryData = summaryData.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value)));
-                    }
-                    return getSummary(summaryData, { 
-                      openProjectUpdate: (proj, date) => { setSelectedProject(proj); setTargetUpdateDate(date); }
-                    });
-                  })()}
-                </div>
-              </div>
-              {/* Emerging Themes & Related Work combined */}
-              <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 space-y-6">
-                <div>
-                  <h3 className="text-[11px] font-semibold tracking-wide text-neutral-500 uppercase mb-3">Emerging Themes</h3>
-                  {getEmergingThemes((() => { let data = updatesData; if (activeFilter) { if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value); if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value); if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))); } return data; })())}
-                </div>
-                <div className="divider-soft" />
-                <div>
-                  <h3 className="text-[11px] font-semibold tracking-wide text-neutral-500 uppercase mb-3">Related Work</h3>
-                  {getRelatedWork((() => { let data = updatesData; if (activeFilter) { if (activeFilter.type === 'program') data = data.filter(u => u.program === activeFilter.value); if (activeFilter.type === 'owner') data = data.filter(u => u.owner === activeFilter.value); if (activeFilter.type === 'objective') data = data.filter(u => Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))); } return data; })())}
+                <div className="mt-6 border-t border-neutral-200 pt-5 space-y-8">
+                  {sectionError && <div className="text-[11px] text-rose-600">Error: {sectionError}</div>}
+                  {sectionLoading && !sectionError && (
+                    <div className="space-y-6 animate-pulse">
+                      <div>
+                        <div className="h-3 w-32 bg-neutral-200 rounded mb-3" />
+                        <div className="space-y-2">
+                          <div className="h-2.5 bg-neutral-200 rounded" />
+                          <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                          <div className="h-2.5 bg-neutral-200 rounded w-4/6" />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="h-3 w-24 bg-neutral-200 rounded mb-3" />
+                        <div className="space-y-2">
+                          <div className="h-2.5 bg-neutral-200 rounded" />
+                          <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="h-3 w-20 bg-neutral-200 rounded mb-3" />
+                        <div className="space-y-2">
+                          <div className="h-2.5 bg-neutral-200 rounded" />
+                          <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {!sectionLoading && !sectionError && (
+                    <>
+                      <div>
+                        <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Achievements</h4>
+                        <div className="prose prose-sm max-w-none text-[12.5px] leading-snug text-neutral-700" dangerouslySetInnerHTML={{__html: renderMarkdown(achievementsMd)}} />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Flags</h4>
+                        <div className="prose prose-sm max-w-none text-[12.5px] leading-snug text-neutral-700" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsMd)}} />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Trends</h4>
+                        <div className="prose prose-sm max-w-none text-[12.5px] leading-snug text-neutral-700" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsMd)}} />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
