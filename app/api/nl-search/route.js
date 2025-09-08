@@ -1,9 +1,23 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import updatesData from '../../../lib/updatesData';
+import fs from 'fs/promises';
+import path from 'path';
 
 // In-memory embedding cache (module-level)
 let embeddingCache = null; // { vectors: number[][], meta: [{id, project, date, text}] }
+let answerPromptCache = null; // cached markdown string
+
+async function loadAnswerPrompt(){
+  if (answerPromptCache) return answerPromptCache;
+  try {
+    const p = path.join(process.cwd(), 'prompts', 'nl_answer.md');
+    answerPromptCache = await fs.readFile(p, 'utf8');
+  } catch(e){
+    answerPromptCache = `You are an assistant. Use context. Question: {{QUERY}} Context: {{CONTEXT}}`;
+  }
+  return answerPromptCache;
+}
 
 function buildCorpusEntries() {
   // Build a representative text block per update (concatenate key fields)
@@ -82,11 +96,14 @@ export async function POST(req) {
   const contextSources = top.slice(0, 8);
   const context = contextSources.map((t,i) => `[${i+1}] ${t.project} (${t.date})\n${t.text}`).join('\n---\n');
 
-    // Generate answer
+    // Generate answer using external prompt template
     let answer = '';
     try {
       const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-  const prompt = `You are an assistant summarizing internal project update snippets.\nUser question: "${query}"\nContext (each source is numbered in square brackets):\n${context}\nInstructions: Provide a concise, factual answer grounded ONLY in the numbered context above. \nRequirements: \n- After each distinct claim, append the source number(s) in square brackets (e.g., [1], or [2,4]). \n- Use only source numbers 1-8. \n- If information is not present, state that the context does not contain that detail. \n- Do not fabricate numbers or content. \nAnswer:`;
+      const template = await loadAnswerPrompt();
+      const prompt = template
+        .replace(/{{QUERY}}/g, query)
+        .replace(/{{CONTEXT}}/g, context);
       const resp = await model.generateContent(prompt);
       answer = resp.response.text();
     } catch(genErr) {
