@@ -807,34 +807,35 @@ function App() {
             </motion.div>
           )}
         </section>
+  )}
         {/* Projects Section */}
-        {!fullSearchMode && (
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
-          </div>
-          <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((update, i) => (
-                <RelaiCard
-                  key={update.project}
-                  relai={update}
-                  index={i}
-                  onClick={() => setSelectedProject(update.project)}
-                  onFilter={applyFilter}
-                />
-              ))}
-              {filteredProjects.length === 0 && (
-                <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
-                  <p className="text-lg font-medium">No Relais match your filters</p>
-                  <p className="text-sm">Try adjusting your search criteria</p>
-                  <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </section>
-        )}
+        {!fullSearchMode ? (
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
+            </div>
+            <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((update, i) => (
+                  <RelaiCard
+                    key={update.project}
+                    relai={update}
+                    index={i}
+                    onClick={() => setSelectedProject(update.project)}
+                    onFilter={applyFilter}
+                  />
+                ))}
+                {filteredProjects.length === 0 && (
+                  <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
+                    <p className="text-lg font-medium">No Relais match your filters</p>
+                    <p className="text-sm">Try adjusting your search criteria</p>
+                    <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </section>
+        ) : null}
       </main>
       {/* Footer */}
       <footer className="bg-white border-t border-neutral-200 py-4 mt-4">
