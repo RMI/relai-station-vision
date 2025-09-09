@@ -7,6 +7,8 @@ import { variants, springLayout, listStagger } from './motionTokens';
 // Restyled RelaiCard component
 const RelaiCard = ({ relai, onClick, onFilter, index }) => {
   const projSummary = projectSummaries[relai.project];
+  const statusColorClass = relai.status_color === 'green' ? 'before:bg-emerald-400' : relai.status_color === 'yellow' ? 'before:bg-amber-400' : 'before:bg-rose-500';
+  function initials(name=''){ return name.split(/\s+/).filter(Boolean).slice(0,2).map(s=>s[0].toUpperCase()).join(''); }
   return (
     <motion.article
       layout
@@ -20,35 +22,14 @@ const RelaiCard = ({ relai, onClick, onFilter, index }) => {
       whileTap={{ scale: 0.985 }}
       onClick={onClick}
       id={`project-${projectSlug(relai.project)}`}
-      className={`surface-card cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:ring-accent/60 transition-all group border-l-4
-        ${relai.status_color === 'green' ? 'border-emerald-400' : relai.status_color === 'yellow' ? 'border-amber-400' : 'border-rose-500'}`}
+      className={`surface-card cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:ring-accent/60 transition-all group pl-4 ${statusColorClass} relative before:content-[''] before:absolute before:inset-y-2 before:left-2 before:w-1 before:rounded-full before:shadow-[0_0_0_1px_rgba(0,0,0,0.08)]`}
       role="listitem"
       aria-label={`Project ${relai.project}`}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <div className="meta-line mb-1 tracking-[0.5px] flex items-center gap-2">
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
-              className="hover:text-neutral-800 transition-colors"
-            >
-              {relai.program}
-            </button>
-            <span className="w-1 h-1 rounded-full bg-neutral-300" />
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
-              className="hover:text-neutral-800 transition-colors"
-            >
-              {relai.owner}
-            </button>
-          </div>
-          <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-neutral-900 group-hover:text-neutral-950 transition-colors">
-            {relai.project}
-          </h3>
-        </div>
-        <span className={`status-badge ${relai.status_color === 'green' ? 'status-green' : relai.status_color === 'yellow' ? 'status-yellow' : 'status-red'}`}>{relai.status_color}</span>
+      <div className="mb-3 pr-1">
+        <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-neutral-900 group-hover:text-neutral-950 transition-colors">
+          {relai.project}
+        </h3>
       </div>
       <div className="space-y-2 text-[13px] leading-snug text-neutral-700">
         <div className="flex items-start gap-2">
@@ -82,9 +63,25 @@ const RelaiCard = ({ relai, onClick, onFilter, index }) => {
           </div>
         )}
       </div>
-      <div className="mt-5 pt-4 border-t border-neutral-200 flex items-center justify-between text-[11px] text-neutral-500">
-        <span>Updated {relai.date}</span>
-        <span className="inline-flex items-center gap-1 font-medium text-accent text-xs">Open
+      <div className="mt-5 pt-4 border-t border-neutral-200 flex flex-wrap items-center gap-2 text-[11px] text-neutral-500">
+        <span className="text-neutral-400 mr-auto">Updated {relai.date}</span>
+        <button
+          type="button"
+          onClick={(e)=>{ e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
+          className="inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
+          <span className="w-2 h-2 rounded-full bg-accent" aria-hidden="true" />
+          {relai.program}
+        </button>
+        <button
+          type="button"
+          onClick={(e)=>{ e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
+          className="inline-flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
+          <span className="w-5 h-5 rounded-full bg-neutral-300 text-neutral-700 flex items-center justify-center text-[10px] font-semibold" aria-hidden="true">{initials(relai.owner)}</span>
+          {relai.owner}
+        </button>
+        <span className="inline-flex items-center gap-1 font-medium text-accent text-xs ml-auto">Open
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
           </svg>
