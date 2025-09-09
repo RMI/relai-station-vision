@@ -271,7 +271,9 @@ function App() {
   const [nlAnswer, setNlAnswer] = useState('');
   const [nlLoading, setNlLoading] = useState(false);
   const [nlError, setNlError] = useState(null);
-  const fullSearchMode = !!search; // active whenever there is text
+  // Full screen NL search UX state
+  const [fullSearchMode, setFullSearchMode] = useState(false); // true once user focuses NL input
+  const [fullSearchStarted, setFullSearchStarted] = useState(false); // true after submit (Enter)
   
   // Helper to open a search result (project + specific date) from NL results
   const openUpdate = (id) => {
@@ -351,9 +353,8 @@ function App() {
       return;
     }
     try {
-      // Activate NL search mode immediately so loading UI (spinner + skeleton) is visible
+      setFullSearchStarted(true); // mark that a search execution has begun
       setNlSearchActive(true);
-      // Clear prior answer & sources to avoid showing stale content while loading
       setNlSearchResults([]);
       setNlAnswer('');
       setNlLoading(true);
@@ -373,7 +374,7 @@ function App() {
       setNlLoading(false);
     }
   };
-  const clearNlSearch = () => { setNlSearchQuery(''); setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setNlError(null); };
+  const clearNlSearch = () => { setNlSearchQuery(''); setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setNlError(null); setFullSearchStarted(false); setFullSearchMode(false); };
   
   // Organize updates - get the most recent update for each project
   useEffect(() => {
@@ -525,7 +526,82 @@ function App() {
       </header>
       {/* Main content redesigned layout */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 pb-20 relative z-10">
-        {/* Global NL Search Bar */}
+        {/* Full Screen NL Search Overlay */}
+        <AnimatePresence>
+          {fullSearchMode && (
+            <motion.div key="fs-overlay" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.25}} className="full-search-overlay">
+              <motion.div initial={{scale:0.94, opacity:0}} animate={{scale:1, opacity:1}} exit={{scale:0.94, opacity:0}} transition={{type:'spring', stiffness:160, damping:18}} className="search-elevated">
+                <form onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }} className="relative flex items-center gap-3">
+                  <input
+                    autoFocus
+                    type="text"
+                    aria-label="Ask a question about all updates"
+                    placeholder="Ask anything across all project updates…"
+                    value={nlSearchQuery}
+                    onChange={(e)=>{ setNlSearchQuery(e.target.value); }}
+                    className="search-elevated-input flex-1"
+                  />
+                  {nlSearchQuery && !nlLoading && (
+                    <button type="button" onClick={()=>{ setNlSearchQuery(''); setFullSearchStarted(false); setNlSearchActive(false); }} className="search-elevated-clear" aria-label="Clear query">✕</button>
+                  )}
+                  <button type="submit" disabled={nlLoading || nlSearchQuery.trim().length < 3} className="search-elevated-action" aria-label="Run search">
+                    {nlLoading ? 'Searching…' : 'Search'}
+                  </button>
+                  <button type="button" onClick={clearNlSearch} className="search-elevated-close" aria-label="Close search (Esc)">Esc</button>
+                </form>
+                {nlSearchQuery.trim().length>0 && nlSearchQuery.trim().length<3 && !nlLoading && (
+                  <p className="mt-3 text-xs text-neutral-400">Type at least 3 characters then press Enter.</p>
+                )}
+                {fullSearchStarted && (
+                  <div className="mt-8 space-y-6" aria-live="polite">
+                    {nlLoading && (
+                      <div className="flex items-center gap-3 text-sm text-neutral-500">
+                        <svg className="h-5 w-5 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" />
+                          <path d="M22 12a10 10 0 0 1-10 10" className="opacity-75" />
+                        </svg>
+                        <span>Analyzing updates…</span>
+                      </div>
+                    )}
+                    {!nlLoading && synthesizedAnswer && <div className="answer-panel"><p className="text-sm leading-relaxed text-neutral-800"><span className="font-semibold text-accent">Answer:</span> <span dangerouslySetInnerHTML={{__html: highlightSnippet(synthesizedAnswer, '')}} /></p></div>}
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-[11px] uppercase tracking-wide font-semibold text-neutral-500">Sources <span className="text-neutral-400 font-normal">({nlLoading ? '…' : nlSearchResults.length})</span></h3>
+                        <div className="text-[11px] text-neutral-400">{nlLoading ? 'Gathering…' : `Projects: ${matchedProjectSet ? matchedProjectSet.size : 0}`}</div>
+                      </div>
+                      <ul className="space-y-3 max-h-[42vh] overflow-y-auto pr-1" aria-label="Search results list">
+                        {nlLoading && Array.from({length:5}).map((_,i)=>(
+                          <li key={i} className="result-skel">
+                            <div className="h-3 w-40 bg-neutral-200 rounded mb-2" />
+                            <div className="space-y-1">
+                              <div className="h-2.5 bg-neutral-200 rounded" />
+                              <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                              <div className="h-2.5 bg-neutral-200 rounded w-2/3" />
+                            </div>
+                          </li>
+                        ))}
+                        {!nlLoading && nlSearchResults.slice(0,60).map((r,idx)=>(
+                          <li key={r.update.id} className="result-item" onClick={()=>openUpdate(r.update.id)}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="index-badge">{idx+1}</span>
+                              <span className="proj-name">{r.update.project}</span>
+                              <span className="date-chip">{r.update.date}</span>
+                            </div>
+                            <p className="snippet">{r.snippet}</p>
+                          </li>
+                        ))}
+                        {!nlLoading && nlSearchResults.length===0 && !nlError && fullSearchStarted && <li className="text-[11px] text-neutral-500">No matches. Refine your question.</li>}
+                        {!nlLoading && nlError && <li className="text-[11px] text-rose-600">Error: {nlError}</li>}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {/* Global NL Search Bar (only visible when not in full search mode) */}
+        {!fullSearchMode && (
         <section className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 mb-8" role="search" aria-label="Natural language corpus search">
               <form
                 onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }}
@@ -536,6 +612,7 @@ function App() {
                   aria-label="Ask a question about all updates"
                   placeholder="Ask: What are the main blockers for platform integration?"
                   value={nlSearchQuery}
+                  onFocus={()=> setFullSearchMode(true)}
                   onChange={(e)=>{ setNlSearchQuery(e.target.value); }}
                   className="flex-1 rounded-md bg-neutral-50 border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/40"
                 />
@@ -550,63 +627,10 @@ function App() {
                   {nlLoading ? 'Searching…' : 'Search'}
                 </button>
               </form>
-              {nlSearchQuery.trim().length > 0 && nlSearchQuery.trim().length < 3 && !nlLoading && (
-                <p className="mt-3 text-xs text-neutral-500">Type at least 3 characters then press Enter to search.</p>
-              )}
-              {nlSearchActive && (
-                <div className="mt-6 space-y-6" aria-live="polite">
-                  {nlLoading && (
-                    <div className="flex items-center gap-3 text-sm text-neutral-500 animate-pulse">
-                      <svg className="h-5 w-5 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" />
-                        <path d="M22 12a10 10 0 0 1-10 10" className="opacity-75" />
-                      </svg>
-                      <span>Analyzing updates & generating answer…</span>
-                    </div>
-                  )}
-                  {!nlLoading && synthesizedAnswer && <div className="bg-accent-soft rounded-lg p-4 border border-accent/30"><p className="text-sm leading-relaxed text-neutral-800"><span className="font-semibold text-accent">Answer:</span> <span dangerouslySetInnerHTML={{__html: highlightSnippet(synthesizedAnswer, '')}} /></p></div>}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xs uppercase tracking-wide font-semibold text-neutral-500">Sources Used <span className="text-neutral-400 font-normal">({nlLoading ? '…' : nlSearchResults.length})</span></h3>
-                      <div className="text-[11px] text-neutral-400">{nlLoading ? 'Gathering sources…' : `Projects matched: ${matchedProjectSet ? matchedProjectSet.size : 0}`}</div>
-                    </div>
-                    <ul className="space-y-3" aria-label="Search results list">
-                      {nlLoading && (
-                        Array.from({length:4}).map((_,i)=>(
-                          <li key={i} className="rounded-lg p-3 border border-neutral-200 bg-white">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="w-5 h-5 rounded-full bg-accent/10 border border-accent/20" />
-                              <div className="h-3 w-32 bg-neutral-200 rounded animate-pulse" />
-                            </div>
-                            <div className="space-y-2">
-                              <div className="h-2.5 bg-neutral-200 rounded" />
-                              <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
-                              <div className="h-2.5 bg-neutral-200 rounded w-2/3" />
-                            </div>
-                          </li>
-                        ))
-                      )}
-                       {!nlLoading && nlSearchResults.slice(0,40).map((r, idx) => (
-                        <li key={r.update.id} className="rounded-lg p-3 border border-neutral-200 bg-white hover:border-accent/40 transition-colors focus-within:border-accent/50">
-                          <button onClick={()=>openUpdate(r.update.id)} className="text-left w-full focus:outline-none">
-                            <div className="flex justify-between items-center mb-1">
-                              <div className="flex items-center gap-2">
-                                <span className="text-[10px] w-5 h-5 inline-flex items-center justify-center rounded-full bg-accent/15 text-accent font-semibold border border-accent/30">{idx+1}</span>
-                                <span className="text-xs font-semibold text-accent tracking-wide">{r.update.project}</span>
-                              </div>
-                            </div>
-                            <p className="text-[12px] leading-snug text-neutral-600">{r.snippet}</p>
-                          </button>
-                        </li>
-                      ))}
-                       {!nlLoading && nlSearchResults.length===0 && !nlError && <li className="text-xs text-neutral-500">No matches. Refine or broaden your question.</li>}
-                       {!nlLoading && nlError && <li className="text-xs text-rose-600">Error: {nlError}</li>}
-                    </ul>
-                  </div>
-                </div>
-              )}
         </section>
+        )}
         {/* Unified Filter Bar */}
+        {!fullSearchMode && (
         <section className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 mb-10">
           <div className="flex flex-wrap items-end gap-4">
             <div className="flex flex-col gap-1">
@@ -654,180 +678,162 @@ function App() {
             </div>
           </div>
         </section>
-        {!fullSearchMode && (
-          <>
-            {/* Active Filter Chips Row */}
-            {(selectedProgram || selectedObjective || owner || statusColor || search) && (
-              <div className="max-w-7xl mx-auto mb-8 -mt-6 px-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  {search && (
-                    <button onClick={()=>setSearch('')} className="filter-chip">
-                      <span className="filter-chip-label">Search:</span> {search}
-                      <span aria-hidden="true" className="filter-chip-close">×</span>
-                    </button>
-                  )}
-                  {selectedProgram && (
-                    <button onClick={()=>{setSelectedProgram(''); if(activeFilter?.type==='program') setActiveFilter(null);}} className="filter-chip filter-chip-accent">
-                      <span className="filter-chip-label">Program:</span> {selectedProgram}
-                      <span aria-hidden="true" className="filter-chip-close">×</span>
-                    </button>
-                  )}
-                  {selectedObjective && (
-                    <button onClick={()=>{setSelectedObjective(''); if(activeFilter?.type==='objective') setActiveFilter(null);}} className="filter-chip filter-chip-objective">
-                      <span className="filter-chip-label">Objective:</span> {selectedObjective}
-                      <span aria-hidden="true" className="filter-chip-close">×</span>
-                    </button>
-                  )}
-                  {owner && (
-                    <button onClick={()=>setOwner('')} className="filter-chip filter-chip-owner">
-                      <span className="filter-chip-label">Owner:</span> {owner}
-                      <span aria-hidden="true" className="filter-chip-close">×</span>
-                    </button>
-                  )}
-                  {statusColor && (
-                    <button onClick={()=>setStatusColor('')} className={`filter-chip filter-chip-status-${statusColor}`}>
-                      <span className="filter-chip-label">Status:</span> {statusColor}
-                      <span aria-hidden="true" className="filter-chip-close">×</span>
-                    </button>
-                  )}
-                  <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="filter-chip-clear-all">Clear All</button>
-                </div>
-              </div>
-            )}
-            {/* Summaries Section */}
-            <section className="mb-14 space-y-8" aria-label="AI generated summaries">
-              {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
-              {sectionLoading && !sectionError && (
-                <div className="grid md:grid-cols-3 gap-6 animate-pulse">
-                  {Array.from({length:3}).map((_,i)=>(
-                    <div key={i} className="rounded-xl border border-neutral-200 bg-white p-5">
-                      <div className="h-4 w-28 bg-neutral-200 rounded mb-4" />
-                      <div className="space-y-2">
-                        <div className="h-2.5 bg-neutral-200 rounded" />
-                        <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
-                        <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {!sectionLoading && !sectionError && (
-                <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
-                  {/* Achievements Spotlight */}
-                  <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green group cursor-pointer" aria-labelledby="achievements-heading" role="button" tabIndex={0} aria-expanded={!achCollapsed} onClick={()=>setAchCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setAchCollapsed(c=>!c);}}}>
-                    <header className="summary-spotlight-head">
-                      <div className="summary-spotlight-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                          <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" />
-                        </svg>
-                      </div>
-                      <h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3">
-                        <span className="inline-flex items-center gap-2">{achHeadline || 'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                        <button type="button" aria-label={achCollapsed? 'Expand achievements summary':'Collapse achievements summary'} onClick={(e)=>{e.stopPropagation(); setAchCollapsed(c=>!c);}} className={`chevron-btn ${achCollapsed? '' : 'open'}`}>
-                          <span aria-hidden className="chevron-icon">›</span>
-                        </button>
-                      </h3>
-                    </header>
-                    {!achCollapsed && (
-                      <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
-                        <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />
-                        {renderSourcesList(achParts.sources)}
-                      </motion.div>
-                    )}
-                  </motion.section>
-                  {/* Flags Spotlight */}
-                  <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber group cursor-pointer" aria-labelledby="flags-heading" role="button" tabIndex={0} aria-expanded={!flagsCollapsed} onClick={()=>setFlagsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setFlagsCollapsed(c=>!c);}}}>
-                    <header className="summary-spotlight-head">
-                      <div className="summary-spotlight-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                          <path d="M4 2h8l2 5 2-5h4v20H4z" />
-                        </svg>
-                      </div>
-                      <h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3">
-                        <span className="inline-flex items-center gap-2">{flagsHeadline || 'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                        <button type="button" aria-label={flagsCollapsed? 'Expand flags summary':'Collapse flags summary'} onClick={(e)=>{e.stopPropagation(); setFlagsCollapsed(c=>!c);}} className={`chevron-btn ${flagsCollapsed? '' : 'open'}`}>
-                          <span aria-hidden className="chevron-icon">›</span>
-                        </button>
-                      </h3>
-                    </header>
-                    {!flagsCollapsed && (
-                      <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
-                        <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />
-                        {renderSourcesList(flagParts.sources)}
-                      </motion.div>
-                    )}
-                  </motion.section>
-                  {/* Trends Spotlight */}
-                  <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan group cursor-pointer" aria-labelledby="trends-heading" role="button" tabIndex={0} aria-expanded={!trendsCollapsed} onClick={()=>setTrendsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setTrendsCollapsed(c=>!c);}}}>
-                    <header className="summary-spotlight-head">
-                      <div className="summary-spotlight-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                          <path d="M3 17l6-6 4 4 8-8" />
-                          <path d="M14 7h7v7" />
-                        </svg>
-                      </div>
-                      <h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3">
-                        <span className="inline-flex items-center gap-2">{trendsHeadline || 'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                        <button type="button" aria-label={trendsCollapsed? 'Expand trends summary':'Collapse trends summary'} onClick={(e)=>{e.stopPropagation(); setTrendsCollapsed(c=>!c);}} className={`chevron-btn ${trendsCollapsed? '' : 'open'}`}>
-                          <span aria-hidden className="chevron-icon">›</span>
-                        </button>
-                      </h3>
-                    </header>
-                    {!trendsCollapsed && (
-                      <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
-                        <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />
-                        {renderSourcesList(trendParts.sources)}
-                      </motion.div>
-                    )}
-                  </motion.section>
-                </motion.div>
-              )}
-            </section>
-            {/* Projects Section */}
-            <section>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
-              </div>
-              <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
-                <AnimatePresence mode="popLayout">
-                  {filteredProjects.map((update, i) => (
-                    <RelaiCard
-                      key={update.project}
-                      relai={update}
-                      index={i}
-                      onClick={() => setSelectedProject(update.project)}
-                      onFilter={applyFilter}
-                    />
-                  ))}
-                  {filteredProjects.length === 0 && (
-                    <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
-                      <p className="text-lg font-medium">No Relais match your filters</p>
-                      <p className="text-sm">Try adjusting your search criteria</p>
-                      <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            </section>
-          </>
         )}
-        {fullSearchMode && (
-          <div className="full-search-overlay" role="dialog" aria-label="Full search">
-            <div className="full-search-box">
-              <input
-                autoFocus
-                type="text"
-                className="full-search-input"
-                value={search}
-                onChange={e=>setSearch(e.target.value)}
-                placeholder="Type to search updates…"
-              />
+        {/* Active Filter Chips Row */}
+        {!fullSearchMode && (selectedProgram || selectedObjective || owner || statusColor || search) && (
+          <div className="max-w-7xl mx-auto mb-8 -mt-6 px-1">
+            <div className="flex flex-wrap items-center gap-2">
               {search && (
-                <button onClick={()=>setSearch('')} className="full-search-clear" aria-label="Clear search">✕</button>
+                <button onClick={()=>setSearch('')} className="filter-chip">
+                  <span className="filter-chip-label">Search:</span> {search}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
               )}
-              <p className="full-search-hint text-xs text-neutral-400 mt-3">Press ESC to exit full search</p>
+              {selectedProgram && (
+                <button onClick={()=>{setSelectedProgram(''); if(activeFilter?.type==='program') setActiveFilter(null);}} className="filter-chip filter-chip-accent">
+                  <span className="filter-chip-label">Program:</span> {selectedProgram}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {selectedObjective && (
+                <button onClick={()=>{setSelectedObjective(''); if(activeFilter?.type==='objective') setActiveFilter(null);}} className="filter-chip filter-chip-objective">
+                  <span className="filter-chip-label">Objective:</span> {selectedObjective}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {owner && (
+                <button onClick={()=>setOwner('')} className="filter-chip filter-chip-owner">
+                  <span className="filter-chip-label">Owner:</span> {owner}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {statusColor && (
+                <button onClick={()=>setStatusColor('')} className={`filter-chip filter-chip-status-${statusColor}`}>
+                  <span className="filter-chip-label">Status:</span> {statusColor}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="filter-chip-clear-all">Clear All</button>
             </div>
           </div>
+        )}
+        {/* Summaries Section (Achievements / Flags / Trends) */}
+        {!fullSearchMode && (
+        <section className="mb-14 space-y-8" aria-label="AI generated summaries">
+          {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
+          {sectionLoading && !sectionError && (
+            <div className="grid md:grid-cols-3 gap-6 animate-pulse">
+              {Array.from({length:3}).map((_,i)=>(
+                <div key={i} className="rounded-xl border border-neutral-200 bg-white p-5">
+                  <div className="h-4 w-28 bg-neutral-200 rounded mb-4" />
+                  <div className="space-y-2">
+                    <div className="h-2.5 bg-neutral-200 rounded" />
+                    <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                    <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {!sectionLoading && !sectionError && (
+            <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
+              {/* Achievements Spotlight */}
+              <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green group cursor-pointer" aria-labelledby="achievements-heading" role="button" tabIndex={0} aria-expanded={!achCollapsed} onClick={()=>setAchCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setAchCollapsed(c=>!c);}}}>
+                <header className="summary-spotlight-head">
+                  <div className="summary-spotlight-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" />
+                    </svg>
+                  </div>
+                  <h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3">
+                    <span className="inline-flex items-center gap-2">{achHeadline || 'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                    <button type="button" aria-label={achCollapsed? 'Expand achievements summary':'Collapse achievements summary'} onClick={(e)=>{e.stopPropagation(); setAchCollapsed(c=>!c);}} className={`chevron-btn ${achCollapsed? '' : 'open'}`}>
+                      <span aria-hidden className="chevron-icon">›</span>
+                    </button>
+                  </h3>
+                </header>
+                {!achCollapsed && (
+                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
+                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />
+                    {renderSourcesList(achParts.sources)}
+                  </motion.div>
+                )}
+              </motion.section>
+              {/* Flags Spotlight */}
+              <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber group cursor-pointer" aria-labelledby="flags-heading" role="button" tabIndex={0} aria-expanded={!flagsCollapsed} onClick={()=>setFlagsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setFlagsCollapsed(c=>!c);}}}>
+                <header className="summary-spotlight-head">
+                  <div className="summary-spotlight-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                      <path d="M4 2h8l2 5 2-5h4v20H4z" />
+                    </svg>
+                  </div>
+                  <h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3">
+                    <span className="inline-flex items-center gap-2">{flagsHeadline || 'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                    <button type="button" aria-label={flagsCollapsed? 'Expand flags summary':'Collapse flags summary'} onClick={(e)=>{e.stopPropagation(); setFlagsCollapsed(c=>!c);}} className={`chevron-btn ${flagsCollapsed? '' : 'open'}`}>
+                      <span aria-hidden className="chevron-icon">›</span>
+                    </button>
+                  </h3>
+                </header>
+                {!flagsCollapsed && (
+                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
+                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />
+                    {renderSourcesList(flagParts.sources)}
+                  </motion.div>
+                )}
+              </motion.section>
+              {/* Trends Spotlight */}
+              <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan group cursor-pointer" aria-labelledby="trends-heading" role="button" tabIndex={0} aria-expanded={!trendsCollapsed} onClick={()=>setTrendsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setTrendsCollapsed(c=>!c);}}}>
+                <header className="summary-spotlight-head">
+                  <div className="summary-spotlight-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                      <path d="M3 17l6-6 4 4 8-8" />
+                      <path d="M14 7h7v7" />
+                    </svg>
+                  </div>
+                  <h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3">
+                    <span className="inline-flex items-center gap-2">{trendsHeadline || 'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                    <button type="button" aria-label={trendsCollapsed? 'Expand trends summary':'Collapse trends summary'} onClick={(e)=>{e.stopPropagation(); setTrendsCollapsed(c=>!c);}} className={`chevron-btn ${trendsCollapsed? '' : 'open'}`}>
+                      <span aria-hidden className="chevron-icon">›</span>
+                    </button>
+                  </h3>
+                </header>
+                {!trendsCollapsed && (
+                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
+                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />
+                    {renderSourcesList(trendParts.sources)}
+                  </motion.div>
+                )}
+              </motion.section>
+            </motion.div>
+          )}
+        </section>
+        {/* Projects Section */}
+        {!fullSearchMode && (
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
+          </div>
+          <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((update, i) => (
+                <RelaiCard
+                  key={update.project}
+                  relai={update}
+                  index={i}
+                  onClick={() => setSelectedProject(update.project)}
+                  onFilter={applyFilter}
+                />
+              ))}
+              {filteredProjects.length === 0 && (
+                <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
+                  <p className="text-lg font-medium">No Relais match your filters</p>
+                  <p className="text-sm">Try adjusting your search criteria</p>
+                  <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </section>
         )}
       </main>
       {/* Footer */}
