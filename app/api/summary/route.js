@@ -3,11 +3,12 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs/promises';
 import path from 'path';
 import updatesData from '../../../lib/updatesData';
+import { GEN_ANSWER_MODEL } from '../../../lib/aiModels';
 
 // In-memory cache (resets on server restart / redeploy)
 // Structure: { key: { ts: number, data: { achievements, flags, trends } } }
 const CACHE = new Map();
-const TTL_MS = 1000 * 60 * 60; // 60 minutes
+const TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
 
 function scopeUpdates(scope) {
   if (!scope || scope.mode === 'overall') return updatesData;
@@ -74,9 +75,9 @@ export async function POST(req) {
     ]);
 
     // Generate sequentially to avoid rate spikes (could parallelize if needed)
-    const achievements = await generateSection(genAI, 'gemini-2.5-flash', achPrompt, 'achievements', corpus);
-    const flags = await generateSection(genAI, 'gemini-2.5-flash', flagPrompt, 'flags', corpus);
-    const trends = await generateSection(genAI, 'gemini-2.5-flash', trendPrompt, 'trends', corpus);
+    const achievements = await generateSection(genAI, GEN_ANSWER_MODEL, achPrompt, 'achievements', corpus);
+    const flags = await generateSection(genAI, GEN_ANSWER_MODEL, flagPrompt, 'flags', corpus);
+    const trends = await generateSection(genAI, GEN_ANSWER_MODEL, trendPrompt, 'trends', corpus);
 
     const data = { achievements, flags, trends, fromCache: false, generatedAt: new Date().toISOString() };
     CACHE.set(cacheKey, { ts: now, data });

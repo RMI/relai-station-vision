@@ -20,10 +20,11 @@ TASK:
 3. Merge redundant or overlapping achievements.
 4. Exclude vague statements, routine maintenance, or generic status language.
 5. Only use information explicitly present in the supplied updates. Do not fabricate specifics.
+6. Consider the dates of the provided update snippets! Don't list achievements that are more than four weeks old.
 
 OUTPUT FORMAT (Markdown):
 - Start with a single bold sentence summarizing overall achievement momentum.
-- Then a bullet list ("- ") of 3–6 achievement items.
+- Then a bullet list ("- ") of 0-5 achievement items.
 - Each bullet: strong verb + crisp impact phrase + (optional) parenthetical indicating 1–3 project names if relevant.
 - No extra commentary, no headings.
 

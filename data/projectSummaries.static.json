@@ -1,0 +1,8 @@
+{
+  "__meta": {
+    "description": "Precomputed project card summaries. Regenerate via scripts/regenerateProjectSummaries.mjs using prompts/project_card_summaries.md.",
+    "generatedAt": "TEMP_PLACEHOLDER",
+    "prompt": "project_card_summaries.md",
+    "schemaVersion": 1
+  }
+}

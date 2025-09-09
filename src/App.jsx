@@ -226,7 +226,7 @@ function App() {
   const [mostRecentByProject, setMostRecentByProject] = useState({});
   const [targetUpdateDate, setTargetUpdateDate] = useState(null); // when opening modal at specific update
   // Summary filters
-  const [summaryMode, setSummaryMode] = useState('overall'); // overall | program | objective
+  // Removed summaryMode toggle in new layout; scope derives from program/objective filters
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedObjective, setSelectedObjective] = useState('');
   // AI Generated sectional summaries
@@ -257,15 +257,13 @@ function App() {
   const applyFilter = (type, value) => {
     setActiveFilter({ type, value });
     setSelectedProject(null);
-    // Keep summary controls in sync where applicable
     if (type === 'program') {
-      setSummaryMode('program');
       setSelectedProgram(value);
+      setSelectedObjective('');
     } else if (type === 'objective') {
-      setSummaryMode('objective');
       setSelectedObjective(String(value));
+      setSelectedProgram('');
     }
-    // For owner we don't have a summary control; filtering will still apply to the dataset below
   };
 
   const clearActiveFilter = () => {
@@ -275,8 +273,8 @@ function App() {
   };
 
   function currentScope(){
-    if (summaryMode === 'program' && selectedProgram) return { mode: 'program', value: selectedProgram };
-    if (summaryMode === 'objective' && selectedObjective) return { mode: 'objective', value: selectedObjective };
+    if (selectedProgram) return { mode: 'program', value: selectedProgram };
+    if (selectedObjective) return { mode: 'objective', value: selectedObjective };
     return { mode: 'overall' };
   }
 
@@ -300,7 +298,7 @@ function App() {
 
   // Fetch on mount & when scope changes
   useEffect(()=>{ fetchSections(); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [summaryMode, selectedProgram, selectedObjective]);
+  }, [selectedProgram, selectedObjective]);
 
   function renderMarkdown(md){
     if(!md) return null;
@@ -393,8 +391,8 @@ function App() {
   // Filter the most recent updates based on search criteria, summary filters, and global clickable filter
   let filteredProjects = Object.values(mostRecentByProject).filter((u) => {
     const matchesSummaryScope = (
-      (summaryMode !== 'program' || !selectedProgram || u.program === selectedProgram) &&
-      (summaryMode !== 'objective' || !selectedObjective || (Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective))))
+      (!selectedProgram || u.program === selectedProgram) &&
+      (!selectedObjective || (Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective))))
     );
     const matchesSearchCorpus = (!matchedProjectSet || matchedProjectSet.has(u.project));
     return (
@@ -465,129 +463,10 @@ function App() {
           </div>
         </div>
       </header>
-      {/* Main content two-column layout */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 pb-16 relative z-10">
-        <div className={`grid ${nlSearchActive ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-[340px,1fr]'} gap-10 items-start`}>
-          {/* Left sticky summary / insights (hidden in NL search mode) */}
-          {!nlSearchActive && (
-          <aside className="relative">
-            <div className="sticky top-6 space-y-6">
-              {/* Active filter banner (moved inside aside) */}
-              {activeFilter && (
-                <div className="bg-white border border-neutral-200 rounded-xl p-4 shadow-sm">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="text-sm leading-snug">
-                      <div className="font-semibold text-neutral-800 mb-1">Active Filter</div>
-                      <div className="inline-flex items-center gap-2 text-neutral-600 text-xs bg-neutral-50 px-2 py-1 rounded-md border border-neutral-200">
-                        <span className="font-medium">{activeFilter.type.charAt(0).toUpperCase() + activeFilter.type.slice(1)}</span>
-                        <span className="text-neutral-400">=</span>
-                        <span className="font-semibold text-neutral-800">{String(activeFilter.value)}</span>
-                      </div>
-                      {(activeFilter.type === 'program' || activeFilter.type === 'objective') && (
-                        <div className="mt-2 text-[11px] text-neutral-500">Top summary scoped to this {activeFilter.type}.</div>
-                      )}
-                    </div>
-                    <button onClick={clearActiveFilter} className="text-xs text-neutral-500 hover:text-neutral-700">Clear</button>
-                  </div>
-                </div>
-              )}
-              {/* Summary filters + content */}
-              <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-[11px] font-semibold tracking-wide uppercase text-neutral-500 mb-2">Summary Scope</div>
-                    <div className="inline-flex bg-neutral-100 rounded-lg p-1 w-full">
-                      {['overall','program','objective'].map(mode => (
-                        <button
-                          key={mode}
-                          onClick={() => { setSummaryMode(mode); setSelectedProgram(''); setSelectedObjective(''); }}
-                          className={`flex-1 px-3 py-1.5 text-xs rounded-md transition-colors ${summaryMode === mode ? 'bg-white shadow text-neutral-900' : 'text-neutral-600 hover:text-neutral-800'}`}
-                        >
-                          {mode === 'overall' ? 'Overall' : mode === 'program' ? 'Program' : 'Objective'}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <button onClick={()=>fetchSections(true)} disabled={sectionLoading} className={`text-[11px] px-2 py-1 rounded-md border ${sectionLoading ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-wait' : 'bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border-neutral-200'}`}>Refresh</button>
-                    {lastGenAt && <span className="text-[10px] text-neutral-400">{new Date(lastGenAt).toLocaleTimeString()}</span>}
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  {summaryMode === 'program' && (
-                    <select
-                      value={selectedProgram}
-                      onChange={e => setSelectedProgram(e.target.value)}
-                      className="w-full px-3 py-2 rounded-md text-xs border border-neutral-200 bg-white text-neutral-700 focus:outline-none focus:ring-2 focus:ring-accent/50"
-                    >
-                      <option value="">Select a program…</option>
-                      {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
-                    </select>
-                  )}
-                  {summaryMode === 'objective' && (
-                    <select
-                      value={selectedObjective}
-                      onChange={e => setSelectedObjective(e.target.value)}
-                      className="w-full px-3 py-2 rounded-md text-xs border border-neutral-200 bg-white text-neutral-700 focus:outline-none focus:ring-2 focus:ring-accent/50"
-                    >
-                      <option value="">Select an objective…</option>
-                      {allObjectives.map(o => <option key={o} value={String(o)}>{o}</option>)}
-                    </select>
-                  )}
-                </div>
-                <div className="mt-6 border-t border-neutral-200 pt-5 space-y-8">
-                  {sectionError && <div className="text-[11px] text-rose-600">Error: {sectionError}</div>}
-                  {sectionLoading && !sectionError && (
-                    <div className="space-y-6 animate-pulse">
-                      <div>
-                        <div className="h-3 w-32 bg-neutral-200 rounded mb-3" />
-                        <div className="space-y-2">
-                          <div className="h-2.5 bg-neutral-200 rounded" />
-                          <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
-                          <div className="h-2.5 bg-neutral-200 rounded w-4/6" />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="h-3 w-24 bg-neutral-200 rounded mb-3" />
-                        <div className="space-y-2">
-                          <div className="h-2.5 bg-neutral-200 rounded" />
-                          <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="h-3 w-20 bg-neutral-200 rounded mb-3" />
-                        <div className="space-y-2">
-                          <div className="h-2.5 bg-neutral-200 rounded" />
-                          <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {!sectionLoading && !sectionError && (
-                    <>
-                      <div>
-                        <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Achievements</h4>
-                        <div className="prose prose-sm max-w-none text-[12.5px] leading-snug text-neutral-700" dangerouslySetInnerHTML={{__html: renderMarkdown(achievementsMd)}} />
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Flags</h4>
-                        <div className="prose prose-sm max-w-none text-[12.5px] leading-snug text-neutral-700" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsMd)}} />
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-semibold tracking-wide text-neutral-600 uppercase mb-2">Trends</h4>
-                        <div className="prose prose-sm max-w-none text-[12.5px] leading-snug text-neutral-700" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsMd)}} />
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </aside>
-          )}
-          {/* Right content area */}
-          <section className="space-y-10">
-            {/* NL Search Experience (always positioned above filters) */}
-            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5" role="search" aria-label="Natural language corpus search">
+      {/* Main content redesigned layout */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 pb-20 relative z-10">
+        {/* Global NL Search Bar */}
+        <section className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 mb-8" role="search" aria-label="Natural language corpus search">
               <form
                 onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }}
                 className="flex gap-3 items-center"
@@ -666,45 +545,121 @@ function App() {
                   </div>
                 </div>
               )}
+        </section>
+        {/* Unified Filter Bar */}
+        <section className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 mb-10">
+          <div className="flex flex-wrap items-end gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Search (text)</label>
+              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Filter by keyword…" className="px-3 py-2 text-sm rounded-md border border-neutral-300 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent/40" />
             </div>
-            {!nlSearchActive && (
-              <div>
-              {((summaryMode === 'program' && selectedProgram) || (summaryMode === 'objective' && selectedObjective)) && (
-                <div className="mb-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-neutral-100 border border-neutral-200 text-xs text-neutral-600">
-                  <span className="font-semibold text-neutral-800">Scope:</span>
-                  {summaryMode === 'program' && selectedProgram && <span className="text-neutral-700">Program = {selectedProgram}</span>}
-                  {summaryMode === 'objective' && selectedObjective && <span className="text-neutral-700">Objective = {selectedObjective}</span>}
-                  <button
-                    onClick={() => { setSelectedProgram(''); setSelectedObjective(''); setSummaryMode('overall'); }}
-                    className="ml-2 text-[11px] text-neutral-500 hover:text-neutral-700 underline decoration-dotted underline-offset-2"
-                  >Clear</button>
-                </div>
-              )}
-              <h2 className="text-lg font-semibold text-neutral-800 mb-4">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
-              <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
-                <AnimatePresence mode="popLayout">
-                  {filteredProjects.map((update, i) => (
-                    <RelaiCard
-                      key={update.project}
-                      relai={update}
-                      index={i}
-                      onClick={() => setSelectedProject(update.project)}
-                      onFilter={applyFilter}
-                    />
-                  ))}
-                  {filteredProjects.length === 0 && (
-                    <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
-                      <p className="text-lg font-medium">No Relais match your filters</p>
-                      <p className="text-sm">Try adjusting your search criteria</p>
-                      <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Program</label>
+              <select value={selectedProgram} onChange={e=>{setSelectedProgram(e.target.value); if(e.target.value) {setSelectedObjective(''); setActiveFilter({type:'program', value:e.target.value}); } else { setActiveFilter(null);} }} className="px-3 py-2 text-sm rounded-md border border-neutral-300 bg-white focus:outline-none focus:ring-2 focus:ring-accent/40">
+                <option value="">All</option>
+                {allPrograms.map(p=> <option key={p} value={p}>{p}</option>)}
+              </select>
             </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Objective</label>
+              <select value={selectedObjective} onChange={e=>{setSelectedObjective(e.target.value); if(e.target.value){ setSelectedProgram(''); setActiveFilter({type:'objective', value:e.target.value}); } else { setActiveFilter(null);} }} className="px-3 py-2 text-sm rounded-md border border-neutral-300 bg-white focus:outline-none focus:ring-2 focus:ring-accent/40">
+                <option value="">All</option>
+                {allObjectives.map(o=> <option key={o} value={String(o)}>{o}</option>)}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Owner</label>
+              <select value={owner} onChange={e=>setOwner(e.target.value)} className="px-3 py-2 text-sm rounded-md border border-neutral-300 bg-white focus:outline-none focus:ring-2 focus:ring-accent/40">
+                <option value="">All</option>
+                {allOwners.map(o=> <option key={o} value={o}>{o}</option>)}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Status</label>
+              <select value={statusColor} onChange={e=>setStatusColor(e.target.value)} className="px-3 py-2 text-sm rounded-md border border-neutral-300 bg-white focus:outline-none focus:ring-2 focus:ring-accent/40">
+                <option value="">All</option>
+                {allStatusColors.map(c=> <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            {activeFilter && (
+              <div className="ml-auto flex items-center gap-2 bg-neutral-50 border border-neutral-200 px-3 py-2 rounded-md text-xs text-neutral-600">
+                <span className="font-medium">{activeFilter.type}: {String(activeFilter.value)}</span>
+                <button onClick={clearActiveFilter} className="text-neutral-500 hover:text-neutral-800">Clear</button>
+              </div>
             )}
-          </section>
-        </div>
+            <div className="ml-auto flex items-center gap-3">
+              <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="text-xs px-3 py-2 rounded-md bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700">Reset</button>
+              <button onClick={()=>fetchSections(true)} disabled={sectionLoading} className={`text-xs px-3 py-2 rounded-md border ${sectionLoading ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-wait' : 'bg-accent-soft border-accent/30 text-accent hover:border-accent/50'}`}>{sectionLoading ? 'Refreshing…' : 'Refresh Summaries'}</button>
+              {lastGenAt && <span className="text-[10px] text-neutral-400">{new Date(lastGenAt).toLocaleTimeString()}</span>}
+            </div>
+          </div>
+        </section>
+        {/* Summaries Section (Achievements / Flags / Trends) */}
+        <section className="mb-14 space-y-8" aria-label="AI generated summaries">
+          {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
+          {sectionLoading && !sectionError && (
+            <div className="grid md:grid-cols-3 gap-6 animate-pulse">
+              {Array.from({length:3}).map((_,i)=>(
+                <div key={i} className="rounded-xl border border-neutral-200 bg-white p-5">
+                  <div className="h-4 w-28 bg-neutral-200 rounded mb-4" />
+                  <div className="space-y-2">
+                    <div className="h-2.5 bg-neutral-200 rounded" />
+                    <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                    <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {!sectionLoading && !sectionError && (
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="summary-tile">
+                <div className="summary-tile-head">
+                  <span className="summary-pill bg-emerald-500/15 text-emerald-600 border border-emerald-400/30">Achievements</span>
+                </div>
+                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achievementsMd)}} />
+              </div>
+              <div className="summary-tile">
+                <div className="summary-tile-head">
+                  <span className="summary-pill bg-amber-500/15 text-amber-600 border border-amber-400/30">Flags</span>
+                </div>
+                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsMd)}} />
+              </div>
+              <div className="summary-tile">
+                <div className="summary-tile-head">
+                  <span className="summary-pill bg-cyan-500/15 text-cyan-600 border border-cyan-400/30">Trends</span>
+                </div>
+                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsMd)}} />
+              </div>
+            </div>
+          )}
+        </section>
+        {/* Projects Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
+          </div>
+          <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((update, i) => (
+                <RelaiCard
+                  key={update.project}
+                  relai={update}
+                  index={i}
+                  onClick={() => setSelectedProject(update.project)}
+                  onFilter={applyFilter}
+                />
+              ))}
+              {filteredProjects.length === 0 && (
+                <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
+                  <p className="text-lg font-medium">No Relais match your filters</p>
+                  <p className="text-sm">Try adjusting your search criteria</p>
+                  <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </section>
       </main>
       {/* Footer */}
       <footer className="bg-white border-t border-neutral-200 py-4 mt-4">

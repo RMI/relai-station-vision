@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEN_EMBED_MODEL, GEN_ANSWER_MODEL } from '../../../lib/aiModels';
 import updatesData from '../../../lib/updatesData';
 import fs from 'fs/promises';
 import path from 'path';
@@ -39,7 +40,7 @@ function buildCorpusEntries() {
 async function ensureEmbeddings(apiKey) {
   if (embeddingCache) return embeddingCache;
   const genAI = new GoogleGenerativeAI(apiKey);
-  const embedModel = genAI.getGenerativeModel({ model: 'text-embedding-004' });
+  const embedModel = genAI.getGenerativeModel({ model: GEN_EMBED_MODEL });
   const entries = buildCorpusEntries();
   const vectors = [];
   for (const entry of entries) {
@@ -79,7 +80,7 @@ export async function POST(req) {
     if (!meta.length) return NextResponse.json({ matches: [], answer: '', warning: 'Empty corpus' });
     let qEmb;
     try {
-      const embedModel = genAI.getGenerativeModel({ model: 'text-embedding-004' });
+      const embedModel = genAI.getGenerativeModel({ model: GEN_EMBED_MODEL });
       const qRes = await embedModel.embedContent({ content: { parts: [{ text: query }] } });
       qEmb = qRes.embedding.values;
     } catch(embedErr) {
@@ -114,7 +115,7 @@ export async function POST(req) {
 
     // Generate answer with timeout, retry, enriched error classification
     const GEN_TIMEOUT_MS = 30000; // 30s ceiling
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ model: GEN_ANSWER_MODEL });
     const template = await loadAnswerPrompt();
 
     function classifyError(err){

@@ -18,12 +18,15 @@ TASK:
 3. Highlight escalation urgency if status_color is red or language indicates timeline risk.
 4. Ignore resolved items unless partial risk remains.
 5. Use only provided data; no speculation.
+6. Consider the dates of the provided update snippets! Don't list flags that haven't been mentioned in the two most recent updates for the project and don't list flags that have been mentioned as resolved in newer updates.
+
 
 OUTPUT FORMAT (Markdown):
 - Begin with a single bold sentence summarizing overall risk posture (e.g., **Risk posture stable with isolated schedule threats.**)
-- Then a bullet list of 3–5 flags.
-- Each bullet begins with one of: HIGH:, MEDIUM:, WATCH: to indicate severity. Use HIGH only for red status or explicit critical wording.
+- Then a bullet list ("- ") of 0-5 flags.
+- Each bullet begins with one of: HIGH:, MEDIUM:, WATCH: to indicate severity. Bold these words. Use HIGH only for red status or explicit critical wording.
 - After severity tag, provide concise description. End with parenthetical listing 1–3 affected projects (comma-separated) if multi-project relevance.
+- Use approriate formatting and emphasize the salient pieces.
 
 CONSTRAINTS:
 - Max 190 characters per bullet.

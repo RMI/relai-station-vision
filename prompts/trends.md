@@ -18,11 +18,16 @@ TASK:
 3. Merge overlapping themes; pick the clearest phrasing.
 4. Skip purely operational or one-off items.
 5. Only use explicit information; do not infer unstated causal claims.
+6. Consider the dates of the provided update snippets and only list trends that have been mentioned or discussed in the last six weeks.
+
 
 OUTPUT FORMAT (Markdown):
+- Critical: Only provide a response if there are sufficient, high quality signals for the selected context. In all other cases state in a single bold sentence that there has been no recent meta-trends detected.
 - Start with a single bold sentence summarizing meta-trend direction (e.g., **Momentum consolidating around interoperable traceability and carbon data alignment.**)
-- Then a bullet list of 3–5 trends.
+- Then a bullet list ("- ") of 0-5 trends.
 - Each bullet: short trend label in Title Case, a colon, then a concise descriptive clause; finish with parenthetical 2–4 supporting project names.
+- Use approriate formatting and emphasize the salient pieces
+
 
 CONSTRAINTS:
 - Max 160 characters per bullet.
