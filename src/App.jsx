@@ -271,9 +271,8 @@ function App() {
   const [nlAnswer, setNlAnswer] = useState('');
   const [nlLoading, setNlLoading] = useState(false);
   const [nlError, setNlError] = useState(null);
-  // Full screen NL search UX state
-  const [fullSearchMode, setFullSearchMode] = useState(false); // true once user focuses NL input
-  const [fullSearchStarted, setFullSearchStarted] = useState(false); // true after submit (Enter)
+  // Inline search focus highlight state
+  const [nlFocused, setNlFocused] = useState(false);
   
   // Helper to open a search result (project + specific date) from NL results
   const openUpdate = (id) => {
@@ -353,7 +352,6 @@ function App() {
       return;
     }
     try {
-      setFullSearchStarted(true); // mark that a search execution has begun
       setNlSearchActive(true);
       setNlSearchResults([]);
       setNlAnswer('');
@@ -374,7 +372,7 @@ function App() {
       setNlLoading(false);
     }
   };
-  const clearNlSearch = () => { setNlSearchQuery(''); setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setNlError(null); setFullSearchStarted(false); setFullSearchMode(false); };
+  const clearNlSearch = () => { setNlSearchQuery(''); setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setNlError(null); };
   
   // Organize updates - get the most recent update for each project
   useEffect(() => {
@@ -526,111 +524,87 @@ function App() {
       </header>
       {/* Main content redesigned layout */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 pb-20 relative z-10">
-        {/* Full Screen NL Search Overlay */}
-        <AnimatePresence>
-          {fullSearchMode && (
-            <motion.div key="fs-overlay" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.25}} className="full-search-overlay">
-              <motion.div initial={{scale:0.94, opacity:0}} animate={{scale:1, opacity:1}} exit={{scale:0.94, opacity:0}} transition={{type:'spring', stiffness:160, damping:18}} className="search-elevated">
-                <form onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }} className="relative flex items-center gap-3">
-                  <input
-                    autoFocus
-                    type="text"
-                    aria-label="Ask a question about all updates"
-                    placeholder="Ask anything across all project updates…"
-                    value={nlSearchQuery}
-                    onChange={(e)=>{ setNlSearchQuery(e.target.value); }}
-                    className="search-elevated-input flex-1"
-                  />
-                  {nlSearchQuery && !nlLoading && (
-                    <button type="button" onClick={()=>{ setNlSearchQuery(''); setFullSearchStarted(false); setNlSearchActive(false); }} className="search-elevated-clear" aria-label="Clear query">✕</button>
-                  )}
-                  <button type="submit" disabled={nlLoading || nlSearchQuery.trim().length < 3} className="search-elevated-action" aria-label="Run search">
-                    {nlLoading ? 'Searching…' : 'Search'}
-                  </button>
-                  <button type="button" onClick={clearNlSearch} className="search-elevated-close" aria-label="Close search (Esc)">Esc</button>
-                </form>
-                {nlSearchQuery.trim().length>0 && nlSearchQuery.trim().length<3 && !nlLoading && (
-                  <p className="mt-3 text-xs text-neutral-400">Type at least 3 characters then press Enter.</p>
-                )}
-                {fullSearchStarted && (
-                  <div className="mt-8 space-y-6" aria-live="polite">
-                    {nlLoading && (
-                      <div className="flex items-center gap-3 text-sm text-neutral-500">
-                        <svg className="h-5 w-5 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" />
-                          <path d="M22 12a10 10 0 0 1-10 10" className="opacity-75" />
-                        </svg>
-                        <span>Analyzing updates…</span>
-                      </div>
-                    )}
-                    {!nlLoading && synthesizedAnswer && <div className="answer-panel"><p className="text-sm leading-relaxed text-neutral-800"><span className="font-semibold text-accent">Answer:</span> <span dangerouslySetInnerHTML={{__html: highlightSnippet(synthesizedAnswer, '')}} /></p></div>}
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[11px] uppercase tracking-wide font-semibold text-neutral-500">Sources <span className="text-neutral-400 font-normal">({nlLoading ? '…' : nlSearchResults.length})</span></h3>
-                        <div className="text-[11px] text-neutral-400">{nlLoading ? 'Gathering…' : `Projects: ${matchedProjectSet ? matchedProjectSet.size : 0}`}</div>
-                      </div>
-                      <ul className="space-y-3 max-h-[42vh] overflow-y-auto pr-1" aria-label="Search results list">
-                        {nlLoading && Array.from({length:5}).map((_,i)=>(
-                          <li key={i} className="result-skel">
-                            <div className="h-3 w-40 bg-neutral-200 rounded mb-2" />
-                            <div className="space-y-1">
-                              <div className="h-2.5 bg-neutral-200 rounded" />
-                              <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
-                              <div className="h-2.5 bg-neutral-200 rounded w-2/3" />
-                            </div>
-                          </li>
-                        ))}
-                        {!nlLoading && nlSearchResults.slice(0,60).map((r,idx)=>(
-                          <li key={r.update.id} className="result-item" onClick={()=>openUpdate(r.update.id)}>
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="index-badge">{idx+1}</span>
-                              <span className="proj-name">{r.update.project}</span>
-                              <span className="date-chip">{r.update.date}</span>
-                            </div>
-                            <p className="snippet">{r.snippet}</p>
-                          </li>
-                        ))}
-                        {!nlLoading && nlSearchResults.length===0 && !nlError && fullSearchStarted && <li className="text-[11px] text-neutral-500">No matches. Refine your question.</li>}
-                        {!nlLoading && nlError && <li className="text-[11px] text-rose-600">Error: {nlError}</li>}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            </motion.div>
+        {/* Inline NL Search (no full-screen mode) */}
+        <section
+          className={`nl-search-shell bg-white rounded-xl shadow-sm border p-5 mb-8 transition-all duration-300 ${nlFocused ? 'ring-2 ring-accent/50 border-accent/50 shadow-[0_0_0_1px_rgba(255,255,255,0.6),0_10px_30px_-6px_rgba(56,189,248,0.55)] scale-[1.015]' : 'border-neutral-200'}`}
+          role="search"
+          aria-label="Natural language corpus search"
+        >
+          <form
+            onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }}
+            className="flex gap-3 items-center"
+          >
+            <input
+              type="text"
+              aria-label="Ask a question about all updates"
+              placeholder="Ask: What are the main blockers for platform integration?"
+              value={nlSearchQuery}
+              onFocus={()=> setNlFocused(true)}
+              onBlur={()=> setNlFocused(false)}
+              onChange={(e)=>{ setNlSearchQuery(e.target.value); }}
+              className={`flex-1 rounded-md bg-neutral-50 border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/40 ${nlFocused ? 'border-accent' : 'border-neutral-300'}`}
+            />
+            {nlSearchActive && !nlLoading && (
+              <button type="button" onClick={clearNlSearch} className="px-3 py-2 text-xs rounded-md bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 focus:outline-none focus:ring-2 focus:ring-accent/40">Clear</button>
+            )}
+            <button
+              type="submit"
+              disabled={nlLoading || nlSearchQuery.trim().length < 3}
+              className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 ${nlLoading ? 'bg-neutral-200 border-neutral-300 text-neutral-500 cursor-wait' : nlSearchQuery.trim().length < 3 ? 'bg-neutral-100 border-neutral-200 text-neutral-400 cursor-not-allowed' : 'bg-accent-soft border-accent/30 text-accent hover:border-accent/50'}`}
+            >
+              {nlLoading ? 'Searching…' : 'Search'}
+            </button>
+          </form>
+          {nlSearchQuery.trim().length>0 && nlSearchQuery.trim().length<3 && !nlLoading && (
+            <p className="mt-3 text-xs text-neutral-400">Type at least 3 characters then press Enter.</p>
           )}
-        </AnimatePresence>
-        {/* Global NL Search Bar (only visible when not in full search mode) */}
-        {!fullSearchMode && (
-        <section className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 mb-8" role="search" aria-label="Natural language corpus search">
-              <form
-                onSubmit={(e)=>{ e.preventDefault(); if(nlSearchQuery.trim().length>=3){ runNlSearch(nlSearchQuery); } }}
-                className="flex gap-3 items-center"
-              >
-                <input
-                  type="text"
-                  aria-label="Ask a question about all updates"
-                  placeholder="Ask: What are the main blockers for platform integration?"
-                  value={nlSearchQuery}
-                  onFocus={()=> setFullSearchMode(true)}
-                  onChange={(e)=>{ setNlSearchQuery(e.target.value); }}
-                  className="flex-1 rounded-md bg-neutral-50 border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/40"
-                />
-                {nlSearchActive && !nlLoading && (
-                  <button type="button" onClick={clearNlSearch} className="px-3 py-2 text-xs rounded-md bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 focus:outline-none focus:ring-2 focus:ring-accent/40">Clear</button>
-                )}
-                <button
-                  type="submit"
-                  disabled={nlLoading || nlSearchQuery.trim().length < 3}
-                  className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 ${nlLoading ? 'bg-neutral-200 border-neutral-300 text-neutral-500 cursor-wait' : nlSearchQuery.trim().length < 3 ? 'bg-neutral-100 border-neutral-200 text-neutral-400 cursor-not-allowed' : 'bg-accent-soft border-accent/30 text-accent hover:border-accent/50'}`}
-                >
-                  {nlLoading ? 'Searching…' : 'Search'}
-                </button>
-              </form>
+          {/* Results & Answer inline */}
+          {(nlLoading || nlAnswer || nlSearchResults.length>0 || nlError) && nlSearchQuery.trim().length>=3 && (
+            <div className="mt-6 space-y-5" aria-live="polite">
+              {nlLoading && (
+                <div className="flex items-center gap-3 text-sm text-neutral-500">
+                  <svg className="h-5 w-5 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" />
+                    <path d="M22 12a10 10 0 0 1-10 10" className="opacity-75" />
+                  </svg>
+                  <span>Analyzing updates…</span>
+                </div>
+              )}
+              {!nlLoading && synthesizedAnswer && <div className="answer-panel"><p className="text-sm leading-relaxed text-neutral-800"><span className="font-semibold text-accent">Answer:</span> <span dangerouslySetInnerHTML={{__html: highlightSnippet(synthesizedAnswer, '')}} /></p></div>}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-[11px] uppercase tracking-wide font-semibold text-neutral-500">Sources <span className="text-neutral-400 font-normal">({nlLoading ? '…' : nlSearchResults.length})</span></h3>
+                  <div className="text-[11px] text-neutral-400">{nlLoading ? 'Gathering…' : `Projects: ${matchedProjectSet ? matchedProjectSet.size : 0}`}</div>
+                </div>
+                <ul className="space-y-3 max-h-[38vh] overflow-y-auto pr-1" aria-label="Search results list">
+                  {nlLoading && Array.from({length:5}).map((_,i)=>(
+                    <li key={i} className="result-skel">
+                      <div className="h-3 w-40 bg-neutral-200 rounded mb-2" />
+                      <div className="space-y-1">
+                        <div className="h-2.5 bg-neutral-200 rounded" />
+                        <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                        <div className="h-2.5 bg-neutral-200 rounded w-2/3" />
+                      </div>
+                    </li>
+                  ))}
+                  {!nlLoading && nlSearchResults.slice(0,40).map((r,idx)=>(
+                    <li key={r.update.id} className="result-item" onClick={()=>openUpdate(r.update.id)}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="index-badge">{idx+1}</span>
+                        <span className="proj-name">{r.update.project}</span>
+                        <span className="date-chip">{r.update.date}</span>
+                      </div>
+                      <p className="snippet">{r.snippet}</p>
+                    </li>
+                  ))}
+                  {!nlLoading && nlSearchResults.length===0 && !nlError && <li className="text-[11px] text-neutral-500">No matches. Refine your question.</li>}
+                  {!nlLoading && nlError && <li className="text-[11px] text-rose-600">Error: {nlError}</li>}
+                </ul>
+              </div>
+            </div>
+          )}
         </section>
-        )}
-        {/* Unified Filter Bar */}
-        {!fullSearchMode && (
+  {/* Unified Filter Bar */}
         <section className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 mb-10">
           <div className="flex flex-wrap items-end gap-4">
             <div className="flex flex-col gap-1">
@@ -678,9 +652,8 @@ function App() {
             </div>
           </div>
         </section>
-        )}
         {/* Active Filter Chips Row */}
-        {!fullSearchMode && (selectedProgram || selectedObjective || owner || statusColor || search) && (
+        {(selectedProgram || selectedObjective || owner || statusColor || search) && (
           <div className="max-w-7xl mx-auto mb-8 -mt-6 px-1">
             <div className="flex flex-wrap items-center gap-2">
               {search && (
@@ -716,9 +689,8 @@ function App() {
               <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="filter-chip-clear-all">Clear All</button>
             </div>
           </div>
-        )}
-        {/* Summaries Section (Achievements / Flags / Trends) */}
-        {!fullSearchMode && (
+  )}
+  {/* Summaries Section (Achievements / Flags / Trends) */}
         <section className="mb-14 space-y-8" aria-label="AI generated summaries">
           {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
           {sectionLoading && !sectionError && (
@@ -806,10 +778,8 @@ function App() {
               </motion.section>
             </motion.div>
           )}
-        </section>
-  )}
-        {/* Projects Section */}
-        {!fullSearchMode ? (
+    </section>
+    {/* Projects Section */}
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
@@ -835,7 +805,6 @@ function App() {
               </AnimatePresence>
             </motion.div>
           </section>
-        ) : null}
       </main>
       {/* Footer */}
       <footer className="bg-white border-t border-neutral-200 py-4 mt-4">
