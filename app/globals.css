@@ -87,6 +87,33 @@ body { font-feature-settings: 'ss01' 1, 'liga' 1; }
 .summary-content li { margin:.2rem 0; }
 .summary-content strong { color:#0f172a; font-weight:700; }
 
+/* SUMMARY SPOTLIGHT (new non-card visual treatment) */
+.summary-spotlight { position:relative; padding:2.25rem 1.75rem 1.9rem 1.75rem; border-radius:34px; overflow:hidden; border:1px solid rgba(255,255,255,0.08); background:linear-gradient(140deg,rgba(255,255,255,0.08),rgba(255,255,255,0.015) 55%); -webkit-backdrop-filter:blur(28px) saturate(160%); backdrop-filter:blur(28px) saturate(160%); box-shadow:0 10px 38px -12px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.08); isolation:isolate; }
+.summary-spotlight:before { content:""; position:absolute; inset:-2px; background:radial-gradient(circle at 20% 18%, var(--spot-accent-bg, rgba(56,189,248,0.35)), transparent 60%), radial-gradient(circle at 85% 80%, var(--spot-accent-fade, rgba(14,165,233,0.22)), transparent 70%); mix-blend-mode:screen; opacity:.9; pointer-events:none; }
+.summary-spotlight:after { content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:linear-gradient(180deg,var(--spot-bar-from,#38bdf8),var(--spot-bar-to,#0ea5e9)); box-shadow:0 0 0 1px rgba(255,255,255,0.15),0 0 18px -2px var(--spot-bar-from,#38bdf8); }
+.summary-spotlight-head { display:flex; align-items:center; gap:.9rem; margin:0 0 1.1rem; }
+.summary-spotlight-icon { width:48px; height:48px; border-radius:18px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--spot-ico-from,#38bdf8),var(--spot-ico-to,#0ea5e9)); color:#fff; box-shadow:0 4px 18px -4px var(--spot-ico-to,#0ea5e9), 0 0 0 1px rgba(255,255,255,0.35); position:relative; }
+.summary-spotlight-icon:before { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg,rgba(255,255,255,0.35),rgba(255,255,255,0)); opacity:.35; mix-blend-mode:overlay; }
+.summary-spotlight-title { font-size:clamp(1.15rem,1.9vw,1.55rem); font-weight:700; letter-spacing:-0.02em; line-height:1.15; background:linear-gradient(90deg,#fff,#dff6ff 55%,#b6e6ff); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 4px 14px rgba(0,0,0,0.35); }
+.summary-spotlight-body { font-size:.85rem; line-height:1.35rem; font-weight:500; color:#e5f6ff; text-shadow:0 1px 2px rgba(0,0,0,0.6); }
+.summary-spotlight-body p { margin:0 0 .7rem; }
+.summary-spotlight-body strong { color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.55); }
+.summary-spotlight .summary-sources > summary { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); color:#d5efff; }
+.summary-spotlight .summary-sources > summary:hover { background:rgba(255,255,255,0.18); color:#fff; }
+.summary-spotlight .summary-sources[open] > summary { background:linear-gradient(90deg,var(--spot-ico-from,#38bdf8),var(--spot-ico-to,#0ea5e9)); color:#fff; border-color:rgba(255,255,255,0.4); }
+.summary-spotlight .summary-sources ul { background:rgba(0,20,30,0.55); border:1px solid rgba(255,255,255,0.15); box-shadow:0 2px 10px -2px rgba(0,0,0,0.55); }
+.summary-spotlight .summary-sources ul li { border-color:rgba(255,255,255,0.12); color:#c7e7f7; }
+.summary-spotlight .summary-sources ul li:hover { border-color:var(--spot-ico-from,#38bdf8); color:#fff; }
+
+/* Color variants */
+.summary-spotlight-green { --spot-ico-from:#10b981; --spot-ico-to:#059669; --spot-accent-bg:rgba(16,185,129,0.3); --spot-accent-fade:rgba(5,150,105,0.18); --spot-bar-from:#10b981; --spot-bar-to:#059669; }
+.summary-spotlight-amber { --spot-ico-from:#f59e0b; --spot-ico-to:#d97706; --spot-accent-bg:rgba(245,158,11,0.32); --spot-accent-fade:rgba(234,179,8,0.2); --spot-bar-from:#f59e0b; --spot-bar-to:#d97706; }
+.summary-spotlight-cyan { --spot-ico-from:#06b6d4; --spot-ico-to:#0ea5e9; --spot-accent-bg:rgba(6,182,212,0.34); --spot-accent-fade:rgba(14,165,233,0.22); --spot-bar-from:#06b6d4; --spot-bar-to:#0ea5e9; }
+
+@media (prefers-reduced-motion: reduce) {
+	.summary-spotlight:before { animation:none !important; }
+}
+
 /* Collapsible sources styling override inside summary tiles */
 .summary-tile .summary-sources { margin-top:.4rem; }
 .summary-tile .summary-sources > summary { background:linear-gradient(90deg,#e2f3ff,#ffffff); border:1px solid #d0e4f2; padding:.45rem .75rem; border-radius:12px; font-weight:600; color:#0f3a53; position:relative; box-shadow:0 2px 4px -2px rgba(15,23,42,0.25); transition:background .35s, color .35s, box-shadow .35s; }
