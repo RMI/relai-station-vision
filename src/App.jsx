@@ -271,6 +271,7 @@ function App() {
   const [nlAnswer, setNlAnswer] = useState('');
   const [nlLoading, setNlLoading] = useState(false);
   const [nlError, setNlError] = useState(null);
+  const fullSearchMode = !!search; // active whenever there is text
   
   // Helper to open a search result (project + specific date) from NL results
   const openUpdate = (id) => {
@@ -653,159 +654,181 @@ function App() {
             </div>
           </div>
         </section>
-        {/* Active Filter Chips Row */}
-        {(selectedProgram || selectedObjective || owner || statusColor || search) && (
-          <div className="max-w-7xl mx-auto mb-8 -mt-6 px-1">
-            <div className="flex flex-wrap items-center gap-2">
+        {!fullSearchMode && (
+          <>
+            {/* Active Filter Chips Row */}
+            {(selectedProgram || selectedObjective || owner || statusColor || search) && (
+              <div className="max-w-7xl mx-auto mb-8 -mt-6 px-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  {search && (
+                    <button onClick={()=>setSearch('')} className="filter-chip">
+                      <span className="filter-chip-label">Search:</span> {search}
+                      <span aria-hidden="true" className="filter-chip-close">×</span>
+                    </button>
+                  )}
+                  {selectedProgram && (
+                    <button onClick={()=>{setSelectedProgram(''); if(activeFilter?.type==='program') setActiveFilter(null);}} className="filter-chip filter-chip-accent">
+                      <span className="filter-chip-label">Program:</span> {selectedProgram}
+                      <span aria-hidden="true" className="filter-chip-close">×</span>
+                    </button>
+                  )}
+                  {selectedObjective && (
+                    <button onClick={()=>{setSelectedObjective(''); if(activeFilter?.type==='objective') setActiveFilter(null);}} className="filter-chip filter-chip-objective">
+                      <span className="filter-chip-label">Objective:</span> {selectedObjective}
+                      <span aria-hidden="true" className="filter-chip-close">×</span>
+                    </button>
+                  )}
+                  {owner && (
+                    <button onClick={()=>setOwner('')} className="filter-chip filter-chip-owner">
+                      <span className="filter-chip-label">Owner:</span> {owner}
+                      <span aria-hidden="true" className="filter-chip-close">×</span>
+                    </button>
+                  )}
+                  {statusColor && (
+                    <button onClick={()=>setStatusColor('')} className={`filter-chip filter-chip-status-${statusColor}`}>
+                      <span className="filter-chip-label">Status:</span> {statusColor}
+                      <span aria-hidden="true" className="filter-chip-close">×</span>
+                    </button>
+                  )}
+                  <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="filter-chip-clear-all">Clear All</button>
+                </div>
+              </div>
+            )}
+            {/* Summaries Section */}
+            <section className="mb-14 space-y-8" aria-label="AI generated summaries">
+              {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
+              {sectionLoading && !sectionError && (
+                <div className="grid md:grid-cols-3 gap-6 animate-pulse">
+                  {Array.from({length:3}).map((_,i)=>(
+                    <div key={i} className="rounded-xl border border-neutral-200 bg-white p-5">
+                      <div className="h-4 w-28 bg-neutral-200 rounded mb-4" />
+                      <div className="space-y-2">
+                        <div className="h-2.5 bg-neutral-200 rounded" />
+                        <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
+                        <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {!sectionLoading && !sectionError && (
+                <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
+                  {/* Achievements Spotlight */}
+                  <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green group cursor-pointer" aria-labelledby="achievements-heading" role="button" tabIndex={0} aria-expanded={!achCollapsed} onClick={()=>setAchCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setAchCollapsed(c=>!c);}}}>
+                    <header className="summary-spotlight-head">
+                      <div className="summary-spotlight-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                          <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" />
+                        </svg>
+                      </div>
+                      <h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3">
+                        <span className="inline-flex items-center gap-2">{achHeadline || 'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                        <button type="button" aria-label={achCollapsed? 'Expand achievements summary':'Collapse achievements summary'} onClick={(e)=>{e.stopPropagation(); setAchCollapsed(c=>!c);}} className={`chevron-btn ${achCollapsed? '' : 'open'}`}>
+                          <span aria-hidden className="chevron-icon">›</span>
+                        </button>
+                      </h3>
+                    </header>
+                    {!achCollapsed && (
+                      <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
+                        <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />
+                        {renderSourcesList(achParts.sources)}
+                      </motion.div>
+                    )}
+                  </motion.section>
+                  {/* Flags Spotlight */}
+                  <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber group cursor-pointer" aria-labelledby="flags-heading" role="button" tabIndex={0} aria-expanded={!flagsCollapsed} onClick={()=>setFlagsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setFlagsCollapsed(c=>!c);}}}>
+                    <header className="summary-spotlight-head">
+                      <div className="summary-spotlight-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                          <path d="M4 2h8l2 5 2-5h4v20H4z" />
+                        </svg>
+                      </div>
+                      <h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3">
+                        <span className="inline-flex items-center gap-2">{flagsHeadline || 'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                        <button type="button" aria-label={flagsCollapsed? 'Expand flags summary':'Collapse flags summary'} onClick={(e)=>{e.stopPropagation(); setFlagsCollapsed(c=>!c);}} className={`chevron-btn ${flagsCollapsed? '' : 'open'}`}>
+                          <span aria-hidden className="chevron-icon">›</span>
+                        </button>
+                      </h3>
+                    </header>
+                    {!flagsCollapsed && (
+                      <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
+                        <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />
+                        {renderSourcesList(flagParts.sources)}
+                      </motion.div>
+                    )}
+                  </motion.section>
+                  {/* Trends Spotlight */}
+                  <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan group cursor-pointer" aria-labelledby="trends-heading" role="button" tabIndex={0} aria-expanded={!trendsCollapsed} onClick={()=>setTrendsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setTrendsCollapsed(c=>!c);}}}>
+                    <header className="summary-spotlight-head">
+                      <div className="summary-spotlight-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                          <path d="M3 17l6-6 4 4 8-8" />
+                          <path d="M14 7h7v7" />
+                        </svg>
+                      </div>
+                      <h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3">
+                        <span className="inline-flex items-center gap-2">{trendsHeadline || 'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                        <button type="button" aria-label={trendsCollapsed? 'Expand trends summary':'Collapse trends summary'} onClick={(e)=>{e.stopPropagation(); setTrendsCollapsed(c=>!c);}} className={`chevron-btn ${trendsCollapsed? '' : 'open'}`}>
+                          <span aria-hidden className="chevron-icon">›</span>
+                        </button>
+                      </h3>
+                    </header>
+                    {!trendsCollapsed && (
+                      <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
+                        <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />
+                        {renderSourcesList(trendParts.sources)}
+                      </motion.div>
+                    )}
+                  </motion.section>
+                </motion.div>
+              )}
+            </section>
+            {/* Projects Section */}
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
+              </div>
+              <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
+                <AnimatePresence mode="popLayout">
+                  {filteredProjects.map((update, i) => (
+                    <RelaiCard
+                      key={update.project}
+                      relai={update}
+                      index={i}
+                      onClick={() => setSelectedProject(update.project)}
+                      onFilter={applyFilter}
+                    />
+                  ))}
+                  {filteredProjects.length === 0 && (
+                    <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
+                      <p className="text-lg font-medium">No Relais match your filters</p>
+                      <p className="text-sm">Try adjusting your search criteria</p>
+                      <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            </section>
+          </>
+        )}
+        {fullSearchMode && (
+          <div className="full-search-overlay" role="dialog" aria-label="Full search">
+            <div className="full-search-box">
+              <input
+                autoFocus
+                type="text"
+                className="full-search-input"
+                value={search}
+                onChange={e=>setSearch(e.target.value)}
+                placeholder="Type to search updates…"
+              />
               {search && (
-                <button onClick={()=>setSearch('')} className="filter-chip">
-                  <span className="filter-chip-label">Search:</span> {search}
-                  <span aria-hidden="true" className="filter-chip-close">×</span>
-                </button>
+                <button onClick={()=>setSearch('')} className="full-search-clear" aria-label="Clear search">✕</button>
               )}
-              {selectedProgram && (
-                <button onClick={()=>{setSelectedProgram(''); if(activeFilter?.type==='program') setActiveFilter(null);}} className="filter-chip filter-chip-accent">
-                  <span className="filter-chip-label">Program:</span> {selectedProgram}
-                  <span aria-hidden="true" className="filter-chip-close">×</span>
-                </button>
-              )}
-              {selectedObjective && (
-                <button onClick={()=>{setSelectedObjective(''); if(activeFilter?.type==='objective') setActiveFilter(null);}} className="filter-chip filter-chip-objective">
-                  <span className="filter-chip-label">Objective:</span> {selectedObjective}
-                  <span aria-hidden="true" className="filter-chip-close">×</span>
-                </button>
-              )}
-              {owner && (
-                <button onClick={()=>setOwner('')} className="filter-chip filter-chip-owner">
-                  <span className="filter-chip-label">Owner:</span> {owner}
-                  <span aria-hidden="true" className="filter-chip-close">×</span>
-                </button>
-              )}
-              {statusColor && (
-                <button onClick={()=>setStatusColor('')} className={`filter-chip filter-chip-status-${statusColor}`}>
-                  <span className="filter-chip-label">Status:</span> {statusColor}
-                  <span aria-hidden="true" className="filter-chip-close">×</span>
-                </button>
-              )}
-              <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="filter-chip-clear-all">Clear All</button>
+              <p className="full-search-hint text-xs text-neutral-400 mt-3">Press ESC to exit full search</p>
             </div>
           </div>
         )}
-        {/* Summaries Section (Achievements / Flags / Trends) */}
-        <section className="mb-14 space-y-8" aria-label="AI generated summaries">
-          {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
-          {sectionLoading && !sectionError && (
-            <div className="grid md:grid-cols-3 gap-6 animate-pulse">
-              {Array.from({length:3}).map((_,i)=>(
-                <div key={i} className="rounded-xl border border-neutral-200 bg-white p-5">
-                  <div className="h-4 w-28 bg-neutral-200 rounded mb-4" />
-                  <div className="space-y-2">
-                    <div className="h-2.5 bg-neutral-200 rounded" />
-                    <div className="h-2.5 bg-neutral-200 rounded w-5/6" />
-                    <div className="h-2.5 bg-neutral-200 rounded w-3/4" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {!sectionLoading && !sectionError && (
-            <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
-              {/* Achievements Spotlight */}
-              <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green group cursor-pointer" aria-labelledby="achievements-heading" role="button" tabIndex={0} aria-expanded={!achCollapsed} onClick={()=>setAchCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setAchCollapsed(c=>!c);}}}>
-                <header className="summary-spotlight-head">
-                  <div className="summary-spotlight-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" />
-                    </svg>
-                  </div>
-                  <h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3">
-                    <span className="inline-flex items-center gap-2">{achHeadline || 'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                    <button type="button" aria-label={achCollapsed? 'Expand achievements summary':'Collapse achievements summary'} onClick={(e)=>{e.stopPropagation(); setAchCollapsed(c=>!c);}} className={`chevron-btn ${achCollapsed? '' : 'open'}`}>
-                      <span aria-hidden className="chevron-icon">›</span>
-                    </button>
-                  </h3>
-                </header>
-                {!achCollapsed && (
-                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
-                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />
-                    {renderSourcesList(achParts.sources)}
-                  </motion.div>
-                )}
-              </motion.section>
-              {/* Flags Spotlight */}
-              <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber group cursor-pointer" aria-labelledby="flags-heading" role="button" tabIndex={0} aria-expanded={!flagsCollapsed} onClick={()=>setFlagsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setFlagsCollapsed(c=>!c);}}}>
-                <header className="summary-spotlight-head">
-                  <div className="summary-spotlight-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                      <path d="M4 2h8l2 5 2-5h4v20H4z" />
-                    </svg>
-                  </div>
-                  <h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3">
-                    <span className="inline-flex items-center gap-2">{flagsHeadline || 'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                    <button type="button" aria-label={flagsCollapsed? 'Expand flags summary':'Collapse flags summary'} onClick={(e)=>{e.stopPropagation(); setFlagsCollapsed(c=>!c);}} className={`chevron-btn ${flagsCollapsed? '' : 'open'}`}>
-                      <span aria-hidden className="chevron-icon">›</span>
-                    </button>
-                  </h3>
-                </header>
-                {!flagsCollapsed && (
-                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
-                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />
-                    {renderSourcesList(flagParts.sources)}
-                  </motion.div>
-                )}
-              </motion.section>
-              {/* Trends Spotlight */}
-              <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan group cursor-pointer" aria-labelledby="trends-heading" role="button" tabIndex={0} aria-expanded={!trendsCollapsed} onClick={()=>setTrendsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setTrendsCollapsed(c=>!c);}}}>
-                <header className="summary-spotlight-head">
-                  <div className="summary-spotlight-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                      <path d="M3 17l6-6 4 4 8-8" />
-                      <path d="M14 7h7v7" />
-                    </svg>
-                  </div>
-                  <h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3">
-                    <span className="inline-flex items-center gap-2">{trendsHeadline || 'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                    <button type="button" aria-label={trendsCollapsed? 'Expand trends summary':'Collapse trends summary'} onClick={(e)=>{e.stopPropagation(); setTrendsCollapsed(c=>!c);}} className={`chevron-btn ${trendsCollapsed? '' : 'open'}`}>
-                      <span aria-hidden className="chevron-icon">›</span>
-                    </button>
-                  </h3>
-                </header>
-                {!trendsCollapsed && (
-                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
-                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />
-                    {renderSourcesList(trendParts.sources)}
-                  </motion.div>
-                )}
-              </motion.section>
-            </motion.div>
-          )}
-        </section>
-        {/* Projects Section */}
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-neutral-800">Latest Relais <span className="text-neutral-400 font-normal">({filteredProjects.length})</span></h2>
-          </div>
-          <motion.div layout variants={listStagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((update, i) => (
-                <RelaiCard
-                  key={update.project}
-                  relai={update}
-                  index={i}
-                  onClick={() => setSelectedProject(update.project)}
-                  onFilter={applyFilter}
-                />
-              ))}
-              {filteredProjects.length === 0 && (
-                <motion.div key="empty" variants={variants.fadeInUp} initial="hidden" animate="visible" exit="exit" className="col-span-3 py-12 text-center text-neutral-500 bg-white rounded-lg shadow-sm border border-neutral-200">
-                  <p className="text-lg font-medium">No Relais match your filters</p>
-                  <p className="text-sm">Try adjusting your search criteria</p>
-                  <button onClick={() => { setSearch(''); setProject(''); setStatusColor(''); setOwner(''); }} className="mt-4 px-4 py-2 text-sm font-medium text-accent hover:underline">Clear all filters</button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </section>
       </main>
       {/* Footer */}
       <footer className="bg-white border-t border-neutral-200 py-4 mt-4">

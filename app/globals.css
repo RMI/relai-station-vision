@@ -144,6 +144,17 @@ body { font-feature-settings: 'ss01' 1, 'liga' 1; }
 	.filter-chip, .filter-chip-clear-all { transition:none !important; }
 }
 
+/* FULL SEARCH OVERLAY --------------------------------------- */
+.full-search-overlay { position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; background:radial-gradient(circle at 30% 30%,rgba(4,22,34,0.92),rgba(2,10,16,0.96)); animation: fadeInOverlay .4s var(--rs-ease-emph); }
+.full-search-box { width:100%; max-width:720px; background:linear-gradient(145deg,rgba(255,255,255,0.95),rgba(240,248,252,0.9)); border:1px solid rgba(15,23,42,0.12); border-radius:34px; padding:2.25rem 2.5rem 2.4rem; box-shadow:0 8px 40px -10px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.4); position:relative; -webkit-backdrop-filter:blur(30px) saturate(180%); backdrop-filter:blur(30px) saturate(180%); animation: scaleInBox .55s var(--rs-ease-emph); }
+.full-search-input { width:100%; font-size:1.65rem; line-height:1.1; font-weight:600; background:transparent; border:none; outline:none; padding:.25rem 0; color:#0f172a; letter-spacing:-0.02em; }
+.full-search-input::placeholder { color:#94a3b8; font-weight:400; }
+.full-search-clear { position:absolute; top:1rem; right:1rem; width:40px; height:40px; border-radius:16px; background:rgba(0,0,0,0.06); border:1px solid rgba(0,0,0,0.15); display:flex; align-items:center; justify-content:center; font-size:1rem; color:#334155; cursor:pointer; transition:background var(--rs-dur-sm) var(--rs-ease-soft), color var(--rs-dur-sm) var(--rs-ease-soft); }
+.full-search-clear:hover { background:rgba(0,0,0,0.12); color:#0f172a; }
+.full-search-hint { font-weight:500; }
+@keyframes fadeInOverlay { from { opacity:0; } to { opacity:1; } }
+@keyframes scaleInBox { 0% { transform:translateY(18px) scale(.92); opacity:0; } 100% { transform:translateY(0) scale(1); opacity:1; } }
+
 /* Color variants */
 .summary-spotlight-green { --spot-ico-from:#10b981; --spot-ico-to:#059669; --spot-accent-bg:rgba(16,185,129,0.3); --spot-accent-fade:rgba(5,150,105,0.18); --spot-bar-from:#10b981; --spot-bar-to:#059669; }
 .summary-spotlight-amber { --spot-ico-from:#f59e0b; --spot-ico-to:#d97706; --spot-accent-bg:rgba(245,158,11,0.32); --spot-accent-fade:rgba(234,179,8,0.2); --spot-bar-from:#f59e0b; --spot-bar-to:#d97706; }
