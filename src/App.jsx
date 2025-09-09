@@ -416,6 +416,9 @@ function App() {
   filteredProjects = filteredProjects.sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
   const synthesizedAnswer = nlAnswer;
+  const achParts = splitSources(achievementsMd);
+  const flagParts = splitSources(flagsMd);
+  const trendParts = splitSources(trendsMd);
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
@@ -451,12 +454,7 @@ function App() {
                 </motion.div>
                 <div>
                   <h1 className="display-title">Relai Station</h1>
-                  <p className="subheading mt-5 leading-relaxed">A synthesized, multi-program view of fictional Relais activity. High-signal updates, semantic search, and grounded AI summaries in one luminous surface.</p>
-                  <div className="mt-8 flex flex-wrap items-center gap-4">
-                    <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 bg-cyan-400/10 border border-cyan-300/20 px-3 py-1.5 rounded-full backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.12)]">Live Semantic QA</div>
-                    <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 bg-cyan-400/10 border border-cyan-300/20 px-3 py-1.5 rounded-full backdrop-blur-md">Real-time Project Health</div>
-                    <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 bg-cyan-400/10 border border-cyan-300/20 px-3 py-1.5 rounded-full backdrop-blur-md">Context Grounded Summaries</div>
-                  </div>
+                  <p className="subheading mt-5 leading-relaxed">All data here is based on <strong>completely fictional</strong> Relais activity. All summaries and searches are using real AI-logic and prompts to give insights based on synthetic (made up) updates for made up projects by made up principals.</p>
                 </div>
               </motion.div>
             </div>
@@ -617,19 +615,22 @@ function App() {
                 <div className="summary-tile-head">
                   <span className="summary-pill bg-emerald-500/15 text-emerald-600 border border-emerald-400/30">Achievements</span>
                 </div>
-                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achievementsMd)}} />
+                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achParts.main)}} />
+                {renderSourcesList(achParts.sources)}
               </div>
               <div className="summary-tile">
                 <div className="summary-tile-head">
                   <span className="summary-pill bg-amber-500/15 text-amber-600 border border-amber-400/30">Flags</span>
                 </div>
-                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsMd)}} />
+                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagParts.main)}} />
+                {renderSourcesList(flagParts.sources)}
               </div>
               <div className="summary-tile">
                 <div className="summary-tile-head">
                   <span className="summary-pill bg-cyan-500/15 text-cyan-600 border border-cyan-400/30">Trends</span>
                 </div>
-                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsMd)}} />
+                <div className="summary-content prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendParts.main)}} />
+                {renderSourcesList(trendParts.sources)}
               </div>
             </div>
           )}
@@ -689,4 +690,34 @@ function highlightSnippet(snippet, query){
 
 function escapeHtml(str){
   return str.replace(/[&<>"]+/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+// Split sources from the raw text
+function splitSources(raw = '') {
+  const lines = raw.split(/\n/);
+  const idx = lines.findIndex(l => /^SOURCES:\s*$/i.test(l.trim()));
+  if (idx === -1) return { main: raw.trim(), sources: [] };
+  const main = lines.slice(0, idx).join('\n').trim();
+  const sourceLines = lines.slice(idx + 1).map(l => l.trim()).filter(Boolean);
+  // Treat '(none)' or empty list as no sources
+  const sources = sourceLines[0] && sourceLines[0].toLowerCase() !== '(none)' ? sourceLines : [];
+  return { main, sources };
+}
+
+// Small renderer for sources; reuse existing escapeHtml
+function renderSourcesList(sources) {
+  if (!sources.length) return null;
+  return (
+    <details className="mt-4 group summary-sources">
+      <summary className="cursor-pointer text-xs font-medium text-neutral-500 hover:text-neutral-700 flex items-center gap-1">
+        Sources ({sources.length})
+        <span className="transition-transform group-open:rotate-90 inline-block text-neutral-400">›</span>
+      </summary>
+      <ul className="mt-2 space-y-1 text-[11px] leading-snug text-neutral-600">
+        {sources.map((s,i)=>(
+          <li key={i} className="pl-1">{escapeHtml(s)}</li>
+        ))}
+      </ul>
+    </details>
+  );
 }

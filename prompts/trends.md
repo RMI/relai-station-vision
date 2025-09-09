@@ -13,7 +13,8 @@ INPUT DATA FIELDS (per entry; may be empty):
 - status_color
 
 TASK:
-1. Extract 3–5 emerging cross-cutting directional trends (technology convergence, governance alignment, data standardization, stakeholder momentum, market signals, funding shifts).
+1. Extract 0–5 emerging cross-cutting directional trends (technology convergence, governance alignment, data standardization, stakeholder momentum, market signals, funding shifts).
+1b. Critical: Only extract trends if there are sufficient, high quality signals for the selected context.
 2. A trend must be supported by at least 2 distinct project references (or one explicit multi-team theme).
 3. Merge overlapping themes; pick the clearest phrasing.
 4. Skip purely operational or one-off items.
@@ -25,8 +26,15 @@ OUTPUT FORMAT (Markdown):
 - Critical: Only provide a response if there are sufficient, high quality signals for the selected context. In all other cases state in a single bold sentence that there has been no recent meta-trends detected.
 - Start with a single bold sentence summarizing meta-trend direction (e.g., **Momentum consolidating around interoperable traceability and carbon data alignment.**)
 - Then a bullet list ("- ") of 0-5 trends.
-- Each bullet: short trend label in Title Case, a colon, then a concise descriptive clause; finish with parenthetical 2–4 supporting project names.
+- Each bullet: short trend label in Title Case, a colon, then a concise descriptive clause
 - Use approriate formatting and emphasize the salient pieces
+After the bullet list add a blank line, then a line exactly:
+SOURCES:
+Then list each distinct source used (only those actually supporting bullets), one per line in the form:
+[n] project_name | date | 3-8 word rationale phrase
+Keep the source list concise; do not include any extra commentary after the last source line. If there are zero trends output the bold posture sentence only, then:
+SOURCES:
+(none)
 
 
 CONSTRAINTS:
