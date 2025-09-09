@@ -453,13 +453,13 @@ function App() {
   function extractHeadline(md){
     if(!md) return '';
     const cleaned = md.trim();
-    // First line until newline or period that ends a sentence
     const firstLine = cleaned.split(/\n+/)[0].trim();
-    // If markdown bold wrappers exist around entire line keep them
-    // Split at first period that likely ends a sentence
     const sentenceMatch = firstLine.match(/(.+?[.!?])($|\s)/);
-    const sentence = sentenceMatch ? sentenceMatch[1].trim() : firstLine;
-    return sentence.replace(/^#+\s*/,'');
+    let sentence = sentenceMatch ? sentenceMatch[1].trim() : firstLine;
+    sentence = sentence.replace(/^#+\s*/, '');
+    // remove wrapping **bold** markers but keep inner text styled later
+    sentence = sentence.replace(/^\*\*(.+)\*\*$/, '$1');
+    return sentence;
   }
 
   const achHeadline = extractHeadline(achParts.main);
@@ -720,14 +720,16 @@ function App() {
                   </div>
                   <h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3">
                     <span className="inline-flex items-center gap-2">{achHeadline || 'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                    <span aria-hidden className={`mt-1 transition-transform text-xs opacity-70 ${achCollapsed ? '' : 'rotate-90'}`}>›</span>
+                    <button type="button" aria-label={achCollapsed? 'Expand achievements summary':'Collapse achievements summary'} onClick={(e)=>{e.stopPropagation(); setAchCollapsed(c=>!c);}} className={`chevron-btn ${achCollapsed? '' : 'open'}`}>
+                      <span aria-hidden className="chevron-icon">›</span>
+                    </button>
                   </h3>
                 </header>
                 {!achCollapsed && (
-                  <>
+                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
                     <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />
                     {renderSourcesList(achParts.sources)}
-                  </>
+                  </motion.div>
                 )}
               </motion.section>
               {/* Flags Spotlight */}
@@ -740,14 +742,16 @@ function App() {
                   </div>
                   <h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3">
                     <span className="inline-flex items-center gap-2">{flagsHeadline || 'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                    <span aria-hidden className={`mt-1 transition-transform text-xs opacity-70 ${flagsCollapsed ? '' : 'rotate-90'}`}>›</span>
+                    <button type="button" aria-label={flagsCollapsed? 'Expand flags summary':'Collapse flags summary'} onClick={(e)=>{e.stopPropagation(); setFlagsCollapsed(c=>!c);}} className={`chevron-btn ${flagsCollapsed? '' : 'open'}`}>
+                      <span aria-hidden className="chevron-icon">›</span>
+                    </button>
                   </h3>
                 </header>
                 {!flagsCollapsed && (
-                  <>
+                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
                     <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />
                     {renderSourcesList(flagParts.sources)}
-                  </>
+                  </motion.div>
                 )}
               </motion.section>
               {/* Trends Spotlight */}
@@ -761,14 +765,16 @@ function App() {
                   </div>
                   <h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3">
                     <span className="inline-flex items-center gap-2">{trendsHeadline || 'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
-                    <span aria-hidden className={`mt-1 transition-transform text-xs opacity-70 ${trendsCollapsed ? '' : 'rotate-90'}`}>›</span>
+                    <button type="button" aria-label={trendsCollapsed? 'Expand trends summary':'Collapse trends summary'} onClick={(e)=>{e.stopPropagation(); setTrendsCollapsed(c=>!c);}} className={`chevron-btn ${trendsCollapsed? '' : 'open'}`}>
+                      <span aria-hidden className="chevron-icon">›</span>
+                    </button>
                   </h3>
                 </header>
                 {!trendsCollapsed && (
-                  <>
+                  <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden">
                     <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />
                     {renderSourcesList(trendParts.sources)}
-                  </>
+                  </motion.div>
                 )}
               </motion.section>
             </motion.div>
