@@ -443,6 +443,7 @@ function App() {
   const achParts = splitSources(achievementsMd);
   const flagParts = splitSources(flagsMd);
   const trendParts = splitSources(trendsMd);
+  const scopeDescriptor = selectedProgram ? `for ${selectedProgram}` : selectedObjective ? `for Objective ${selectedObjective}` : '';
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
@@ -616,6 +617,44 @@ function App() {
             </div>
           </div>
         </section>
+        {/* Active Filter Chips Row */}
+        {(selectedProgram || selectedObjective || owner || statusColor || search) && (
+          <div className="max-w-7xl mx-auto mb-8 -mt-6 px-1">
+            <div className="flex flex-wrap items-center gap-2">
+              {search && (
+                <button onClick={()=>setSearch('')} className="filter-chip">
+                  <span className="filter-chip-label">Search:</span> {search}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {selectedProgram && (
+                <button onClick={()=>{setSelectedProgram(''); if(activeFilter?.type==='program') setActiveFilter(null);}} className="filter-chip filter-chip-accent">
+                  <span className="filter-chip-label">Program:</span> {selectedProgram}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {selectedObjective && (
+                <button onClick={()=>{setSelectedObjective(''); if(activeFilter?.type==='objective') setActiveFilter(null);}} className="filter-chip filter-chip-objective">
+                  <span className="filter-chip-label">Objective:</span> {selectedObjective}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {owner && (
+                <button onClick={()=>setOwner('')} className="filter-chip filter-chip-owner">
+                  <span className="filter-chip-label">Owner:</span> {owner}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              {statusColor && (
+                <button onClick={()=>setStatusColor('')} className={`filter-chip filter-chip-status-${statusColor}`}>
+                  <span className="filter-chip-label">Status:</span> {statusColor}
+                  <span aria-hidden="true" className="filter-chip-close">×</span>
+                </button>
+              )}
+              <button onClick={()=>{setSearch(''); setSelectedProgram(''); setSelectedObjective(''); setOwner(''); setStatusColor(''); setActiveFilter(null);}} className="filter-chip-clear-all">Clear All</button>
+            </div>
+          </div>
+        )}
         {/* Summaries Section (Achievements / Flags / Trends) */}
         <section className="mb-14 space-y-8" aria-label="AI generated summaries">
           {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
@@ -643,7 +682,7 @@ function App() {
                       <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" />
                     </svg>
                   </div>
-                  <h3 id="achievements-heading" className="summary-spotlight-title">Achievements</h3>
+                  <h3 id="achievements-heading" className="summary-spotlight-title">Achievements {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</h3>
                 </header>
                 <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achParts.main)}} />
                 {renderSourcesList(achParts.sources)}
@@ -656,7 +695,7 @@ function App() {
                       <path d="M4 2h8l2 5 2-5h4v20H4z" />
                     </svg>
                   </div>
-                  <h3 id="flags-heading" className="summary-spotlight-title">Flags</h3>
+                  <h3 id="flags-heading" className="summary-spotlight-title">Flags {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</h3>
                 </header>
                 <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagParts.main)}} />
                 {renderSourcesList(flagParts.sources)}
@@ -670,7 +709,7 @@ function App() {
                       <path d="M14 7h7v7" />
                     </svg>
                   </div>
-                  <h3 id="trends-heading" className="summary-spotlight-title">Trends</h3>
+                  <h3 id="trends-heading" className="summary-spotlight-title">Trends {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</h3>
                 </header>
                 <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendParts.main)}} />
                 {renderSourcesList(trendParts.sources)}
