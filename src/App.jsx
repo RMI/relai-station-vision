@@ -630,9 +630,9 @@ function App() {
             </div>
           )}
           {!sectionLoading && !sectionError && (
-            <div className="space-y-10">
+            <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
               {/* Achievements Spotlight */}
-              <section className="summary-spotlight summary-spotlight-green" aria-labelledby="achievements-heading">
+              <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green" aria-labelledby="achievements-heading">
                 <header className="summary-spotlight-head">
                   <div className="summary-spotlight-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
@@ -643,9 +643,9 @@ function App() {
                 </header>
                 <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achParts.main)}} />
                 {renderSourcesList(achParts.sources)}
-              </section>
+              </motion.section>
               {/* Flags Spotlight */}
-              <section className="summary-spotlight summary-spotlight-amber" aria-labelledby="flags-heading">
+              <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber" aria-labelledby="flags-heading">
                 <header className="summary-spotlight-head">
                   <div className="summary-spotlight-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
@@ -656,9 +656,9 @@ function App() {
                 </header>
                 <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagParts.main)}} />
                 {renderSourcesList(flagParts.sources)}
-              </section>
+              </motion.section>
               {/* Trends Spotlight */}
-              <section className="summary-spotlight summary-spotlight-cyan" aria-labelledby="trends-heading">
+              <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan" aria-labelledby="trends-heading">
                 <header className="summary-spotlight-head">
                   <div className="summary-spotlight-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
@@ -670,8 +670,8 @@ function App() {
                 </header>
                 <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendParts.main)}} />
                 {renderSourcesList(trendParts.sources)}
-              </section>
-            </div>
+              </motion.section>
+            </motion.div>
           )}
         </section>
         {/* Projects Section */}
