@@ -259,6 +259,10 @@ function App() {
   const [flagsMd, setFlagsMd] = useState('');
   const [trendsMd, setTrendsMd] = useState('');
   const [lastGenAt, setLastGenAt] = useState(null);
+  // Collapsed states for summary sections
+  const [achCollapsed, setAchCollapsed] = useState(true);
+  const [flagsCollapsed, setFlagsCollapsed] = useState(true);
+  const [trendsCollapsed, setTrendsCollapsed] = useState(true);
   // Global clickable filter (program | owner | objective)
   const [activeFilter, setActiveFilter] = useState(null); // { type: 'program'|'owner'|'objective', value: string }
   const [nlSearchQuery, setNlSearchQuery] = useState('');
@@ -445,6 +449,38 @@ function App() {
   const trendParts = splitSources(trendsMd);
   const scopeDescriptor = selectedProgram ? `for ${selectedProgram}` : selectedObjective ? `for Objective ${selectedObjective}` : '';
 
+  // Extract first sentence (headline) utility
+  function extractHeadline(md){
+    if(!md) return '';
+    const cleaned = md.trim();
+    // First line until newline or period that ends a sentence
+    const firstLine = cleaned.split(/\n+/)[0].trim();
+    // If markdown bold wrappers exist around entire line keep them
+    // Split at first period that likely ends a sentence
+    const sentenceMatch = firstLine.match(/(.+?[.!?])($|\s)/);
+    const sentence = sentenceMatch ? sentenceMatch[1].trim() : firstLine;
+    return sentence.replace(/^#+\s*/,'');
+  }
+
+  const achHeadline = extractHeadline(achParts.main);
+  const flagsHeadline = extractHeadline(flagParts.main);
+  const trendsHeadline = extractHeadline(trendParts.main);
+
+  function bodyWithoutHeadline(parts, headline){
+    if(!parts.main) return '';
+    const lines = parts.main.split(/\n+/);
+    if(lines.length === 0) return '';
+    // Remove first line only if it contains the headline text start
+    if(lines[0].includes(headline.substring(0, Math.min(10, headline.length)))){
+      lines.shift();
+    }
+    return lines.join('\n').trim();
+  }
+
+  const achBody = bodyWithoutHeadline(achParts, achHeadline);
+  const flagsBody = bodyWithoutHeadline(flagParts, flagsHeadline);
+  const trendsBody = bodyWithoutHeadline(trendParts, trendsHeadline);
+  
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
       {/* Project detail modal */}
@@ -479,7 +515,7 @@ function App() {
                 </motion.div>
                 <div>
                   <h1 className="display-title">Relai Station</h1>
-                  <p className="subheading mt-5 leading-relaxed">All data here is based on <strong>completely fictional</strong> Relais activity. All summaries and searches are using real AI-logic and prompts to give insights based on synthetic (made up) updates for made up projects by made up principals.</p>
+                  <p className="subheading mt-5 leading-relaxed">All data here is based on <strong>completely fictional</strong> Relais activity!</p>
                 </div>
               </motion.div>
             </div>
@@ -675,33 +711,47 @@ function App() {
           {!sectionLoading && !sectionError && (
             <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
               {/* Achievements Spotlight */}
-              <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green" aria-labelledby="achievements-heading">
+              <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green group cursor-pointer" aria-labelledby="achievements-heading" role="button" tabIndex={0} aria-expanded={!achCollapsed} onClick={()=>setAchCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setAchCollapsed(c=>!c);}}}>
                 <header className="summary-spotlight-head">
                   <div className="summary-spotlight-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
                       <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" />
                     </svg>
                   </div>
-                  <h3 id="achievements-heading" className="summary-spotlight-title">Achievements {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</h3>
+                  <h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3">
+                    <span className="inline-flex items-center gap-2">{achHeadline || 'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                    <span aria-hidden className={`mt-1 transition-transform text-xs opacity-70 ${achCollapsed ? '' : 'rotate-90'}`}>›</span>
+                  </h3>
                 </header>
-                <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achParts.main)}} />
-                {renderSourcesList(achParts.sources)}
+                {!achCollapsed && (
+                  <>
+                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />
+                    {renderSourcesList(achParts.sources)}
+                  </>
+                )}
               </motion.section>
               {/* Flags Spotlight */}
-              <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber" aria-labelledby="flags-heading">
+              <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber group cursor-pointer" aria-labelledby="flags-heading" role="button" tabIndex={0} aria-expanded={!flagsCollapsed} onClick={()=>setFlagsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setFlagsCollapsed(c=>!c);}}}>
                 <header className="summary-spotlight-head">
                   <div className="summary-spotlight-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
                       <path d="M4 2h8l2 5 2-5h4v20H4z" />
                     </svg>
                   </div>
-                  <h3 id="flags-heading" className="summary-spotlight-title">Flags {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</h3>
+                  <h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3">
+                    <span className="inline-flex items-center gap-2">{flagsHeadline || 'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                    <span aria-hidden className={`mt-1 transition-transform text-xs opacity-70 ${flagsCollapsed ? '' : 'rotate-90'}`}>›</span>
+                  </h3>
                 </header>
-                <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagParts.main)}} />
-                {renderSourcesList(flagParts.sources)}
+                {!flagsCollapsed && (
+                  <>
+                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />
+                    {renderSourcesList(flagParts.sources)}
+                  </>
+                )}
               </motion.section>
               {/* Trends Spotlight */}
-              <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan" aria-labelledby="trends-heading">
+              <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan group cursor-pointer" aria-labelledby="trends-heading" role="button" tabIndex={0} aria-expanded={!trendsCollapsed} onClick={()=>setTrendsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault(); setTrendsCollapsed(c=>!c);}}}>
                 <header className="summary-spotlight-head">
                   <div className="summary-spotlight-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
@@ -709,10 +759,17 @@ function App() {
                       <path d="M14 7h7v7" />
                     </svg>
                   </div>
-                  <h3 id="trends-heading" className="summary-spotlight-title">Trends {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</h3>
+                  <h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3">
+                    <span className="inline-flex items-center gap-2">{trendsHeadline || 'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span>
+                    <span aria-hidden className={`mt-1 transition-transform text-xs opacity-70 ${trendsCollapsed ? '' : 'rotate-90'}`}>›</span>
+                  </h3>
                 </header>
-                <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendParts.main)}} />
-                {renderSourcesList(trendParts.sources)}
+                {!trendsCollapsed && (
+                  <>
+                    <div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />
+                    {renderSourcesList(trendParts.sources)}
+                  </>
+                )}
               </motion.section>
             </motion.div>
           )}
