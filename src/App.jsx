@@ -63,29 +63,35 @@ const RelaiCard = ({ relai, onClick, onFilter, index }) => {
           </div>
         )}
       </div>
-      <div className="mt-5 pt-4 border-t border-neutral-200 flex flex-wrap items-center gap-2 text-[11px] text-neutral-500">
-        <span className="text-neutral-400 mr-auto">Updated {relai.date}</span>
-        <button
-          type="button"
-          onClick={(e)=>{ e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
-          className="inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
-        >
-          <span className="w-2 h-2 rounded-full bg-accent" aria-hidden="true" />
-          {relai.program}
-        </button>
-        <button
-          type="button"
-          onClick={(e)=>{ e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
-          className="inline-flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
-        >
-          <span className="w-5 h-5 rounded-full bg-neutral-300 text-neutral-700 flex items-center justify-center text-[10px] font-semibold" aria-hidden="true">{initials(relai.owner)}</span>
-          {relai.owner}
-        </button>
-        <span className="inline-flex items-center gap-1 font-medium text-accent text-xs ml-auto">Open
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-          </svg>
-        </span>
+      <div className="mt-5 pt-4 border-t border-neutral-200 text-[11px] text-neutral-500 space-y-2">
+        {/* Row 1: owner left, program right */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={(e)=>{ e.stopPropagation(); onFilter && onFilter('owner', relai.owner); }}
+            className="inline-flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
+            <span className="w-5 h-5 rounded-full bg-neutral-300 text-neutral-700 flex items-center justify-center text-[10px] font-semibold" aria-hidden="true">{initials(relai.owner)}</span>
+            {relai.owner}
+          </button>
+          <button
+            type="button"
+            onClick={(e)=>{ e.stopPropagation(); onFilter && onFilter('program', relai.program); }}
+            className="ml-auto inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
+            <span className="w-2 h-2 rounded-full bg-accent" aria-hidden="true" />
+            {relai.program}
+          </button>
+        </div>
+        {/* Row 2: updated left, see details right */}
+        <div className="flex items-center">
+          <span className="text-neutral-400">Updated {relai.date}</span>
+          <span className="inline-flex items-center gap-1 font-medium text-accent text-xs ml-auto">See details
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+            </svg>
+          </span>
+        </div>
       </div>
     </motion.article>
   );
@@ -424,6 +430,7 @@ function App() {
       (owner === '' || u.owner === owner) &&
       (statusColor === '' || u.status_color === statusColor) &&
       (!activeFilter || (activeFilter.type === 'project' && u.project === activeFilter.value) ||
+        (activeFilter.type === 'program' && u.program === activeFilter.value) ||
         (activeFilter.type === 'owner' && u.owner === activeFilter.value) ||
         (activeFilter.type === 'objective' && Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))))
     );
