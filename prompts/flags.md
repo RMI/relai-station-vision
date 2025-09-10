@@ -26,8 +26,7 @@ OUTPUT FORMAT (Markdown):
 - Begin with a single bold sentence summarizing overall risk posture (e.g., **Risk posture stable with isolated schedule threats.**)
 - Then a bullet list ("- ") of 0-5 flags.
 - Each bullet begins with one of: HIGH:, MEDIUM:, WATCH: to indicate severity. Bold these words. Use HIGH only for red status or explicit critical wording.
-- After severity tag, provide concise description.
-- Use approriate formatting and emphasize the salient pieces.
+- After severity tag, provide concise description and inline source number brackets. Do NOT list sources otherwise!
 After the bullet list add a blank line, then a line exactly:
 SOURCES:
 Then list each distinct source used (only those actually supporting bullets), one per line in the form:

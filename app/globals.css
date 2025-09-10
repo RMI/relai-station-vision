@@ -156,6 +156,21 @@ body { font-feature-settings: 'ss01' 1, 'liga' 1; }
 
 /* Focus glow helper for nl-search-shell handled inline via utility classes */
 
+/* Engaged NL Search state */
+.nl-search-shell-engaged { 
+	background:linear-gradient(145deg,rgba(255,255,255,0.95),rgba(244,250,255,0.92) 55%,rgba(236,248,255,0.90));
+	position:relative; 
+	box-shadow:0 8px 40px -12px rgba(14,165,233,0.45),0 2px 8px -2px rgba(14,165,233,0.25),0 0 0 1px rgba(56,189,248,0.35); 
+	border-color:rgba(56,189,248,0.55) !important; 
+	transition:box-shadow .6s var(--rs-ease-emph), background .6s var(--rs-ease-emph), border-color .5s var(--rs-ease-emph); 
+}
+.nl-search-shell-engaged:before { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(circle at 18% 20%,rgba(56,189,248,0.28),transparent 60%), radial-gradient(circle at 82% 78%,rgba(14,165,233,0.22),transparent 70%); mix-blend-mode:color-dodge; pointer-events:none; opacity:.9; }
+.nl-search-shell-engaged:after { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(120deg,rgba(255,255,255,0.55),rgba(255,255,255,0) 40%,rgba(255,255,255,0.4)); opacity:.35; mix-blend-mode:overlay; pointer-events:none; }
+
+/* Highlight token for NL answer / snippet */
+mark.nlhi { background:linear-gradient(135deg,#38bdf8,#0ea5e9); color:#fff; padding:0 .25em .05em; border-radius:4px; font-weight:600; box-shadow:0 0 0 1px rgba(255,255,255,0.35),0 2px 6px -2px rgba(14,165,233,0.55); }
+mark.nlhi::selection { background:#0ea5e9; color:#fff; }
+
 /* Color variants */
 .summary-spotlight-green { --spot-ico-from:#10b981; --spot-ico-to:#059669; --spot-accent-bg:rgba(16,185,129,0.3); --spot-accent-fade:rgba(5,150,105,0.18); --spot-bar-from:#10b981; --spot-bar-to:#059669; }
 .summary-spotlight-amber { --spot-ico-from:#f59e0b; --spot-ico-to:#d97706; --spot-accent-bg:rgba(245,158,11,0.32); --spot-accent-fade:rgba(234,179,8,0.2); --spot-bar-from:#f59e0b; --spot-bar-to:#d97706; }

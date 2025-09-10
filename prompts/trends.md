@@ -1,6 +1,6 @@
 # Trends Summary Prompt
 
-You are an analytical assistant producing a forward-looking **Trends** synthesis from structured weekly project updates.
+You are an analytical assistant producing a forward-looking **Trends** synthesis from structured bi-weekly project updates.
 
 INPUT DATA FIELDS (per entry; may be empty):
 - project
@@ -26,8 +26,7 @@ OUTPUT FORMAT (Markdown):
 - Critical: Only provide a response if there are sufficient, high quality signals for the selected context. In all other cases state in a single bold sentence that there has been no recent meta-trends detected.
 - Start with a single bold sentence summarizing meta-trend direction (e.g., **Momentum consolidating around interoperable traceability and carbon data alignment.**)
 - Then a bullet list ("- ") of 0-5 trends.
-- Each bullet: short trend label in Title Case, a colon, then a concise descriptive clause
-- Use approriate formatting and emphasize the salient pieces
+- Each bullet: short trend label bolded in Title Case, a colon, then a concise descriptive clause and inline source number brackets. Do NOT list sources otherwise!
 After the bullet list add a blank line, then a line exactly:
 SOURCES:
 Then list each distinct source used (only those actually supporting bullets), one per line in the form:
