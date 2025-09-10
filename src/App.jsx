@@ -7,8 +7,8 @@ import { variants, springLayout, listStagger } from './motionTokens';
    Utility helpers
 ------------------------------------------------------------ */
 function projectSlug(name=''){ return name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').trim(); }
-function escapeHtml(str=''){ return str.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c)); }
-function splitSources(raw=''){ const lines=raw.split(/\n/); const idx=lines.findIndex(l=>/^SOURCES:\s*$/i.test(l.trim())); if(idx===-1) return {main:raw.trim(), sources:[]}; const main=lines.slice(0,idx).join('\n').trim(); const src=lines.slice(idx+1).map(l=>l.trim()).filter(Boolean); const sources=src[0] && src[0].toLowerCase()!=='(none)' ? src : []; return {main,sources}; }
+function escapeHtml(str=''){ return str.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c)); }
+// Removed splitSources logic (sources section deprecated in summaries)
 function highlightSnippet(snippet, query){ if(!query) return escapeHtml(snippet); try { const tokens=Array.from(new Set(query.toLowerCase().split(/[^a-z0-9]+/i).filter(Boolean))); if(!tokens.length) return escapeHtml(snippet); const pattern=new RegExp('(' + tokens.map(t=>t.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&')).join('|') + ')','ig'); return escapeHtml(snippet).replace(pattern,'<mark class="nlhi">$1</mark>'); } catch(e){ return escapeHtml(snippet);} }
 function renderSourcesList(sources){ if(!sources.length) return null; return (<details className="mt-4 group summary-sources"><summary className="cursor-pointer text-xs font-medium text-neutral-500 hover:text-neutral-700 flex items-center gap-1">Sources ({sources.length})<span className="transition-transform group-open:rotate-90 inline-block text-neutral-400">›</span></summary><ul className="mt-2 space-y-1 text-[11px] leading-snug text-neutral-600">{sources.map((s,i)=>(<li key={i} className="pl-1">{escapeHtml(s)}</li>))}</ul></details>); }
 
@@ -24,9 +24,9 @@ const RelaiCard = ({ relai, onClick, onFilter, index }) => {
       <div className="mb-3 pr-1"><h3 className="text-[17px] font-semibold leading-snug tracking-tight text-neutral-900 group-hover:text-neutral-950 transition-colors">{relai.project}</h3></div>
       <div className="space-y-2 text-[13px] leading-snug text-neutral-700">
         <div className="flex items-start gap-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-500/15 text-emerald-600 border border-emerald-400/30" aria-hidden="true"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 22l-6-4-6 4 1.5-8.5L2 9h7z"/></svg></span><p><span className="sr-only">Health:</span>{projSummary?.headline || 'Summary not available.'}</p></div>
-        {projSummary?.recentFocus && (<div className="flex items-start gap-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-sky-500/15 text-sky-600 border border-sky-400/30" aria-hidden="true"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></span><p><span className="sr-only">Focus:</span>{projSummary.recentFocus}</p></div>)}
+        {(relai.overall_project_summary || projSummary?.recentFocus) && (<div className="flex items-start gap-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-sky-500/15 text-sky-600 border border-sky-400/30" aria-hidden="true"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></span><p><span className="sr-only">Summary:</span>{(relai.overall_project_summary || projSummary?.recentFocus || '').slice(0,180)}</p></div>)}
         {projSummary?.keyRisks && (<div className="flex items-start gap-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-amber-500/15 text-amber-600 border border-amber-400/30" aria-hidden="true"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></span><p><span className="sr-only">Risks:</span>{projSummary.keyRisks}</p></div>)}
-        {projSummary?.themes?.length>0 && (<div className="flex items-start gap-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-fuchsia-500/15 text-fuchsia-600 border border-fuchsia-400/30" aria-hidden="true"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10h16"/><path d="M4 14h16"/><path d="M7 6h10"/><path d="M7 18h10"/></svg></span><p><span className="sr-only">Themes:</span>{projSummary.themes.join('; ')}</p></div>)}
+        {projSummary?.themes?.length>0 && (<div className="flex items-start gap-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-fuchsia-500/15 text-fuchsia-600 border border-fuchsia-400/30" aria-hidden="true"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10h16"/><path d="M4 14h16"/><path d="M7 6h10"/><path d="M7 18h10"/></svg></span><p><span className="sr-only">Milestones:</span>{projSummary.themes.join('; ')}</p></div>)}
       </div>
       <div className="mt-5 pt-4 border-t border-neutral-200 text-[11px] text-neutral-500 space-y-2">
         <div className="flex items-center gap-2"><button type="button" onClick={(e)=>{e.stopPropagation();onFilter?.('owner', relai.owner);}} className="inline-flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium"><span className="w-5 h-5 rounded-full bg-neutral-300 text-neutral-700 flex items-center justify-center text-[10px] font-semibold" aria-hidden="true">{initials(relai.owner)}</span>{relai.owner}</button><button type="button" onClick={(e)=>{e.stopPropagation();onFilter?.('program', relai.program);}} className="ml-auto inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 text-[11px] font-medium"><span className="w-2 h-2 rounded-full bg-accent" aria-hidden="true" />{relai.program}</button></div>
@@ -50,7 +50,15 @@ const RelaiDetailModal = ({ project, updates, onClose, onFilter, targetUpdateDat
         <div className="pr-6"><h2 className="text-xl font-semibold tracking-tight text-neutral-900 mb-1">{project}</h2><div className="flex flex-wrap items-center gap-3 text-xs text-neutral-500"><div className="flex items-center gap-1.5"><span className={`w-2.5 h-2.5 rounded-full ${latestUpdate.status_color==='green'?'bg-emerald-500':latestUpdate.status_color==='yellow'?'bg-amber-500':'bg-rose-500'}`} /><span className="font-medium text-neutral-700">{latestUpdate.status_color.toUpperCase()}</span></div><span className="w-1 h-1 rounded-full bg-neutral-300" /><button onClick={()=>onFilter?.('program', latestUpdate.program)} className="underline decoration-dotted underline-offset-2 hover:text-neutral-700">{latestUpdate.program}</button><span className="w-1 h-1 rounded-full bg-neutral-300" /><button onClick={()=>onFilter?.('owner', latestUpdate.owner)} className="underline decoration-dotted underline-offset-2 hover:text-neutral-700">{latestUpdate.owner}</button>{objectives.length>0 && (<><span className="w-1 h-1 rounded-full bg-neutral-300" /><span className="text-neutral-400">OOMs:</span>{objectives.map((o,i)=>(<button key={i} onClick={()=>onFilter?.('objective', o)} className="underline decoration-dotted underline-offset-2 hover:text-neutral-700">{String(o)}</button>))}</>)}</div></div>
         <button onClick={onClose} className="rounded-lg p-2 hover:bg-neutral-100 text-neutral-400 hover:text-neutral-700 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg></button>
       </div>
-      <div className="overflow-y-auto px-6 py-6 flex-grow"><div className="relative pl-6"><div className="absolute left-2 top-0 bottom-0 w-px bg-gradient-to-b from-accent/40 via-neutral-200 to-neutral-300" /><div className="space-y-10">{sortedUpdates.map((update,index)=>(<div key={index} id={`update-${projectSlug(project)}-${update.date.replace(/[^a-zA-Z0-9]/g,'-')}`} className="relative group scroll-mt-24"><div className="absolute -left-3 mt-1 w-5 h-5"><div className={`absolute inset-0 rounded-full border-2 bg-white ${index===0?'border-accent':'border-neutral-300 group-hover:border-accent transition-colors'} flex items-center justify-center`}><div className={`w-2 h-2 rounded-full ${update.status_color==='green'?'bg-emerald-500':update.status_color==='yellow'?'bg-amber-500':'bg-rose-500'}`} /></div></div><div className={`rounded-xl p-5 border transition-colors ${index===0?'border-accent/40 bg-accent-soft':'border-neutral-200 hover:border-neutral-300 bg-white/70'} backdrop-blur-sm`}><div className="flex justify-between items-center mb-3"><span className="text-sm font-semibold text-neutral-800 tracking-tight">{update.date}</span><span className={`status-badge ${update.status_color==='green'?'status-green':update.status_color==='yellow'?'status-yellow':'status-red'}`}>{update.status_color}</span></div><div className="grid gap-4 text-[13px] leading-relaxed text-neutral-700"><div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key Developments & Decisions</h4><p>{update.key_developments_and_decisions}</p></div>{update.key_new_insights_and_decisions && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key New Insights & Decisions</h4><p>{update.key_new_insights_and_decisions}</p></div>)}<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key Blockers & Concerns</h4><p>{update.key_blockers_and_concerns}</p></div>{update.emerging_themes && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Emerging Themes</h4><p>{update.emerging_themes}</p></div>)}{update.funding_conversation && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Funding Conversation</h4><p>{update.funding_conversation}</p></div>)}<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Overall Project Status</h4><p>{update.overall_project_status}</p></div></div></div></div>))}</div></div></div>
+          <div className="overflow-y-auto px-6 py-6 flex-grow"><div className="relative pl-6"><div className="absolute left-2 top-0 bottom-0 w-px bg-gradient-to-b from-accent/40 via-neutral-200 to-neutral-300" /><div className="space-y-10">{sortedUpdates.map((update,index)=>(<div key={index} id={`update-${projectSlug(project)}-${update.date.replace(/[^a-zA-Z0-9]/g,'-')}`} data-update-id={update.update_id || ''} className="relative group scroll-mt-24"><div className="absolute -left-3 mt-1 w-5 h-5"><div className={`absolute inset-0 rounded-full border-2 bg-white ${index===0?'border-accent':'border-neutral-300 group-hover:border-accent transition-colors'} flex items-center justify-center`}><div className={`w-2 h-2 rounded-full ${update.status_color==='green'?'bg-emerald-500':update.status_color==='yellow'?'bg-amber-500':'bg-rose-500'}`} /></div></div><div className={`rounded-xl p-5 border transition-colors ${index===0?'border-accent/40 bg-accent-soft':'border-neutral-200 hover:border-neutral-300 bg-white/70'} backdrop-blur-sm`}><div className="flex justify-between items-center mb-3"><span className="text-sm font-semibold text-neutral-800 tracking-tight">{update.date}</span><span className={`status-badge ${update.status_color==='green'?'status-green':update.status_color==='yellow'?'status-yellow':'status-red'}`}>{update.status_color}</span></div><div className="grid gap-5 text-[13px] leading-relaxed text-neutral-700">
+            {(update.overall_project_summary) && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Overall Project Summary</h4><p>{update.overall_project_summary}</p></div>)}
+            <div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key Achievements</h4><p>{update.key_achievements}</p></div>
+            {update.fyis && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">FYIs</h4><p>{update.fyis}</p></div>)}
+            {update.upcoming_milestones && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Upcoming Milestones</h4><p>{update.upcoming_milestones}</p></div>)}
+            {update.key_blockers_and_concerns && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key Blockers & Concerns</h4><p>{update.key_blockers_and_concerns}</p></div>)}
+            {update.key_new_insights_and_decisions && (<div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Key New Insights & Decisions</h4><p>{update.key_new_insights_and_decisions}</p></div>)}
+            <div><h4 className="font-semibold text-neutral-900 mb-1 text-[12px] tracking-wide uppercase">Overall Project Status</h4><p>{update.overall_project_status}</p></div>
+          </div></div></div>))}</div></div></div>
       <div className="px-6 py-4 border-t border-neutral-200 flex justify-end bg-white/80"><button onClick={onClose} className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-lg text-sm font-medium">Close</button></div>
     </div>
   </div>);
@@ -68,7 +76,8 @@ function App(){
   const [statusColor,setStatusColor] = useState('');
   const [selectedProject,setSelectedProject] = useState(null);
   const [mostRecentByProject,setMostRecentByProject] = useState({});
-  const [targetUpdateDate,setTargetUpdateDate] = useState(null);
+  const [targetUpdateDate,setTargetUpdateDate] = useState(null); // legacy (date-based) targeting
+  const [targetUpdateId,setTargetUpdateId] = useState(null); // new stable id targeting
   const [selectedProgram,setSelectedProgram] = useState('');
   const [selectedObjective,setSelectedObjective] = useState('');
   // Summaries
@@ -78,9 +87,8 @@ function App(){
   const [flagsMd,setFlagsMd] = useState('');
   const [trendsMd,setTrendsMd] = useState('');
   const [lastGenAt,setLastGenAt] = useState(null);
-  const [achCollapsed,setAchCollapsed] = useState(true);
-  const [flagsCollapsed,setFlagsCollapsed] = useState(true);
-  const [trendsCollapsed,setTrendsCollapsed] = useState(true);
+  // unified expansion state
+  const [openSummary,setOpenSummary] = useState(null);
   const [activeFilter,setActiveFilter] = useState(null);
   // NL search
   const [nlSearchQuery,setNlSearchQuery] = useState('');
@@ -102,22 +110,35 @@ function App(){
   useEffect(()=>{ fetchSections(); // eslint-disable-next-line react-hooks/exhaustive-deps
   },[selectedProgram, selectedObjective]);
 
-  const runNlSearch = async(q)=>{ setNlError(null); if(q.trim().length<3){ setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setSearchEngaged(false); return; } try { setSearchEngaged(true); setNlSearchActive(true); setNlLoading(true); setNlSearchResults([]); setNlAnswer(''); const resp=await fetch('/api/nl-search',{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({query:q})}); if(!resp.ok) throw new Error(`HTTP ${resp.status}`); const data=await resp.json(); setNlAnswer(data.answer||''); setNlSearchResults((data.matches||[]).map(m=>({ update:{project:m.project, date:m.date, id:m.id}, score:m.score, snippet:m.snippet }))); setNlSearchActive((data.matches||[]).length>0 || !!data.answer); } catch(e){ setNlError(e.message);} finally { setNlLoading(false);} };
+  const runNlSearch = async(q)=>{
+    setNlError(null);
+    if(q.trim().length<3){ setNlSearchActive(false); setNlSearchResults([]); setNlAnswer(''); setSearchEngaged(false); return; }
+    try {
+      setSearchEngaged(true); setNlSearchActive(true); setNlLoading(true); setNlSearchResults([]); setNlAnswer('');
+      const resp = await fetch('/api/nl-search',{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({query:q})});
+      if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      setNlAnswer(data.answer||'');
+      setNlSearchResults([]); // unified route returns only answer
+      setNlSearchActive(!!data.answer);
+    } catch(e){
+      setNlError(e.message);
+    } finally {
+      setNlLoading(false);
+    }
+  };
   const clearNlSearch = ()=>{ setNlSearchQuery(''); setNlSearchResults([]); setNlAnswer(''); setNlError(null); setNlSearchActive(false); setSearchEngaged(false); };
 
   // Keyboard shortcuts: Cmd+K (or Ctrl+K) to focus search, Esc to clear/exit if engaged/active
   useEffect(()=>{
     const handler = (e)=>{
-      // Meta+K / Ctrl+K opens & focuses search (prevent browser quick search)
       if((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==='k'){
         e.preventDefault();
         if(nlInputRef.current){
           nlInputRef.current.focus();
-          // If not already engaged, just reveal focus glow (do not set engaged until submit)
           setNlFocused(true);
         }
       }
-      // Escape clears ONLY if something is active (engaged or query text or results)
       else if(e.key === 'Escape'){
         if(searchEngaged || nlSearchQuery.length>0 || nlSearchActive){
           clearNlSearch();
@@ -137,25 +158,85 @@ function App(){
   const allPrograms = Array.from(new Set(updatesData.map(u=>u.program))).filter(Boolean);
   const allObjectives = Array.from(new Set(updatesData.flatMap(u=> Array.isArray(u.objectives)? u.objectives : [])));
 
-  const matchedProjectSet = useMemo(()=>{ if(!nlSearchActive) return null; return new Set(nlSearchResults.map(r=>r.update.project)); },[nlSearchActive,nlSearchResults]);
+  const matchedProjectSet = useMemo(()=>{ if(!nlSearchActive) return null; return new Set(nlSearchResults.map(r=>r.project)); },[nlSearchActive,nlSearchResults]);
 
   let filteredProjects = Object.values(mostRecentByProject).filter(u=>{
     const scopeOk = (!selectedProgram || u.program===selectedProgram) && (!selectedObjective || (Array.isArray(u.objectives) && u.objectives.map(String).includes(String(selectedObjective))));
     const searchSetOk = (!matchedProjectSet || matchedProjectSet.has(u.project));
+    const freeTextHaystack = [
+      u.owner,
+      u.project,
+  u.key_achievements || '',
+      u.key_blockers_and_concerns || '',
+      u.fyis || '',
+      u.upcoming_milestones || '',
+      u.overall_project_summary || '',
+      u.overall_project_status || ''
+    ].join('\n').toLowerCase();
     return scopeOk && searchSetOk &&
-      (search==='' || [u.owner,u.project,u.key_developments_and_decisions,u.key_blockers_and_concerns,u.overall_project_status].some(f=>f.toLowerCase().includes(search.toLowerCase()))) &&
+      (search==='' || freeTextHaystack.includes(search.toLowerCase())) &&
       (project==='' || u.project===project) && (owner==='' || u.owner===owner) && (statusColor==='' || u.status_color===statusColor) &&
       (!activeFilter || (activeFilter.type==='program' && u.program===activeFilter.value) || (activeFilter.type==='owner' && u.owner===activeFilter.value) || (activeFilter.type==='objective' && Array.isArray(u.objectives) && u.objectives.map(String).includes(String(activeFilter.value))));
   }).sort((a,b)=> new Date(b.date)-new Date(a.date));
 
-  const achParts = splitSources(achievementsMd); const flagParts = splitSources(flagsMd); const trendParts = splitSources(trendsMd);
   function extractHeadline(md){ if(!md) return ''; const firstLine=md.trim().split(/\n+/)[0].trim(); const m=firstLine.match(/(.+?[.!?])($|\s)/); let s=m?m[1].trim():firstLine; s=s.replace(/^#+\s*/, '').replace(/^\*\*(.+)\*\*$/,'$1'); return s; }
-  function bodyWithoutHeadline(parts, headline){ if(!parts.main) return ''; const lines=parts.main.split(/\n+/); if(lines[0] && lines[0].includes(headline.substring(0,Math.min(10,headline.length)))) lines.shift(); return lines.join('\n').trim(); }
-  const achHeadline = extractHeadline(achParts.main); const flagsHeadline = extractHeadline(flagParts.main); const trendsHeadline = extractHeadline(trendParts.main);
-  const achBody = bodyWithoutHeadline(achParts, achHeadline); const flagsBody = bodyWithoutHeadline(flagParts, flagsHeadline); const trendsBody = bodyWithoutHeadline(trendParts, trendsHeadline);
+  function stripHeadline(md, headline){ if(!md) return ''; const lines=md.trim().split(/\n+/); if(lines[0] && lines[0].includes(headline.substring(0,Math.min(10,headline.length)))) lines.shift(); return lines.join('\n').trim(); }
+  const achHeadline = extractHeadline(achievementsMd); const flagsHeadline = extractHeadline(flagsMd); const trendsHeadline = extractHeadline(trendsMd);
+  const achBody = stripHeadline(achievementsMd, achHeadline); const flagsBody = stripHeadline(flagsMd, flagsHeadline); const trendsBody = stripHeadline(trendsMd, trendsHeadline);
   const scopeDescriptor = selectedProgram ? `for ${selectedProgram}` : selectedObjective ? `for Objective ${selectedObjective}` : '';
 
-  function renderMarkdown(md){ if(!md) return null; const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]||c)); const lines=md.split(/\n+/); const html=lines.map(l=>{ if(/^\s*-\s+/.test(l)) return `<li>${esc(l.replace(/^\s*-\s+/,'')).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</li>`; if(/^\*\*(.*?)\*\*/.test(l.trim())) return `<p><strong>${esc(l.trim().replace(/^\*\*(.*?)\*\*/,'$1'))}</strong></p>`; return `<p>${esc(l).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</p>`; }).join(''); if(/<li>/.test(html)) return `<ul class="list-disc pl-4 space-y-1">${html}</ul>`; return html; }
+  // Enhanced markdown renderer: converts trailing project tag brackets [Project A, Project B] into clickable spans.
+  function renderMarkdown(md){
+    if(!md) return null;
+    const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]||c));
+    const lines=md.split(/\n+/);
+    const html=lines.map(l=>{
+      if(/^\s*-\s+/.test(l)){
+        let content = l.replace(/^\s*-\s+/,'');
+        // Extract trailing project bracket
+        const tagMatch = content.match(/\s\[([^\]]+)\]\s*$/);
+        let tagHtml='';
+        if(tagMatch){
+          const projects = tagMatch[1].split(/\s*,\s*/).filter(Boolean);
+            content = content.slice(0, tagMatch.index).trim();
+          tagHtml = `<span class="ml-2 inline-flex flex-wrap gap-1 align-middle">${projects.map(p=>`<button type="button" class="proj-tag" data-project="${esc(p)}">${esc(p)}</button>`).join('')}</span>`;
+        }
+        const inner = esc(content).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+        return `<li>${inner}${tagHtml}</li>`;
+      }
+      if(/^\*\*(.*?)\*\*/.test(l.trim())) return `<p><strong>${esc(l.trim().replace(/^\*\*(.*?)\*\*/,'$1'))}</strong></p>`;
+      return `<p>${esc(l).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</p>`;
+    }).join('');
+    if(/<li>/.test(html)) return `<ul class="list-disc pl-4 space-y-1">${html}</ul>`;
+    return html;
+  }
+
+  // Delegate click handling for project tag buttons inside summary sections
+  useEffect(()=>{
+    function handleClick(e){
+      const btn = e.target.closest('button.proj-tag');
+      if(!btn) return;
+      const proj = btn.getAttribute('data-project');
+      if(!proj) return;
+      // Determine most recent update_id for project
+      const recent = updatesData.filter(u=>u.project===proj).sort((a,b)=> new Date(b.date)-new Date(a.date))[0];
+      setSelectedProject(proj);
+      setTargetUpdateDate(null);
+      setTargetUpdateId(recent?.update_id || null);
+      setTimeout(()=>{
+        if(recent?.update_id){
+          const el = document.querySelector(`[data-update-id="${recent.update_id}"]`);
+          if(el){
+            el.scrollIntoView({behavior:'smooth', block:'start'});
+            el.classList.add('update-pulse');
+            setTimeout(()=> el.classList.remove('update-pulse'), 2200);
+          }
+        }
+      }, 160);
+    }
+    document.addEventListener('click', handleClick);
+    return ()=> document.removeEventListener('click', handleClick);
+  },[]);
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
@@ -192,19 +273,12 @@ function App(){
             <button type="submit" disabled={nlLoading || nlSearchQuery.trim().length<3} className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 ${nlLoading? 'bg-neutral-200 border-neutral-300 text-neutral-500 cursor-wait' : nlSearchQuery.trim().length<3 ? 'bg-neutral-100 border-neutral-200 text-neutral-400 cursor-not-allowed' : 'bg-accent-soft border-accent/30 text-accent hover:border-accent/50'}`}>{nlLoading? 'Searching…' : searchEngaged? 'Refine' : 'Search'}</button>
           </form>
           {nlSearchQuery.trim().length>0 && nlSearchQuery.trim().length<3 && !nlLoading && (<p className="mt-3 text-xs text-neutral-400">Type at least 3 characters then press Enter.</p>)}
-          {(nlLoading || nlAnswer || nlSearchResults.length>0 || nlError) && nlSearchQuery.trim().length>=3 && (
+          {(nlLoading || nlAnswer || nlError) && nlSearchQuery.trim().length>=3 && (
             <div className="mt-8 space-y-6" aria-live="polite">
               {nlLoading && (<div className="flex items-center gap-3 text-sm text-neutral-500"><svg className="h-5 w-5 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle className="opacity-25" cx="12" cy="12" r="10" /><path d="M22 12a10 10 0 0 1-10 10" className="opacity-75" /></svg><span>Analyzing updates…</span></div>)}
-              {!nlLoading && nlAnswer && (<div className="answer-panel"><p className="text-sm leading-relaxed text-neutral-800"><span className="font-semibold text-accent">Answer:</span> <span dangerouslySetInnerHTML={{__html: highlightSnippet(nlAnswer,'')}} /></p></div>)}
-              <div>
-                <div className="flex items-center justify-between mb-3"><h3 className="text-[11px] uppercase tracking-wide font-semibold text-neutral-500">Sources <span className="text-neutral-400 font-normal">({nlLoading? '…': nlSearchResults.length})</span></h3><div className="text-[11px] text-neutral-400">{nlLoading? 'Gathering…': `Projects: ${matchedProjectSet? matchedProjectSet.size : 0}`}</div></div>
-                <ul className="space-y-3 pr-1" aria-label="Search results list">
-                  {nlLoading && Array.from({length:5}).map((_,i)=>(<li key={i} className="result-skel"><div className="h-3 w-40 bg-neutral-200 rounded mb-2" /><div className="space-y-1"><div className="h-2.5 bg-neutral-200 rounded" /><div className="h-2.5 bg-neutral-200 rounded w-5/6" /><div className="h-2.5 bg-neutral-200 rounded w-2/3" /></div></li>))}
-                  {!nlLoading && nlSearchResults.slice(0,80).map((r,idx)=>(<li key={r.update.id} className="result-item" onClick={()=>{ setSelectedProject(r.update.project); setTargetUpdateDate(r.update.date); }}><div className="flex items-center gap-2 mb-1"><span className="index-badge">{idx+1}</span><span className="proj-name">{r.update.project}</span><span className="date-chip">{r.update.date}</span></div><p className="snippet">{r.snippet}</p></li>))}
-                  {!nlLoading && nlSearchResults.length===0 && !nlError && (<li className="text-[11px] text-neutral-500">No matches. Refine your question.</li>)}
-                  {!nlLoading && nlError && (<li className="text-[11px] text-rose-600">Error: {nlError}</li>)}
-                </ul>
-              </div>
+              {!nlLoading && nlAnswer && (<div className="answer-panel rounded-lg border border-neutral-200 bg-white/70 p-4 shadow-sm"><p className="text-sm leading-relaxed text-neutral-800 whitespace-pre-line" dangerouslySetInnerHTML={{__html: highlightSnippet(nlAnswer,'')}} /></div>)}
+              {!nlLoading && !nlAnswer && !nlError && (<p className="text-xs text-neutral-500">No answer returned. Try rephrasing your question.</p>)}
+              {!nlLoading && nlError && (<p className="text-xs text-rose-600">Error: {nlError}</p>)}
             </div>
           )}
         </motion.section>
@@ -235,29 +309,49 @@ function App(){
             </div>
           </motion.div>)}</AnimatePresence>
 
+        {/* NEW SUMMARY CARDS */}
         <AnimatePresence>{!searchEngaged && (
-          <motion.section key="summaries" initial={{opacity:0,y:24}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-24,transition:{duration:0.4,ease:[0.4,0.16,0.2,1]}}} className="mb-14 space-y-8" aria-label="AI generated summaries">
+          <motion.section key="summaries" initial={{opacity:0,y:24}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-24,transition:{duration:0.4,ease:[0.4,0.16,0.2,1]}}} className="mb-12" aria-label="AI generated summaries">
             {sectionError && <div className="text-sm text-rose-600">Error loading summaries: {sectionError}</div>}
             {sectionLoading && !sectionError && (
-              <div className="grid md:grid-cols-3 gap-6 animate-pulse">{Array.from({length:3}).map((_,i)=>(<div key={i} className="rounded-xl border border-neutral-200 bg-white p-5"><div className="h-4 w-28 bg-neutral-200 rounded mb-4" /><div className="space-y-2"><div className="h-2.5 bg-neutral-200 rounded" /><div className="h-2.5 bg-neutral-200 rounded w-5/6" /><div className="h-2.5 bg-neutral-200 rounded w-3/4" /></div></div>))}</div>
+              <div className="grid md:grid-cols-3 gap-6 animate-pulse">{Array.from({length:3}).map((_,i)=>(<div key={i} className="rounded-xl border border-neutral-200 bg-white p-5"><div className="h-4 w-28 bg-neutral-200 rounded mb-3" /><div className="h-2.5 bg-neutral-200 rounded w-5/6" /></div>))}</div>
             )}
             {!sectionLoading && !sectionError && (
-              <motion.div className="space-y-10" initial="hidden" animate="visible" variants={{hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:0.18,delayChildren:0.05}}}}>
-                <motion.section variants={{hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-green group cursor-pointer" aria-labelledby="achievements-heading" role="button" tabIndex={0} aria-expanded={!achCollapsed} onClick={()=>setAchCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setAchCollapsed(c=>!c);}}}>
-                  <header className="summary-spotlight-head"><div className="summary-spotlight-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z" /></svg></div><h3 id="achievements-heading" className="summary-spotlight-title flex items-start gap-3"><span className="inline-flex items-center gap-2">{achHeadline||'Achievements'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span><button type="button" aria-label={achCollapsed?'Expand achievements summary':'Collapse achievements summary'} onClick={(e)=>{e.stopPropagation();setAchCollapsed(c=>!c);}} className={`chevron-btn ${achCollapsed?'':'open'}`}><span aria-hidden className="chevron-icon">›</span></button></h3></header>
-                  {!achCollapsed && (<motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden"><div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(achBody)}} />{renderSourcesList(achParts.sources)}</motion.div>)}
-                </motion.section>
-                <motion.section variants={{hidden:{opacity:0,y:30},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-amber group cursor-pointer" aria-labelledby="flags-heading" role="button" tabIndex={0} aria-expanded={!flagsCollapsed} onClick={()=>setFlagsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setFlagsCollapsed(c=>!c);}}}>
-                  <header className="summary-spotlight-head"><div className="summary-spotlight-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M4 2h8l2 5 2-5h4v20H4z" /></svg></div><h3 id="flags-heading" className="summary-spotlight-title flex items-start gap-3"><span className="inline-flex items-center gap-2">{flagsHeadline||'Flags'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span><button type="button" aria-label={flagsCollapsed?'Expand flags summary':'Collapse flags summary'} onClick={(e)=>{e.stopPropagation();setFlagsCollapsed(c=>!c);}} className={`chevron-btn ${flagsCollapsed?'':'open'}`}><span aria-hidden className="chevron-icon">›</span></button></h3></header>
-                  {!flagsCollapsed && (<motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden"><div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(flagsBody)}} />{renderSourcesList(flagParts.sources)}</motion.div>)}
-                </motion.section>
-                <motion.section variants={{hidden:{opacity:0,y:32},visible:{opacity:1,y:0,transition:{duration:0.65,ease:[0.4,0.16,0.2,1]}}}} className="summary-spotlight summary-spotlight-cyan group cursor-pointer" aria-labelledby="trends-heading" role="button" tabIndex={0} aria-expanded={!trendsCollapsed} onClick={()=>setTrendsCollapsed(c=>!c)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setTrendsCollapsed(c=>!c);}}}>
-                  <header className="summary-spotlight-head"><div className="summary-spotlight-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M3 17l6-6 4 4 8-8" /><path d="M14 7h7v7" /></svg></div><h3 id="trends-heading" className="summary-spotlight-title flex items-start gap-3"><span className="inline-flex items-center gap-2">{trendsHeadline||'Trends'} {scopeDescriptor && <span className="summary-scope-tag">{scopeDescriptor}</span>}</span><button type="button" aria-label={trendsCollapsed?'Expand trends summary':'Collapse trends summary'} onClick={(e)=>{e.stopPropagation();setTrendsCollapsed(c=>!c);}} className={`chevron-btn ${trendsCollapsed?'':'open'}`}><span aria-hidden className="chevron-icon">›</span></button></h3></header>
-                  {!trendsCollapsed && (<motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:.35,ease:[0.4,0.16,0.2,1]}} className="overflow-hidden"><div className="summary-spotlight-body prose prose-sm max-w-none" dangerouslySetInnerHTML={{__html: renderMarkdown(trendsBody)}} />{renderSourcesList(trendParts.sources)}</motion.div>)}
-                </motion.section>
-              </motion.div>
+              <div>
+                <div className="grid md:grid-cols-3 gap-6 mb-4">
+                  {[{key:'achievements', title:achHeadline||'Achievements', icon:(<svg viewBox='0 0 24 24' stroke='currentColor' strokeWidth='2' fill='none' className='w-5 h-5'><path d='M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.6 5.8 22 7 14.14l-5-4.87 7.1-1.01z'/></svg>)}, {key:'flags', title:flagsHeadline||'Flags', icon:(<svg viewBox='0 0 24 24' stroke='currentColor' strokeWidth='2' fill='none' className='w-5 h-5'><path d='M4 2h8l2 5 2-5h4v17H4z'/></svg>)}, {key:'trends', title:trendsHeadline||'Trends', icon:(<svg viewBox='0 0 24 24' stroke='currentColor' strokeWidth='2' fill='none' className='w-5 h-5'><path d='M3 17l6-6 4 4 8-8'/><path d='M14 7h7v7'/></svg>)}].map(card=>{
+                    const active = openSummary===card.key;
+                    return (
+                      <button key={card.key} type="button" aria-expanded={active} onClick={()=> setOpenSummary(s=> s===card.key? null : card.key)} className={`text-left rounded-xl border p-5 relative group transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent/40 ${card.key==='achievements'?'bg-emerald-50/60 hover:bg-emerald-50 border-emerald-200':card.key==='flags'?'bg-amber-50/60 hover:bg-amber-50 border-amber-200': 'bg-sky-50/60 hover:bg-sky-50 border-sky-200'} ${active? (card.key==='achievements'?'ring-2 ring-emerald-300 shadow-[0_0_0_1px_rgba(16,185,129,0.25),0_4px_16px_-4px_rgba(16,185,129,0.35)]':card.key==='flags'?'ring-2 ring-amber-300 shadow-[0_0_0_1px_rgba(245,158,11,0.30),0_4px_16px_-4px_rgba(245,158,11,0.35)]':'ring-2 ring-sky-300 shadow-[0_0_0_1px_rgba(14,165,233,0.25),0_4px_16px_-4px_rgba(14,165,233,0.35)]') : ''}`}>
+                        <div className="flex items-start gap-3">
+                          <span className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border text-neutral-700 ${card.key==='achievements'?'bg-emerald-100/70 border-emerald-300':''} ${card.key==='flags'?'bg-amber-100/70 border-amber-300':''} ${card.key==='trends'?'bg-sky-100/70 border-sky-300':''}`}>{card.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold tracking-tight text-neutral-800 flex items-center gap-2">{card.title} {scopeDescriptor && <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">{scopeDescriptor}</span>}</div>
+                            {!active && <div className="text-[11px] text-neutral-400 mt-1">Click to expand</div>}
+                          </div>
+                          <div className={`ml-2 text-neutral-400 transition-transform ${active?'rotate-90':''}`}>›</div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                <AnimatePresence>
+                  {openSummary && (
+                    <motion.div key={openSummary} initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:0.35,ease:[0.4,0.16,0.2,1]}} className={`rounded-xl p-6 shadow-sm border-2 bg-white/95 backdrop-blur-sm transition-colors ${openSummary==='achievements'?'border-emerald-300':'border-neutral-200'} ${openSummary==='flags'?'border-amber-300':''} ${openSummary==='trends'?'border-sky-300':''}`}>
+                      <div className="flex items-start justify-between mb-4">
+                        <h4 className="text-base font-semibold tracking-tight text-neutral-800">
+                          {openSummary==='achievements'? (achHeadline||'Achievements') : openSummary==='flags'? (flagsHeadline||'Flags') : (trendsHeadline||'Trends')}
+                        </h4>
+                        <button onClick={()=>setOpenSummary(null)} aria-label="Collapse summary" className="w-7 h-7 text-neutral-500 hover:text-neutral-800 rounded-md hover:bg-neutral-100 flex items-center justify-center">×</button>
+                      </div>
+                      <div className="prose prose-sm max-w-none text-neutral-800" dangerouslySetInnerHTML={{__html: renderMarkdown(openSummary==='achievements'? achBody : openSummary==='flags'? flagsBody : trendsBody)}} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             )}
-          </motion.section>)}</AnimatePresence>
+          </motion.section>)}
+        </AnimatePresence>
 
         <AnimatePresence>{!searchEngaged && (
           <motion.section key="projects" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-20,transition:{duration:0.35,ease:[0.4,0.16,0.2,1]}}}>

@@ -6,12 +6,10 @@ INPUT DATA FORMAT:
 Each project update provides fields (may be empty):
 - project
 - date (e.g., Aug 5, 2025)
-- key_developments_and_decisions (achievements / progress)
+- key_achievements (achievements / progress)
 - key_new_insights_and_decisions
 - key_blockers_and_concerns
 - overall_project_status
-- emerging_themes
-- funding_conversation
 - status_color (derived: green|yellow|red)
 
 TASK:
@@ -25,19 +23,15 @@ TASK:
 OUTPUT FORMAT (Markdown):
 - Start with a single bold sentence summarizing overall achievement momentum.
 - Then a bullet list ("- ") of 0-5 achievement items.
-- Each bullet: Bolded project name(s), strong verb in the correct tense (e.g., completed, launched, launching) + crisp impact phrase and inline source number brackets. Do NOT list sources or projects otherwise!
+- Each bullet: After the description and AFTER the last punctuation (if any) append a single space and a consolidated project tag block in square brackets: [Project A, Project B]. Only list each distinct project once even if multiple source numbers for that project appear. Do NOT bold the project tag block.
+- Do NOT include project names earlier in the bullet text (avoid duplication); rely on the trailing bracket tag for attribution.
 - No extra commentary, no headings.
-After the bullet list add a blank line, then a line exactly:
-SOURCES:
-Then list each distinct source used (only those actually supporting bullets), one per line in the form:
-[n] project_name | date | 3-8 word rationale phrase
-Keep the source list concise; do not include any extra commentary after the last source line. If there are zero flags output the bold posture sentence only, then:
-SOURCES:
-(none)
+
 
 CONSTRAINTS:
 - Do NOT mention blockers or risks here.
-- Keep each bullet under 180 characters.
-- Avoid repeating the same project name more than twice overall.
+- Keep each bullet under 180 characters (excluding trailing project tag).
+- Avoid repeating the same project name more than twice overall across all bullets.
+- If a bullet references more than 3 projects, consider whether it is too broad—prefer specificity.
 
 If there are fewer than 3 clear achievements, output only those that qualify.

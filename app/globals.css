@@ -171,6 +171,16 @@ body { font-feature-settings: 'ss01' 1, 'liga' 1; }
 mark.nlhi { background:linear-gradient(135deg,#38bdf8,#0ea5e9); color:#fff; padding:0 .25em .05em; border-radius:4px; font-weight:600; box-shadow:0 0 0 1px rgba(255,255,255,0.35),0 2px 6px -2px rgba(14,165,233,0.55); }
 mark.nlhi::selection { background:#0ea5e9; color:#fff; }
 
+/* Project tag buttons inside generated summaries */
+button.proj-tag { font-size:.6rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; padding:.35rem .6rem .3rem; border-radius:999px; background:linear-gradient(135deg,#e0f7ff,#ffffff); color:#03556f; border:1px solid #b6e2f1; box-shadow:0 1px 2px rgba(0,0,0,0.08); cursor:pointer; position:relative; transition:background var(--rs-dur-sm) var(--rs-ease-soft), color var(--rs-dur-sm) var(--rs-ease-soft), border-color var(--rs-dur-sm) var(--rs-ease-soft), box-shadow var(--rs-dur-sm) var(--rs-ease-soft); }
+button.proj-tag:hover { background:linear-gradient(135deg,#ffffff,#eaf9ff); color:#023344; border-color:#7cc7e2; box-shadow:0 3px 10px -4px rgba(14,165,233,0.4); }
+button.proj-tag:focus-visible { outline:2px solid #0ea5e9; outline-offset:2px; }
+button.proj-tag:active { transform:translateY(1px); }
+
+/* Highlight pulse for targeted update */
+.update-pulse { animation:updatePulse 1.8s ease-in-out 1; box-shadow:0 0 0 2px rgba(56,189,248,0.65),0 0 0 6px rgba(56,189,248,0.25),0 12px 34px -8px rgba(56,189,248,0.55) !important; }
+@keyframes updatePulse { 0% { box-shadow:0 0 0 0 rgba(56,189,248,0.0),0 0 0 0 rgba(56,189,248,0.0); } 30% { box-shadow:0 0 0 2px rgba(56,189,248,0.7),0 0 0 10px rgba(56,189,248,0.32); } 60% { box-shadow:0 0 0 2px rgba(56,189,248,0.55),0 0 0 6px rgba(56,189,248,0.2); } 100% { box-shadow:0 0 0 2px rgba(56,189,248,0.0),0 0 0 0 rgba(56,189,248,0.0); } }
+
 /* Color variants */
 .summary-spotlight-green { --spot-ico-from:#10b981; --spot-ico-to:#059669; --spot-accent-bg:rgba(16,185,129,0.3); --spot-accent-fade:rgba(5,150,105,0.18); --spot-bar-from:#10b981; --spot-bar-to:#059669; }
 .summary-spotlight-amber { --spot-ico-from:#f59e0b; --spot-ico-to:#d97706; --spot-accent-bg:rgba(245,158,11,0.32); --spot-accent-fade:rgba(234,179,8,0.2); --spot-bar-from:#f59e0b; --spot-bar-to:#d97706; }

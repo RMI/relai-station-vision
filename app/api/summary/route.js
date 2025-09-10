@@ -22,12 +22,11 @@ function buildCorpusSlice(updates) {
   return updates.map(u => ({
     project: u.project,
     date: u.date,
+    update_id: u.update_id,
     status_color: u.status_color,
-    key_developments_and_decisions: u.key_developments_and_decisions,
+  key_achievements: u.key_achievements,
     key_new_insights_and_decisions: u.key_new_insights_and_decisions,
     key_blockers_and_concerns: u.key_blockers_and_concerns,
-    emerging_themes: u.emerging_themes,
-    funding_conversation: u.funding_conversation,
     overall_project_status: u.overall_project_status
   }));
 }
@@ -45,6 +44,44 @@ async function generateSection(genAI, modelName, promptMd, label, corpusJson) {
   const res = await model.generateContent(fullPrompt);
   const text = res?.response?.text() || '';
   return text.trim();
+}
+
+// --- Post-processing: append consolidated project bracket tags to each bullet line based on source numbers ---
+function augmentBulletsWithProjects(sectionMd){
+  if(!sectionMd) return sectionMd;
+  const lines = sectionMd.split(/\n/);
+  const sourceIndex = lines.findIndex(l=>/^SOURCES:\s*$/i.test(l.trim()));
+  if(sourceIndex === -1) return sectionMd; // nothing to do if no sources demarcation
+  const bulletLines = lines.slice(0, sourceIndex);
+  const sourceLines = lines.slice(sourceIndex + 1);
+  // Build mapping from source number -> { project, update_id }
+  const sourceMap = {};
+  sourceLines.forEach(l=>{
+    const m = l.match(/^\[(\d+)\]\s+([^|]+?)\s*\|/); // [n] project | ...
+    if(m){
+      const num = m[1];
+      const project = m[2].trim();
+      // Extract update_id if present after last pipe
+      const parts = l.split('|').map(p=>p.trim());
+      const maybeId = parts[parts.length-1];
+      const idMatch = maybeId && /^[A-Za-z0-9_-]+$/.test(maybeId) ? maybeId : null;
+      sourceMap[num] = { project, update_id: idMatch };
+    }
+  });
+  const processed = bulletLines.map(line=>{
+    if(!/^\s*-\s+/.test(line)) return line; // not a bullet
+    if(/\[[^\]]+\]\s*$/.test(line) && !/\[\d+\]\s*$/.test(line)){ // already has trailing bracket tag (not a numeric ref)
+      return line; // assume model followed new format
+    }
+    // collect numeric refs in bullet
+    const nums = Array.from(line.matchAll(/\[(\d+)\]/g)).map(m=>m[1]);
+    if(!nums.length) return line; // nothing to map
+    const projects = [];
+    nums.forEach(n=>{ const entry = sourceMap[n]; if(entry && !projects.includes(entry.project)) projects.push(entry.project); });
+    if(!projects.length) return line;
+    return line + ' [' + projects.join(', ') + ']';
+  });
+  return [...processed, ...lines.slice(sourceIndex)].join('\n');
 }
 
 export async function POST(req) {
@@ -75,9 +112,14 @@ export async function POST(req) {
     ]);
 
     // Generate sequentially to avoid rate spikes (could parallelize if needed)
-    const achievements = await generateSection(genAI, GEN_ANSWER_MODEL, achPrompt, 'achievements', corpus);
-    const flags = await generateSection(genAI, GEN_ANSWER_MODEL, flagPrompt, 'flags', corpus);
-    const trends = await generateSection(genAI, GEN_ANSWER_MODEL, trendPrompt, 'trends', corpus);
+  let achievements = await generateSection(genAI, GEN_ANSWER_MODEL, achPrompt, 'achievements', corpus);
+  let flags = await generateSection(genAI, GEN_ANSWER_MODEL, flagPrompt, 'flags', corpus);
+  let trends = await generateSection(genAI, GEN_ANSWER_MODEL, trendPrompt, 'trends', corpus);
+
+  // Augment bullets with consolidated project bracket tags if missing
+  achievements = augmentBulletsWithProjects(achievements);
+  flags = augmentBulletsWithProjects(flags);
+  trends = augmentBulletsWithProjects(trends);
 
     const data = { achievements, flags, trends, fromCache: false, generatedAt: new Date().toISOString() };
     CACHE.set(cacheKey, { ts: now, data });

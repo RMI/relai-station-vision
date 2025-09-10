@@ -5,10 +5,8 @@ You are an analytical assistant producing a forward-looking **Trends** synthesis
 INPUT DATA FIELDS (per entry; may be empty):
 - project
 - date
-- key_developments_and_decisions
+- key_achievements
 - key_new_insights_and_decisions
-- emerging_themes
-- funding_conversation
 - overall_project_status
 - status_color
 
@@ -26,18 +24,12 @@ OUTPUT FORMAT (Markdown):
 - Critical: Only provide a response if there are sufficient, high quality signals for the selected context. In all other cases state in a single bold sentence that there has been no recent meta-trends detected.
 - Start with a single bold sentence summarizing meta-trend direction (e.g., **Momentum consolidating around interoperable traceability and carbon data alignment.**)
 - Then a bullet list ("- ") of 0-5 trends.
-- Each bullet: short trend label bolded in Title Case, a colon, then a concise descriptive clause and inline source number brackets. Do NOT list sources otherwise!
-After the bullet list add a blank line, then a line exactly:
-SOURCES:
-Then list each distinct source used (only those actually supporting bullets), one per line in the form:
-[n] project_name | date | 3-8 word rationale phrase
-Keep the source list concise; do not include any extra commentary after the last source line. If there are zero trends output the bold posture sentence only, then:
-SOURCES:
-(none)
+- Each bullet: short trend label bolded in Title Case, a colon, concise descriptive clause etc. After the description append a space and a trailing bracket list of distinct project names that contributed signals: [Project A, Project B]. Do not repeat a project within the same bracket. Avoid putting project names earlier in the bullet text.
+
 
 
 CONSTRAINTS:
-- Max 160 characters per bullet.
+- Max 160 characters per bullet excluding trailing project bracket.
 - Do not reuse a project name more than twice across all bullets.
 - Avoid risk language (belongs in Flags) or purely celebratory wording (belongs in Achievements).
 - If fewer than 3 valid trends exist, output only those supported.

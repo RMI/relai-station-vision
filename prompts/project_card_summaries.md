@@ -21,11 +21,9 @@ Return JSON with an object keyed by project name. Each value must be an object:
 
 Input fields available per project (chronological list of updates with same shape as updatesData entries):
 - date
-- key_developments_and_decisions
+- key_achievements
 - key_new_insights_and_decisions
 - key_blockers_and_concerns
-- emerging_themes
-- funding_conversation
 - overall_project_status
 
 If a project has no risk/blocker content, omit keyRisks. If no clear theme, themes can be an empty array. Do not invent.
